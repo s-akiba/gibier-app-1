@@ -1,0 +1,22 @@
+{"type":"FeatureCollection",
+    "features": [
+        {"type": "Feature",
+            "properties": {
+                "prop0": "京丹波自然工房"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [135.3981964,35.1476328]
+            }
+        },
+        {"type": "Feature",
+            "properties": {
+                "prop0": "祖谷の地美栄"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [133.8918493,33.8524391]
+            }
+        }
+    ]
+}

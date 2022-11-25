@@ -42,6 +42,7 @@ router.get('/add', (req, res, next) => {
 
 
 // アカウント作成時、メール認証前にメールアドレスが既に使われてないか確認
+// 壊れてる
 async function checkUnique(req) {
   console.log(chalk.blue("check unique"));
   db.sequelize.sync()

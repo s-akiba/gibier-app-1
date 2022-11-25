@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-
+// マップテスト
 router.get('/map', (req, res, next) => {
     let data = {
         title: "map"

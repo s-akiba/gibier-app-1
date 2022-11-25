@@ -18,7 +18,12 @@
         </header>
         <div role="main">
             <p><%- content %></p>
-            <form method="post" action="/users/login">
+            <% if (alert_message != "") { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= alert_message %>
+                </div>
+            <% } %>
+            <form method="post" action="/user/login">
                 <div class="form-group">
                     <label for="email">EMAIL</label>
                     <input type="text" name="email" id="email" 
@@ -32,7 +37,7 @@
                 <input type="submit" value="ログイン" 
                     class="btn btn-primary">
             </form>
-            <p class="mt-4"><a href="/">&lt;&lt; Top へ戻る</a>｜<a href="/users/add">アカウントの作成&gt;&gt;</a></p>
+            <p class="mt-4"><a href="/">&lt;&lt; Top へ戻る</a>｜<a href="/user/add">アカウントの作成&gt;&gt;</a></p>
         </div>
     </body>
 

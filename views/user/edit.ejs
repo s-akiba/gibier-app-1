@@ -19,7 +19,12 @@
         </header>
         <div role="main">
             <p><%- content %></p>
-            <form method="post" action="/users/edit">
+            <% if (alert_message != "") { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= alert_message %>
+                </div>
+            <% } %>
+            <form method="post" action="/user/edit">
                 <input type="hidden" name="id" value="<%= form.id %>">
                 <div class="form-group">
                     <label for="name">名前</label>
@@ -35,6 +40,7 @@
                     <label for="pass">PASSWORD</label>
                     <input type="password" name="pass" id="pass" 
                         class="form-control" value="" placeholder="パスワードを変更する場合は入力">
+                    <input type="checkbox" onclick="myFunction()">Show Password
                 </div>
                 <div class="form-group">
                     <label for="region">地域</label>
@@ -58,6 +64,16 @@
                     class="btn btn-primary">
             </form>
         </div>
+        <script type="text/javascript">
+            function myFunction() {
+              var x = document.getElementById("pass");
+              if (x.type === "password") {
+                x.type = "text";
+              } else {
+                x.type = "password";
+              }
+            }
+        </script>
     </body>
 
 </html>

@@ -25,7 +25,12 @@
                 <li><%= err.errors[i].message %></li>
                 <% }} %>
             </ol>
-            <form method="post" action="/users/add">
+            <% if (alert_message != "") { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= alert_message %>
+                </div>
+            <% } %>
+            <form method="post" action="/user/add">
 
                 <div class="form-group">
                     <label for="email">EMAIL</label>

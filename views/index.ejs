@@ -4,39 +4,13 @@
     <title><%= title %></title>
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
-      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
-      crossorigin=""/>
-    <link rel="stylesheet" href="/stylesheets/leaflet.usermarker.css" />
-    <link rel="stylesheet" href="/stylesheets/L.Control.Zoomslider.css" />
-    <link rel="stylesheet" href="/stylesheets/leaflet.awesome-markers.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-      <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
-    integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
-    crossorigin=""></script>
-    <script src="/javascripts/leaflet.usermarker.js"></script>
-    <script src="/javascripts/L.Control.Zoomslider.js"></script>
-    <script src="/javascripts/leaflet.awesome-markers.js"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-
-
   </head>
 
-  <body onload="start()">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <div id="map"></div>
-    <input type="button" name="reset" id="reset" onclick="refresh()" value="位置リセット">
-
-    <form action="/test" method="POST">
-      <input type="hidden" name="latitude" value="" id="hidden-latitude">
-      <input type="hidden" name="longitude" value="" id="hidden-longitude">
-      <button type="submit">送信</button>
-    </form>
-
-    <script src="/javascripts/geolocation.js"></script>
-
+  <body>
+    <a href="/user/login">log in</a><br>
+    <a href="/user/add">sign up</a><br>
+    <a href="/hunter/map">map</a><br>
   </body>
 </html>

@@ -22,12 +22,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_2_id",
         targetKey: "id"
       });
-      req_from_purchaser.belongsTo(models.regions, {
-        foreignKey: "region_id",
-        targetKey: "id"
-      });
       req_from_purchaser.belongsTo(models.wild_animal_info, {
         foreignKey: "wild_animal_info_id",
+        targetKey: "id"
+      });
+      req_from_purchaser.belongsTo(models.categories, {
+        foreignKey: "category_id",
         targetKey: "id"
       });
     }
@@ -35,9 +35,10 @@ module.exports = (sequelize, DataTypes) => {
   req_from_purchaser.init({
     user_1_id: DataTypes.INTEGER,
     user_2_id: DataTypes.INTEGER,
-    region_id: DataTypes.INTEGER,
+    category_id: DataTypes.INTEGER,
     wild_animal_info_id: DataTypes.INTEGER,
     content: DataTypes.TEXT,
+    num: DataTypes.INTEGER,
     appointed_day: DataTypes.DATE,
     is_public: DataTypes.BOOLEAN,
     is_accepted: DataTypes.BOOLEAN,

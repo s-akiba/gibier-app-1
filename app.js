@@ -9,6 +9,7 @@ const { flash } = require('express-flash-message');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var hunterRouter = require('./routes/hunter');
+var purchaserRouter = require('./routes/purchaser');
 // 11/29
 // 処理施設ルーティング
 var facilityRouter = require('./routes/facility');

@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       categories.hasMany(models.commodities, {
         foreignKey: "category_id"
       });
+      categories.hasMany(models.req_from_purchaser, {
+        foreignKey: "category_id"
+      });
     }
   }
   categories.init({

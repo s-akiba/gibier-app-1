@@ -9,6 +9,9 @@ const { flash } = require('express-flash-message');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var hunterRouter = require('./routes/hunter');
+// 11/29
+// 処理施設ルーティング
+var facilityRouter = require('./routes/facility');
 
 var app = express();
 
@@ -33,6 +36,8 @@ app.use(flash({ sessionKeyName: 'flashMessage' }));
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/hunter', hunterRouter);
+// 11/29追加
+app.use('/facility',facilityRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

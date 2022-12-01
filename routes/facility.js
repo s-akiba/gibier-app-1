@@ -25,43 +25,49 @@ router.get('/search_hunter',function(req,res,next){
   res.render('facility/search_hunter');
 });
 
-// 未完成
 /* 狩猟者検索処理 */
 router.post('/search',function(req,res,next){
   let name = req.body.name;
   let region = req.body.region;
   let eval = req.body.eval;
-  let sql;
-  let values;
   
   //狩猟者名だけで検索
-  // if(name!=""&&(region==""&&eval=="")){
-  //   sql = "select * from users where user_name=?";
-  //   values = [name];
-  // }
-  // //地域だけで検索
-  // else if(region!=""&&(name==""&&eval=="")){
-  //   sql = "select * from users where region=?";
-  //   values = [region];
-  // }
+  if(name!=""&&(region==""&&eval=="")){
+    db.users.findAll({
+      where:{
+        user_name:name
+      }
+    }).then(usrs=>{
+      res.render('facility/hunter_list',{content:usrs});
+    });
+  }
+  //地域だけで検索
+  else if(region!=""&&(name==""&&eval=="")){
+    db.users.findAll({
+      where:{
+        address:region
+      }
+    }).then(usrs=>{
+      res.render('facility/hunter_list',{content:usrs});
+    });
+  }
   //地域と評価で検索はとりあえずスキップでおｋ
 
-  client.query(
-    'select * from users where user_name=(?)',
-    [req.body.name],
-    (error,results)=>{
-      //res.render('facility/hunter_list',{hunters:results});
-      console.log(results);
-      res.redirect('/facility');
-    }
-  );
-  
 });
 
 
 // 検索結果から/facility/hunter_detail?id=1
 // みたいなかんじで遷移
-router.get("/hunter_detail")
+router.get('/hunter_detail/',function(req,res,next){
+  db.users.findAll({
+    where:{
+      id:req.query.id
+    }
+  }).then(usr=>{
+    console.log(usr);
+    res.render('facility/hunter_detail',{content:usr});
+  });
+});
 
 // 狩猟者詳細画面から /facility/hunter_req_input?user_id=1
 // みたいなかんじでgetして指定した狩猟者の情報と一緒に依頼情報入力画面表示

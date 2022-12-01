@@ -1,0 +1,15 @@
+<!-- 狩猟者一覧画面 -->
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <% for(var i in content) { %>
+            <tr>
+                <% var obj = content[i] %>
+                <th><%= obj.id %></th>
+                <td><a href="./hunter_detail/?id=<%= obj.id %>"><%= obj.user_name %></a></td>
+                <td><%= obj.address %></td>
+            </tr>
+        <% } %>
+    </body>
+</html>

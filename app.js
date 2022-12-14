@@ -39,6 +39,7 @@ app.use('/user', usersRouter);
 app.use('/hunter', hunterRouter);
 // 11/29追加
 app.use('/facility',facilityRouter);
+app.use('/purchaser', purchaserRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

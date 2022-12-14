@@ -8,8 +8,17 @@
         <title><%= title %></title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel='stylesheet' href='/stylesheets/style.css' />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+            integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+            crossorigin=""/>
+        <link rel="stylesheet" href="/stylesheets/leaflet.usermarker.css" />
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+        crossorigin=""></script>
+        <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+        <script src="/javascripts/leaflet.usermarker.js"></script>
     </head>
 
     <body class="container">
@@ -52,6 +61,15 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="latitude">緯度</label>
+                    <input type="text" name="latitude" id="latitude" value="<%= form.latitude %>" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="longitude">緯度</label>
+                    <input type="text" name="longitude" id="longitude" value="<%= form.longitude %>" class="form-control">
+                </div>
+                <div id="map"></div>
+                <div class="form-group">
                     <label for="address">住所</label>
                     <input type="text" name="address" id="address" 
                         class="form-control" value="<%= form.address %>">
@@ -74,6 +92,7 @@
               }
             }
         </script>
+        <script src="/javascripts/user-edit.js"></script>
     </body>
 
 </html>

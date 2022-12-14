@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+  </head>
+
+  <body>
+    <h1>処理施設検索</h1>
+    <form method="post" action="/purchaser/search_facilities">
+        <label for="search_word">検索ワード</label>
+        <input type="text" id="search-word" name="word">
+        <label for="region">地域</label>
+            <select name="region" id="region">
+                <option value="0">選択なし</option>
+                <% for(let i in regions) { %>
+                    <% let obj = regions[i] %>
+                    <option value="<%= obj.id %>" ><%= obj.region_name %></option>
+                <% } %>
+            </select>
+        <input type="submit" value="検索" id="search-button">
+    </form>
+
+    <div>
+        <% if (result != "") { %>
+            <% for (let i in result) { %>
+                <% let obj = result[i] %>
+                <a href="/purchaser/facility_detail?id=<%= obj.id %>"><%= obj.user_name %></a><br>
+            <% } %>
+        <% } %>
+    </div>
+
+  </body>
+</html>

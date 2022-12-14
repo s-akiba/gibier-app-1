@@ -20,7 +20,7 @@ function lgcheck(req, res) {
 // バリデーションする
 // バリデーションのエラー表示するようにする
 // HTMLでもバリデーションしておく
-
+// 処理施設 位置カラム追加
 
 
 /* GET users listing. */
@@ -42,34 +42,36 @@ router.get('/add', (req, res, next) => {
 
 
 // アカウント作成時、メール認証前にメールアドレスが既に使われてないか確認
-// 壊れてる
-async function checkUnique(req) {
-  console.log(chalk.blue("check unique"));
-  db.sequelize.sync()
-  .then(() => {
-    db.users.findOne({
-      where: {
-        email: req.body.email
-      }
-    })
-  })
-  .then(usr => {
-    if (usr != null) {
-      console.log("not unique");
-      return false
-    } else {
-      console.log("unique");
-      return true
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    res.redirect("/");
+// 壊れてる😢
+function checkUnique(req) {
+  return new Promise((resolve, reject) => {
+    console.log(chalk.blue("check unique"));
+    console.log("check uniq req -------\n", req.body);
+    db.sequelize.sync()
+    .then(() => {
+      db.users.findOne({
+        where: {
+          email: req.body.email
+        }
+      })
+      .then(usr => {
+        if (usr != null) {
+          console.log(chalk.blue("not unique"));
+          resolve(false);
+        } else {
+          console.log(chalk.blue("unique"));
+          resolve(true);
+        }
+      })
+      .catch(err => {
+        reject(err);
+      });
+    });
   });
 } ;
 
 // メール認証のメール送信
-async function sendEmail(req, res) {
+function sendEmail(req, res) {
   console.log(chalk.blue("send email"));
   db.sequelize.sync()
     .then(() => bcrypt.hash(req.body.pass, 10))
@@ -126,7 +128,7 @@ async function sendEmail(req, res) {
 };
 
 // メールアドレスが使用されているものだったらエラーメッセージを表示
-async function emailUsed(res) {
+function emailUsed(res) {
   console.log(chalk.blue("email address is used"));
   let data = {
     title: "アカウント登録",
@@ -139,15 +141,22 @@ async function emailUsed(res) {
 };
 
 // 新規登録 post
-router.post('/add', async(req, res, next) => {
+router.post('/add', (req, res, next) => {
+  console.log("req --------\n", req.body);
   // sync → 同期処理
-  let finduser = await checkUnique(req);
-  
-  if (finduser) {
-    await sendEmail(req, res);
-  } else {
-    await emailUsed(res);
-  }
+  checkUnique(req)
+  .then(email_is_unq => {
+    console.log(email_is_unq);
+    if (email_is_unq) {
+      sendEmail(req, res);
+    } else {
+      emailUsed(res);
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    res.redirect("/");
+  })
 });
 
 
@@ -270,7 +279,8 @@ router.get('/edit', (req, res, next) => {
         title: "Edit",
         form: usr,
         content: "",
-        regions: regs
+        regions: regs,
+        alert_message: ""
       }
     res.render("user/edit", data);
     })
@@ -289,6 +299,9 @@ router.post('/edit', (req, res, next) => {
     usr.user_name = req.body.name;
     usr.address = req.body.address;
     usr.bio = req.body.bio;
+    console.log(req.body.latitude);
+    usr.latitude = parseFloat(req.body.latitude);
+    usr.longitude = parseFloat(req.body.longitude);
     if (req.body.pass != '') {
       let hashed_pass = bcrypt.hashSync(req.body.pass, 10);
       console.log(hashed_pass);

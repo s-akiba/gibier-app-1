@@ -75,7 +75,9 @@ module.exports = (sequelize, DataTypes) => {
     bio: DataTypes.TEXT,
     balance: DataTypes.INTEGER,
     is_invalid: DataTypes.BOOLEAN,
-    last_logged_on: DataTypes.DATE
+    last_logged_on: DataTypes.DATE,
+    latitude: DataTypes.DECIMAL,
+    longitude: DataTypes.DECIMAL
   }, {
     sequelize,
     modelName: 'users',

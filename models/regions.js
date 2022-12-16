@@ -17,9 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       regions.hasMany(models.req_from_facility, {
         foreignKey: "region_id"
       });
-      regions.hasMany(models.req_from_purchaser, {
-        foreignKey: "region_id"
-      });
       regions.hasMany(models.vermin_info, {
         foreignKey: "region_id"
       });

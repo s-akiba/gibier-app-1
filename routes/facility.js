@@ -4,6 +4,10 @@ var router = express.Router();
 var {Client} = require('pg');
 const bcrypt = require('bcrypt'); 
 const db = require('../models/index');
+const path = require('path');
+// ファイルアップロード
+const multer = require('multer');
+const upload = multer({dest:'public/uploads/'});
 
 // postgresqlとの接続
 var client = new Client({
@@ -15,9 +19,24 @@ var client = new Client({
 })
 client.connect()
 
+
 /* 処理施設ホーム画面の表示 */
 router.get('/', function(req, res, next) {
   res.render('facility/home');
+});
+
+/* 出品情報入力画面の表示 */
+router.get('/exhibit_input',function(req,res,next){
+  res.render('facility/exhibit_input');
+});
+
+/* 出品情報の登録処理 */
+/* ファイル名はreq.body.fileで持ってこれる */
+router.post('/exhibit_input',upload.single('file'),function(req,res,next){
+  console.log(req.file);
+  console.log(__dirname);
+  console.log(req.body.file);
+  res.redirect('/facility');
 });
 
 /* 狩猟者検索画面の表示 */

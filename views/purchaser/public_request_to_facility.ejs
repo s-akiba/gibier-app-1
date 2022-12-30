@@ -15,7 +15,7 @@
   </head>
 
   <body onload="init_insert()">
-    <form method="post" action="/purchaser/request_to_facility">
+    <form method="post" action="/purchaser/public_request_to_facility">
         <div class="form-group">
             <label for="animal_options">害獣名選択</label>
             <select name="animal_options" id="animal_options">
@@ -46,17 +46,6 @@
             <label for="content">詳細情報入力</label><br>
             <textarea name="content" id="content" cols="30" rows="10"></textarea>
         </div>
-        <input type="hidden" name="facility_id" id="facility_id" value="<%= facility_user.id %>">
-        <input type="radio" name="private_or_public" value="private" id="radio-private" checked>
-        <label for="radio-private">処理施設を指定して依頼を作成する。</label><br>
-        <div id="selected-facility">
-            <h2>選択された処理施設</h2>
-            <p><%= facility_user.user_name %></p>
-            <h3>処理施設住所</h3>
-            <p><%= facility_user.address %></p>
-        </div>
-        <input type="radio" name="private_or_public" value="public" id="radio-public">
-        <label for="radio-public">処理施設を指定せず、公開の依頼を作成する。</label><br>
         <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             確認
@@ -81,10 +70,6 @@
                   <h2>詳細情報</h2>
                   <p id="input-content"></p>
                   <h2 id="message-public">依頼の公開：公開する</h2>
-                  <div id="message-private">
-                    <h2>選択された処理施設</h2>
-                    <p><%= facility_user.user_name %></p>
-                  </div>
                   
                 </div>
                 <div class="modal-footer">
@@ -111,8 +96,6 @@
             $("#order-num").text($("#request_num").val());
             $("#selected-appointed-day").text($("#appointed_day").val());
             $("#input-content").text($("#content").val());
-            $("#message-private").show();
-            $("#message-public").hide();
             
         }
 

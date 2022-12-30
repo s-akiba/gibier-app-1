@@ -186,6 +186,8 @@ var popup = L.popup();
 function onMapClick(e) {
     $("#hidden-latitude").val(e.latlng.lat.toString());
     $("#hidden-longitude").val(e.latlng.lng.toString());
+    $("#select-latitude").text(e.latlng.lat.toString());
+    $("#select-longitude").text(e.latlng.lng.toString());
     var mk = L.marker(e.latlng).addTo(map).on('click', onMarkerClick);
     mk.bindPopup("選択位置").openPopup();
     // popup

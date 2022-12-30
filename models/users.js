@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_id"
       });
       users.hasMany(models.req_from_purchaser, {
+        as: "request_user",
         foreignKey: "user_1_id"
       });
       users.hasMany(models.req_from_purchaser, {

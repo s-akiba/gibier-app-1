@@ -23,6 +23,8 @@ var client = new Client({
 })
 client.connect()
 
+//hoge
+
 
 /* 処理施設ホーム画面の表示 */
 router.get('/', function(req, res, next) {

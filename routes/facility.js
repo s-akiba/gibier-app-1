@@ -1,3 +1,4 @@
+// 香月
 var express = require('express');
 var router = express.Router();
 // 追加
@@ -38,7 +39,6 @@ router.get('/exhibit_input',function(req,res,next){
 /* ファイル名はreq.body.fileで持ってこれる */
 router.post('/exhibit_input',upload.single('file'),function(req,res,next){
   console.log(req.file);
-  console.log(__dirname);
   console.log(req.body.file);
   res.redirect('/facility');
 });

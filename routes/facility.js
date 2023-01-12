@@ -3,16 +3,23 @@ var express = require('express');
 var router = express.Router();
 // 追加
 var {Client} = require('pg');
-const bcrypt = require('bcrypt'); 
 const db = require('../models/index');
-const path = require('path');
 const chalk = require('chalk');
 const { Op } = require("sequelize");
 const { sequelize } = require('../models/index');
 const { QueryTypes } = require('sequelize');
 // ファイルアップロード
 const multer = require('multer');
-const upload = multer({dest:'public/uploads/'});
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname)
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // postgresqlとの接続
 var client = new Client({
@@ -32,15 +39,25 @@ router.get('/', function(req, res, next) {
 
 /* 出品情報入力画面の表示 */
 router.get('/exhibit_input',function(req,res,next){
+  console.log('login user id : '+req.session.login["id"]);
   res.render('facility/exhibit_input');
 });
 
 /* 出品情報の登録処理 */
-/* ファイル名はreq.body.fileで持ってこれる */
 router.post('/exhibit_input',upload.single('file'),function(req,res,next){
-  console.log(req.file);
-  console.log(req.body.file);
-  res.redirect('/facility');
+  db.sequelize.sync().then(()=>db.commodities.create({
+    user_id : req.session.login['id'],
+    vermin_hunted_id : 99,  //わからんからとりあえず埋めとく
+    wild_animal_info_id : req.body.animal,
+    category_id : req.body.category,
+    detail : req.body.text,
+    image_link : req.file.filename,
+    price : req.body.price,
+    stock : req.body.num,
+    selling_term : req.body.limit
+  })).then(usr => {
+    res.redirect('/facility');
+  });
 });
 
 /* 狩猟者検索画面の表示 */

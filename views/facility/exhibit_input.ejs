@@ -1,0 +1,31 @@
+<!-- 出品情報入力画面 -->
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <form action="/facility/exhibit_input" method="post">
+            <label>動物名</label>
+            <input type="text" name="animal">
+            <label>商品カテゴリ</label>
+            <select name="category">
+                <option value="">----</option>
+                <option value="1">背ロース</option>
+                <option value="2">バラ</option>
+                <option value="3">モモ</option>
+                <option value="4">スネ</option>
+                <option value="5">その他</option>
+            </select>
+            <label>説明</label>
+            <input type="text" name="text">
+            <label>画像</label>
+            <input type="file" name="file">
+            <label>価格</label>
+            <input type="text" name="price">
+            <label>個数</label>
+            <input type="text" name="num">
+            <label>掲載期限</label>
+            <input type="date" name="limit">
+            <input type="submit" value="登録">
+        </form>
+    </body>
+</html>

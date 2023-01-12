@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+            integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+            crossorigin=""></script>
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+  </head>
+
+  <body onload="init_insert()">
+    <form method="post" action="/purchaser/public_request_to_facility">
+        <div class="form-group">
+            <label for="animal_options">害獣名選択</label>
+            <select name="animal_options" id="animal_options">
+                <% for(let i in animals) { %>
+                    <% let obj = animals[i] %>
+                    <option value="<%= obj.id %>"><%= obj.wild_animal_name %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="category_options">商品カテゴリ選択</label>
+            <select name="category_options" id="category_options">
+                <% for(let i in categories) { %>
+                    <% let obj = categories[i] %>
+                    <option value="<%= obj.id %>"><%= obj.category_name %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="request_num">個数</label>
+            <input type="number" name="request_num" id="request_num" value="1">
+        </div>
+        <div class="form-group">
+            <label for="appointed_day">希望納期</label>
+            <input type="datetime-local" name="appointed_day" id="appointed_day">
+        </div>
+        <div class="form-group">
+            <label for="content">詳細情報入力</label><br>
+            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        </div>
+        <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            確認
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">依頼内容確認</h5>
+                </div>
+                <div class="modal-body">
+                  <h2>選択された害獣名</h2>
+                  <p id="selected-animal"></p>
+                  <h2>選択されたカテゴリー</h2>
+                  <p id="selected-category"></p>
+                  <h2>注文個数</h2>
+                  <p id="order-num"></p>
+                  <h2>希望納期日</h2>
+                  <p id="selected-appointed-day"></p>
+                  <h2>詳細情報</h2>
+                  <p id="input-content"></p>
+                  <h2 id="message-public">依頼の公開：公開する</h2>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <input type="submit" value="依頼作成" class="btn btn-primary">
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </form>
+
+    <script type="text/javascript">
+        function init_insert() {
+            var now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                /* remove second/millisecond if needed - credit ref. https://stackoverflow.com/questions/24468518/html5-input-datetime-local-default-value-of-today-and-current-time#comment112871765_60884408 */
+            now.setMilliseconds(null)
+            now.setSeconds(null)
+            document.getElementById('appointed_day').value = now.toISOString().slice(0, -1);
+
+            $("#selected-animal").text($("#animal_options").find('option:selected').text());
+            $("#selected-category").text($("#category_options").find('option:selected').text());
+            $("#order-num").text($("#request_num").val());
+            $("#selected-appointed-day").text($("#appointed_day").val());
+            $("#input-content").text($("#content").val());
+            
+        }
+
+        $("#animal_options").change(function() {
+            $("#selected-animal").text($("#animal_options").find('option:selected').text());
+        });
+
+        $("#category_options").change(function() {
+            $("#selected-category").text($("#category_options").find('option:selected').text());
+        });
+
+        $("#request_num").keypress(function() {
+            $("#order-num").text($("#request_num").val());
+        });
+
+        $("#request_num").change(function() {
+            $("#order-num").text($("#request_num").val());
+        });
+
+        $("#content").change(function() {
+            $("#input-content").text($("#content").val());
+        })
+
+        $("#appointed_day").change(function() {
+            // alert("change");
+            const d_string = Date.parse($("#appointed_day").val());
+            var d1 = new Date(d_string);
+            // alert(d1.getMonth());
+            $("#selected-appointed-day").text(d1.getMonth()+1 + "月 " + d1.getDate() + "日 " + d1.getHours() + "時" + d1.getMinutes() + "分");
+        });
+
+        $('input[type=radio][name=private_or_public]').change(function() {
+            if (this.value == 'private') {
+                $("#message-private").show();
+                $("#message-public").hide();
+                $("#selected-facility").show();
+            }
+            else if (this.value == 'public') {
+                $("#message-private").hide();
+                $("#message-public").show();
+                $("#selected-facility").hide();
+            }
+        });
+    </script>
+
+  </body>
+</html>

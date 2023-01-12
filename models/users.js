@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_id"
       });
       users.hasMany(models.req_from_purchaser, {
+        as: "request_user",
         foreignKey: "user_1_id"
       });
       users.hasMany(models.req_from_purchaser, {
@@ -75,7 +76,9 @@ module.exports = (sequelize, DataTypes) => {
     bio: DataTypes.TEXT,
     balance: DataTypes.INTEGER,
     is_invalid: DataTypes.BOOLEAN,
-    last_logged_on: DataTypes.DATE
+    last_logged_on: DataTypes.DATE,
+    latitude: DataTypes.DECIMAL,
+    longitude: DataTypes.DECIMAL
   }, {
     sequelize,
     modelName: 'users',

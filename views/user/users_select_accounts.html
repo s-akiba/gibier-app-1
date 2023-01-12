@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <!-- <link href='css/test.css' rel='stylesheet' type='text/css'> -->
+    <link href='../../css/form-sample.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <div class="center_login">
+        <form id="contant-form" class="form" name="contact-form">
+            <fieldset class="form__group">
+                <!-- <legend class="form__group-header">
+                    <span class="form__group-label">性別</span>
+                </legend> -->
+                <h2>使用形態を選択してください</h2>
+                <div class="form__group-content">
+                    <!-- 性別のコードはISO 5218で定められたものに従う。 -->
+                    <!-- @see https://ja.wikipedia.org/wiki/ISO_5218 -->
+                    <ul class="form__group-list">
+                        <li class="form__group-list-item">
+                            <label class="radio">
+                                <input class="radio__input" type="radio" name="user" value="1">
+                                <span class="radio__icon"></span>
+                                <span class="radio__text">購入者</span>
+                            </label>
+                        </li>
+                        <li class="form__group-list-item">
+                            <label class="radio">
+                                <input class="radio__input" type="radio" name="user" value="2">
+                                <span class="radio__icon"></span>
+                                <span class="radio__text">処理施設</span>
+                            </label>
+                        </li>
+                        <li class="form__group-list-item">
+                            <label class="radio">
+                                <input class="radio__input" type="radio" name="user" value="9">
+                                <span class="radio__icon"></span>
+                                <span class="radio__text">狩猟者</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+            <div class="form__submit">
+                <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
+                
+                <a href="./login.html"><button class="button" type="submit">登録</button></a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

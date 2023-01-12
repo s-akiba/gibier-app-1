@@ -1,0 +1,744 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-size: 14px;
+    font-family: 'Lato', 'Hiragino Kaku Gothic Pro', 'ãƒ’ãƒ©ã‚®ãƒŽè§’ã‚´ Pro W3', Meiryo, ãƒ¡ã‚¤ãƒªã‚ª, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
+    background: rgb(255, 255, 255);
+    -webkit-text-size-adjust: 100%;
+}
+
+#main {
+    background: rgb(255, 255, 255);
+}
+
+#main-in {
+    padding-left: 260px;
+}
+
+#main p {
+    margin-bottom: 1em;
+    line-height: 1.9;
+}
+
+/* #main div {
+    margin: 0px;
+    padding: 0px;
+} */
+/* box1 */
+.box {
+    padding: 150px 100px 400px 150px;
+    background: rgb(255, 255, 255);
+}
+
+.inner {
+    position: static;
+    top: 0;
+    left: 0;
+    color: #000000;
+    /* padding: 100px 0px 0px 0px; */
+}
+
+.inner h2 {
+    font-size: 45px;
+    font-weight: lighter;
+}
+
+.inner div {
+    padding: 70px 0px 0px 0px;
+}
+
+.inner img {
+    width: 50%;
+    height: 50%;
+}
+
+.flex {
+    display: flex;
+    /*横並び*/
+}
+
+.flex div {
+    padding: 0px 0px 0px 50px;
+    margin: 0px;
+}
+
+.flex h3 {
+    font-size: 30px;
+    margin: 0;
+}
+
+.flex p {
+    padding: 50px 0px;
+    margin: 0px;
+    font-size: 15px;
+}
+
+.flex ul {
+    list-style-type: none;
+    padding: 0px;
+    color: #555555;
+}
+
+.block {
+    display: block;
+    /*縦並び*/
+}
+
+/* サイドバー作成 */
+#global-head {
+    position: fixed;
+    color: #000000;
+    width: 260px;
+    text-align: center;
+    padding-top: 60px;
+    z-index: 100;
+}
+
+#sidebar {
+    font-size: 15px;
+    padding-top: 120px;
+    width: 260px;
+    height: 100%;
+    position: fixed;
+    color: #000000;
+    background: #fff;
+    text-align: center;
+    z-index: 1;
+    /* border-right-width: thick; */
+    border-right: 1px solid #c3e3ff;
+}
+
+#global-nav ul {
+    list-style: none;
+    margin-left: 0;
+}
+
+#global-nav>ul>li {
+    position: relative;
+}
+
+.nav-tach {
+    color: #000000;
+    text-decoration: none;
+    display: block;
+    padding: 15px 0;
+    -moz-transition: background-color .3s linear;
+    -webkit-transition: background-color .3s linear;
+    transition: background-color .3s linear;
+}
+
+.nav-warning-tach {
+    color: #ff1e00c9;
+    text-decoration: none;
+    display: block;
+    padding: 15px 0;
+    -moz-transition: background-color .3s linear;
+    -webkit-transition: background-color .3s linear;
+    transition: background-color .3s linear;
+}
+
+/* ↓　消しても問題ないので非表示 */
+/* #global-nav .sub-menu.is-active>a, */
+#global-nav a:hover {
+    color: #fff;
+    background: #000000;
+}
+
+/* .nav-tach a:hover {
+    color: #fff;
+    background: #033560;
+}
+.nav-warning-tach a:hover {
+    color: #fff;
+    background: #ff4343;
+} */
+
+#global-nav .sub-menu-nav a,
+#global-nav .sub-menu:hover .sub-menu-nav {
+    width: 230px;
+}
+
+/* sub-menu icon */
+#global-nav .sub-menu>a {
+    position: relative;
+}
+
+#global-nav .sub-menu>a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 18px;
+    margin: auto;
+    vertical-align: middle;
+    width: 8px;
+    height: 8px;
+    border-top: 1px solid #000000;
+    border-right: 1px solid #000000;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#global-nav .sub-menu-nav {
+    position: fixed;
+    background: #000000;
+    color: #fff;
+    top: 0;
+    padding-top: 90px;
+    left: 260px;
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+
+    -moz-transition: width .2s ease-out;
+    -webkit-transition: width .2s ease-out;
+    transition: width .2s ease-out;
+}
+
+#global-nav .sub-menu.is-active>a:after,
+#global-nav .sub-menu>a:hover:after {
+    border-color: #fff;
+}
+
+#global-nav .sub-menu-nav a {
+    color: #fff;
+}
+
+#global-nav .sub-menu-nav a:hover {
+    color: #000000;
+    background: #fff;
+}
+
+@media screen and (max-width: 930px) {
+    .mgt75sp {
+        margin-top: 75px;
+    }
+}
+
+.sp_block {
+    display: none !important;
+}
+
+.sp_none {
+    display: none !important;
+}
+
+/*  フッター  */
+footer {
+    width: auto;
+    /* margin: 180px auto 0; */
+    padding-bottom: 120px;
+    position: relative;
+    text-align: center;
+    padding: 60px 0px 30px 0px;
+    background-color: rgb(212, 246, 255);
+
+}
+
+footer p:first-child {
+    font-size: 30px;
+    font-weight: lighter;
+    letter-spacing: 0.25em;
+    color: #474645;
+}
+
+footer p:nth-child(2) {
+    font-size: 14px;
+    line-height: 2;
+    letter-spacing: 0.2em;
+    margin-top: 40px;
+}
+
+footer div {
+    display: flex;
+    margin-top: 80px;
+}
+
+footer div a {
+    letter-spacing: 0.2em;
+}
+
+footer div a:after {
+    content: "";
+    height: 100%;
+    border-right: solid 1px #1A1311;
+    margin: 0 20px;
+}
+
+footer div a:nth-child(5):after {
+    content: none;
+}
+
+footer .copyright {
+    font-size: 10px;
+    font-weight: lighter;
+    letter-spacing: 0.2em;
+    margin-top: 30px;
+    position: relative;
+}
+
+footer img {
+    width: 400px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    top: 190px;
+}
+
+footer.footer02 {
+    margin-top: 25px;
+}
+
+@media screen and (max-width: 1250px) {
+    footer {
+        width: 80%;
+    }
+
+    footer img {
+        width: 300px;
+        height: auto;
+        position: absolute;
+        right: 0;
+        top: 220px;
+    }
+}
+
+@media screen and (max-width: 930px) {
+    footer {
+        width: 90%;
+    }
+
+    footer p:first-child {
+        font-size: 28px;
+    }
+
+    footer p:nth-child(2) {
+        font-size: 13px;
+        letter-spacing: 0.1em;
+    }
+
+    footer div {
+        display: flex;
+        margin-top: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    footer div a {
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        margin-bottom: 15px;
+    }
+
+    footer div a:after {
+        content: "";
+        height: 100%;
+        border-right: solid 1px #1A1311;
+        margin: 0 10px;
+    }
+
+    footer .copyright {
+        letter-spacing: 0.05em;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    footer img {
+        width: 85%;
+        height: auto;
+        display: block;
+        margin: 60px auto 0;
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    footer div a {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    footer div a {
+        font-size: 10px;
+    }
+
+    footer div a:after {
+        margin: 0 5px;
+    }
+}
+
+/*  レシピナビ  */
+.nav_lecipe {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+}
+
+.nav_lecipe a:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.nav_lecipe a:hover img {
+    opacity: 0.85;
+    filter: alpha(opacity=85);
+}
+
+.image-large {
+    width: 100%;
+    height: 1000px;
+}
+
+@media screen and (max-width: 930px) {
+    .nav_lecipe {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    .nav_lecipe img {
+        width: 100%;
+        height: auto;
+    }
+
+    .nav_lecipe a:hover {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+
+    .nav_lecipe a:hover img {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+}
+
+/* アイテム一覧 */
+.item-list {
+    padding: 25px 100px 150px 100px;
+    margin: 0px;
+}
+
+/*  */
+@media (max-width: 480px) {
+    .ttl-h2 span {
+        padding: 0 10px;
+        font-size: 14px;
+    }
+
+    .prd-lst-unit {
+        margin-bottom: 30px;
+        height: auto !important;
+    }
+}
+
+/* tamesu */
+h2 {
+    margin: 30px 0;
+    text-align: center;
+    font-family: Lato, Muli, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", Sans-Serif;
+    font-weight: 300;
+}
+
+/* .ttl-h2 {
+    position: relative;
+    
+}
+
+.ttl-h2:before {
+    position: absolute;
+    top: 50%;
+    z-index: -1;
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(255, 255, 255);
+    content: "";
+}
+
+.ttl-h2 span {
+    padding: 0 2em;
+    background-color: #fff;
+} */
+/*  */
+.ttl-h2 {
+    position: relative;
+    padding: 0 65px;
+    text-align: center;
+}
+
+.ttl-h2:before {
+    position: absolute;
+    top: calc(50% - 1px);
+    left: 0;
+    width: 100%;
+    height: 2px;
+    content: '';
+    background: #000;
+}
+
+.ttl-h2 span {
+    position: relative;
+    padding: 0 1em;
+    background: #fff;
+}
+
+/*  */
+
+.google-font {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+    font-family: Muli, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", Sans-Serif;
+}
+
+#header-global-nav.google-font {
+    text-transform: none;
+    letter-spacing: 0.1px;
+    font-size: 14px;
+}
+
+.google-font.fwb {
+    font-weight: 700;
+}
+
+.prd-lst-unit {
+    margin-bottom: 60px;
+    padding: 0 30px;
+    text-align: center;
+}
+
+.prd-lst-img {
+    display: block;
+    margin: 0 auto 1em;
+}
+
+.prd-lst-span {
+    display: block;
+    margin: .3em 0;
+    font-size: 12px;
+}
+
+.prd-lst-name {
+    font-size: 14px;
+    font-family: Lato, Muli, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", Sans-Serif;
+}
+
+.prd-lst-price {
+    color: #abaaaa;
+}
+
+.prd-lst-regular {
+    text-decoration: line-through;
+}
+
+.prd-lst-discount {
+    color: #b81717;
+}
+
+/* product list sort */
+.prd-lst-sort {
+    margin: 3em 0;
+    color: #888;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* prduct list pager */
+.prd-lst-pager {
+    text-align: center;
+}
+
+.prd-lst-pos b {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.prd-lst-sort {
+    font-size: 14px;
+}
+
+@media (max-width: 480px) {
+    .prd-lst-unit {
+        margin-bottom: 30px;
+        height: auto !important;
+    }
+}
+
+.row,
+.grid_row {
+    margin: 0 auto;
+    *zoom: 1;
+}
+
+.row:before,
+.row:after,
+.grid_row:before,
+.grid_row:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.row:after,
+.grid_row:after {
+    clear: both;
+    width: 100%;
+}
+
+.row input[class*="span"],
+.row select[class*="span"],
+.row textarea[class*="span"],
+.row .uneditable-input[class*="span"] {
+    float: none;
+    margin-left: 0;
+}
+
+.input-append input[class*="span"],
+.input-append .uneditable-input[class*="span"],
+.input-prepend input[class*="span"],
+.input-prepend .uneditable-input[class*="span"],
+.row input[class*="span"],
+.row select[class*="span"],
+.row textarea[class*="span"],
+.row .uneditable-input[class*="span"],
+.row .input-prepend [class*="span"],
+.row .input-append [class*="span"] {
+    display: inline-block;
+}
+
+ul.unstyled,
+ol.unstyled {
+    margin-left: 0;
+    list-style: none;
+}
+
+@media (max-width: 480px) {
+
+    /* こいつイラン */
+    .ttl-h2 span {
+        padding: 0 10px;
+        font-size: 14px;
+    }
+
+    .prd-lst-unit {
+        margin-bottom: 30px;
+        height: auto !important;
+    }
+}
+
+.col {
+    display: block;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-right: 1%;
+    padding-left: 1%;
+    min-height: 1px;
+    word-break: break-all;
+    *padding-right: 1% !important;
+    *padding-left: 1% !important;
+}
+
+.col-xs-12 {
+    width: 100%;
+}
+
+.col-sm-6 {
+    width: 50%;
+}
+
+.col-lg-3 {
+    width: 25%;
+    *width: 22%;
+}
+
+.prd-lst-img {
+    display: block;
+    margin: 0px;
+    margin: 0 auto 1em;
+    width: 164px;
+    height: auto;
+}
+
+.prd-lst-name {
+    font-size: 12px;
+    font-family: Lato, Muli, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", Sans-Serif;
+}
+
+.prd-lst-name a {
+    color: black;
+    text-decoration: none;
+}
+
+.prd-lst-name a:hover {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-color: rgb(0, 0, 0);
+    text-decoration-thickness: 2px;
+}
+
+.prd-lst-span {
+    display: block;
+    margin: .3em 0;
+    font-size: 14px;
+}
+
+/* .prd_lst_link img{
+    width: 30%;
+    height: 40%;
+} */
+
+/* 右下ボタン設置 */
+.fixed-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+a.btn--circle {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    background: #fff;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+}
+
+a.btn--circle i {
+    font-size: 150%;
+    line-height: 60px;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    letter-spacing: 0;
+}
+
+a.btn--circle:hover i {
+    line-height: 55px;
+}

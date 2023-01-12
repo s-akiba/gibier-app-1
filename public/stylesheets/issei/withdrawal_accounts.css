@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+/* login */
+/* url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'); */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+fieldset {
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 8px;
+    margin-bottom: 2%;
+    transition: opacity 1s;
+    -webkit-transition: opacity 1s;
+
+}
+
+.login_h1 {
+    /* background: #8e8e8e; */
+    padding: 20px 0;
+    /*PADDING TODOS OS LADOS DE 20PX*/
+    font-size: 140%;
+    font-weight: 300;
+    text-align: center;
+    color: rgb(0, 0, 0);
+}
+
+form {
+    background: #f0f0f0;
+    padding: 6% 4%;
+}
+
+.login_out_btn {
+    width: 100%;
+    background: #b9b9b9;
+    border: 0;
+    padding: 4%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 100%;
+    color: #fff;
+    cursor: pointer;
+    transition: background .3s;
+    -webkit-transition: background .3s;
+}
+.login_out_btn_red{
+    width: 100%;
+    background: #ff0000;
+    border: 0;
+    padding: 4%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 100%;
+    color: #fff;
+    cursor: pointer;
+    transition: background .3s;
+    -webkit-transition: background .3s;
+}
+
+.login_out_btn:hover {
+    background: #ffffff;
+    color: black;
+}
+.login_out_btn_red:hover{
+    background: #ffffff;
+    color: black;
+}
+
+/* ::-webkit-input-placeholder {} */
+
+.center_login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

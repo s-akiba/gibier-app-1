@@ -14,7 +14,7 @@ router.get('/search_facilities', (req, res, next) => {
       alert_message: "",
       result: ""
     }
-    res.render("purchaser/search_facilities", data);
+    res.render("purchaser/institution_search", data);
   });
   
 });
@@ -42,7 +42,7 @@ router.post('/search_facilities', (req, res, next) => {
           alert_message: "",
           result: result
         }
-        res.render("purchaser/search_facilities", data);
+        res.render("purchaser/institution_search", data);
       });
     } else {
       db.users.findAll({
@@ -61,7 +61,7 @@ router.post('/search_facilities', (req, res, next) => {
           alert_message: "",
           result: result
         }
-        res.render("purchaser/search_facilities", data);
+        res.render("purchaser/institution_search", data);
       });
     }
   })

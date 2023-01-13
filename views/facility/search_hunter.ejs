@@ -1,5 +1,427 @@
 <!-- 狩猟者検索画面 -->
+<!-- 
+ファイル名 search_hunter.ejs
+作成者 内藤壱成
+概要 処理施設ユーザが狩猟者を検索するための情報入力画面画面
+製作日 2023-1-13
+変更日
+-->
 <!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- モーダル -->
+    <!-- https://coco-factory.jp/ugokuweb/move01/9-6-1/ -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/form-sample.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css"
+        href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/css/modaal.min.css">
+    <style>
+        header {
+            background-color: none;
+        }
+
+        #info {
+            display: none;
+        }
+
+        /*モーダルの横幅を変更したい場合*/
+        .modaal-container {
+            max-width: 600px;
+        }
+
+        /*モーダルのボタンの色を変更したい場合*/
+        .modaal-close:after,
+        .modaal-close:before {
+            background: #ccc;
+        }
+
+        .modaal-close:focus:after,
+        .modaal-close:focus:before,
+        .modaal-close:hover:after,
+        .modaal-close:hover:before {
+            background: #666;
+        }
+
+
+        /*========= レイアウトのためのCSS ===============*/
+        #info h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+            padding: 20px;
+            color: #fff;
+        }
+
+        #info h2 {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 0 0 30px 0;
+        }
+
+        #info p,
+        #info ul {
+            margin-top: 20px;
+        }
+
+        #info ul {
+            list-style: none;
+        }
+
+        #info a {
+            color: #333;
+            outline: none;
+        }
+
+        #info small {
+            background: #333;
+            color: #fff;
+            display: block;
+            text-align: center;
+            padding: 20px;
+        }
+
+
+        #info section {
+            padding: 30px;
+        }
+
+        #info section:nth-child(2n) {
+            background: #f3f3f3;
+        }
+
+        #info img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+            <ul>
+                <li><a href="./home.html" class="nav-tach">Home</a></li>
+                <li><a href="" class="nav-tach">受注一覧</a></li>
+                <li class="sub-menu">
+                    <a href="#">出品</a>
+                    <ul class="sub-menu-nav">
+                        <li><a href="" class="nav-tach">出品登録</a></li>
+                        <li><a href="" class="nav-tach">出品済み一覧</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="#">狩猟者依頼</a>
+                    <ul class="sub-menu-nav">
+                        <li><a href="">指名依頼（狩猟者を指名）</a></li>
+                        <li><a href="">公開依頼（依頼を公開）</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="#">購入者依頼受注</a>
+                    <ul class="sub-menu-nav">
+                        <li><a href="">指名依頼一覧</a></li>
+                        <li><a href="">公開依頼検索</a></li>
+                    </ul>
+                </li>
+                <li><a href="./contact.html" class="nav-tach">問い合わせ</a></li>
+                <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2>狩猟者検索画面</h2>
+                <form id="contant-form" class="form" name="contact-form">
+                    <!-- 狩猟者名 -->
+                    <fieldset class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="region">狩猟者名<strong
+                                    class="form__required-label">必須</strong></label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__name">
+                                <div class="form__text-input">
+                                    <label class="visually-hidden" for="name">狩猟者名</label>
+                                    <p class="text-input">
+                                        <input id="" class="text-input__body" type="text" name=" name"
+                                            placeholder="鹿、猪など" title="狩猟者名を入力してください" required aria-required="true">
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- 地域名 -->
+                    <fieldset class="form__group">
+                        <p>
+                            <label class="form__group-label" for="region">地域名<strong
+                                    class="form__required-label">必須</strong></label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__select-box">
+                                <div class="select-box">
+                                    <select id="region" class="select-box__body" name="region" title="都道府県は必ず指定してください"
+                                        required aria-required="true">
+                                        <option value="" disabled selected hidden>選択してください</option>
+                                        <option value="北海道">北海道</option>
+                                        <option value="青森県">青森県</option>
+                                        <option value="岩手県">岩手県</option>
+                                        <option value="宮城県">宮城県</option>
+                                        <option value="秋田県">秋田県</option>
+                                        <option value="山形県">山形県</option>
+                                        <option value="福島県">福島県</option>
+                                        <option value="茨城県">茨城県</option>
+                                        <option value="栃木県">栃木県</option>
+                                        <option value="群馬県">群馬県</option>
+                                        <option value="埼玉県">埼玉県</option>
+                                        <option value="千葉県">千葉県</option>
+                                        <option value="東京都">東京都</option>
+                                        <option value="神奈川県">神奈川県</option>
+                                        <option value="新潟県">新潟県</option>
+                                        <option value="富山県">富山県</option>
+                                        <option value="石川県">石川県</option>
+                                        <option value="福井県">福井県</option>
+                                        <option value="山梨県">山梨県</option>
+                                        <option value="長野県">長野県</option>
+                                        <option value="岐阜県">岐阜県</option>
+                                        <option value="静岡県">静岡県</option>
+                                        <option value="愛知県">愛知県</option>
+                                        <option value="三重県">三重県</option>
+                                        <option value="滋賀県">滋賀県</option>
+                                        <option value="京都府">京都府</option>
+                                        <option value="大阪府">大阪府</option>
+                                        <option value="兵庫県">兵庫県</option>
+                                        <option value="奈良県">奈良県</option>
+                                        <option value="和歌山県">和歌山県</option>
+                                        <option value="鳥取県">鳥取県</option>
+                                        <option value="島根県">島根県</option>
+                                        <option value="岡山県">岡山県</option>
+                                        <option value="広島県">広島県</option>
+                                        <option value="山口県">山口県</option>
+                                        <option value="徳島県">徳島県</option>
+                                        <option value="香川県">香川県</option>
+                                        <option value="愛媛県">愛媛県</option>
+                                        <option value="高知県">高知県</option>
+                                        <option value="福岡県">福岡県</option>
+                                        <option value="佐賀県">佐賀県</option>
+                                        <option value="長崎県">長崎県</option>
+                                        <option value="熊本県">熊本県</option>
+                                        <option value="大分県">大分県</option>
+                                        <option value="宮崎県">宮崎県</option>
+                                        <option value="鹿児島県">鹿児島県</option>
+                                        <option value="沖縄県">沖縄県</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="address-level1" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </fieldset>
+                    <!-- 評価 -->
+                    <fieldset class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="eval">評価</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__select-box">
+                                <div class="select-box">
+                                    <select id="eval" class="select-box__body" name="eval" title="評価を指定してください"
+                                        required aria-required="true">
+                                        <option value="" disabled selected hidden>評価を選択してください</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="eval" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </fieldset>
+                    <!-- ボタン -->
+                    <div class="btn-area" style="padding-top:100px">
+                        <!-- <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p> -->
+                        <button class="button child1" type="submit">戻る</button>
+                        <!-- <a href="#info" class="modal-open"><button class="button child2" type="submit">送信する</button></a> -->
+                        <a href="#info" class="modal-open"><input class="button child2" type="submit" value="登録"></a>
+                    </div>
+                </form>
+                    <!-- モーダル -->
+                    <section id="info">
+                        <h2>登録内容確認</h2>
+                        <form id="contant-form" class="form" name="contact-form">
+                            <!-- 狩猟者名 -->
+                            <fieldset class="form__group">
+                                <p class="form__group-header">
+                                    <label class="form__group-label" for="region">狩猟者名<strong
+                                            class="form__required-label">必須</strong></label>
+                                </p>
+                                <div class="form__group-content">
+                                    <div class="form__name">
+                                        <div class="form__text-input">
+                                            <label class="visually-hidden" for="name">狩猟者名</label>
+                                            <p class="text-input">
+                                                <input id="" class="text-input__body" type="text" name=" name" value="さいたま"
+                                                    placeholder="鹿、猪など" title="狩猟者名を入力してください" required aria-required="true">
+                                                <span class="text-input__validator"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- 地域名 -->
+                            <fieldset class="form__group">
+                                <p>
+                                    <label class="form__group-label" for="region">地域名<strong
+                                            class="form__required-label">必須</strong></label>
+                                </p>
+                                <div class="form__group-content">
+                                    <div class="form__select-box">
+                                        <div class="select-box">
+                                            <select id="region" class="select-box__body" name="region" title="都道府県は必ず指定してください"
+                                                required aria-required="true">
+                                                <option value="">選択してください</option>
+                                                <option value="北海道" disabled selected hidden>北海道</option>
+                                                <option value="青森県">青森県</option>
+                                                <option value="岩手県">岩手県</option>
+                                                <option value="宮城県">宮城県</option>
+                                                <option value="秋田県">秋田県</option>
+                                                <option value="山形県">山形県</option>
+                                                <option value="福島県">福島県</option>
+                                                <option value="茨城県">茨城県</option>
+                                                <option value="栃木県">栃木県</option>
+                                                <option value="群馬県">群馬県</option>
+                                                <option value="埼玉県">埼玉県</option>
+                                                <option value="千葉県">千葉県</option>
+                                                <option value="東京都">東京都</option>
+                                                <option value="神奈川県">神奈川県</option>
+                                                <option value="新潟県">新潟県</option>
+                                                <option value="富山県">富山県</option>
+                                                <option value="石川県">石川県</option>
+                                                <option value="福井県">福井県</option>
+                                                <option value="山梨県">山梨県</option>
+                                                <option value="長野県">長野県</option>
+                                                <option value="岐阜県">岐阜県</option>
+                                                <option value="静岡県">静岡県</option>
+                                                <option value="愛知県">愛知県</option>
+                                                <option value="三重県">三重県</option>
+                                                <option value="滋賀県">滋賀県</option>
+                                                <option value="京都府">京都府</option>
+                                                <option value="大阪府">大阪府</option>
+                                                <option value="兵庫県">兵庫県</option>
+                                                <option value="奈良県">奈良県</option>
+                                                <option value="和歌山県">和歌山県</option>
+                                                <option value="鳥取県">鳥取県</option>
+                                                <option value="島根県">島根県</option>
+                                                <option value="岡山県">岡山県</option>
+                                                <option value="広島県">広島県</option>
+                                                <option value="山口県">山口県</option>
+                                                <option value="徳島県">徳島県</option>
+                                                <option value="香川県">香川県</option>
+                                                <option value="愛媛県">愛媛県</option>
+                                                <option value="高知県">高知県</option>
+                                                <option value="福岡県">福岡県</option>
+                                                <option value="佐賀県">佐賀県</option>
+                                                <option value="長崎県">長崎県</option>
+                                                <option value="熊本県">熊本県</option>
+                                                <option value="大分県">大分県</option>
+                                                <option value="宮崎県">宮崎県</option>
+                                                <option value="鹿児島県">鹿児島県</option>
+                                                <option value="沖縄県">沖縄県</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <p class="form__validation" data-validation="address-level1" role="alert" aria-live="assertive"></p>
+                                </div>
+                            </fieldset>
+                            <!-- 評価 -->
+                            <fieldset class="form__group">
+                                <p class="form__group-header">
+                                    <label class="form__group-label" for="eval">評価</label>
+                                </p>
+                                <div class="form__group-content">
+                                    <div class="form__select-box">
+                                        <div class="select-box">
+                                            <select id="eval" class="select-box__body" name="eval" title="評価を指定してください"
+                                                required aria-required="true">
+                                                <option value="">評価を選択してください</option>
+                                                <option value="1"  disabled selected hidden>1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <p class="form__validation" data-validation="eval" role="alert" aria-live="assertive"></p>
+                                </div>
+                            </fieldset>
+                            <!-- ボタン -->
+                            <div class="btn-area" style="padding-top:100px">
+                                <button class="button child1" type="submit">戻る</button>
+                                <input class="button child2" type="submit" value="検索">
+                            </div>
+                        </form>
+                    </section>
+            </div>
+            <footer class="footer">
+                <p>FOOTER KAKU</p>
+                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>price (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                    10:00～19:30</p>
+                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+            </footer>
+        </div><!-- /#main-in -->
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/js/modaal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script>
+        $(".modal-open").modaal({
+            // start_open: flag, // ページロード時に表示するか
+            overlay_close: true,//モーダル背景クリック時に閉じるか
+            before_open: function () {// モーダルが開く前に行う動作
+                $('html').css('overflow-y', 'hidden');/*縦スクロールバーを出さない*/
+            },
+            after_close: function () {// モーダルが閉じた後に行う動作
+                $('html').css('overflow-y', 'scroll');/*縦スクロールバーを出す*/
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+
+<!-- bk -->
+<!-- <!DOCTYPE html>
 <html>
     <head>
 
@@ -8,8 +430,6 @@
         <form action="./search" method="post">
             <label>狩猟者名</label>
             <input type="text" name="name">
-
-            <!-- 48都道府県めんどいんでとりあえず東北のみ -->
             <label>地域</label>
             <select name="region">
                 <option value="">----</option>
@@ -34,4 +454,4 @@
             <input type="submit" value="検索">
         </form>
     </body>
-</html>
+</html> -->

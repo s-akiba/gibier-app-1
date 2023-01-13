@@ -1,3 +1,12 @@
+<!-- 出品登録 -->
+
+<!-- 
+ファイル名 exhibit_input.ejs
+作成者 内藤壱成
+概要 処理施設の出品登録画面
+製作日 2023-1-13
+変更日
+-->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -278,6 +287,7 @@
                         <!-- <a href="#info" class="modal-open"><button class="button child2" type="submit">送信する</button></a> -->
                         <a href="#info" class="modal-open"><input class="button child2" type="submit" value="登録"></a>
                     </div>
+                </form>
                     <!-- モーダル -->
                     <section id="info">
                         <h2>登録内容確認</h2>
@@ -469,3 +479,38 @@
 </body>
 
 </html>
+
+<!-- bk -->
+<!-- <!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <form action="/facility/exhibit_input" method="post">
+            <label>動物名</label>
+            <input type="text" name="animal">
+            <label>商品カテゴリ</label>
+            <select name="category">
+                <option value="">----</option>
+                <option value="1">背ロース</option>
+                <option value="2">バラ</option>
+                <option value="3">モモ</option>
+                <option value="4">スネ</option>
+                <option value="5">その他</option>
+            </select>
+            <label>説明</label>
+            <input type="text" name="text">
+            <label>画像</label>
+            <input type="file" name="file">
+            <label>価格</label>
+            <input type="text" name="price">
+            <label>個数</label>
+            <input type="text" name="num">
+            <label>掲載期限</label>
+            <input type="date" name="limit">
+            <input type="submit" value="登録">
+        </form>
+    </body>
+</html>
+
+<link href='/stylesheets/issei/home.css' rel='stylesheet' type='text/css'>
+<link href='/stylesheets/issei/form-sample.css' rel='stylesheet' type='text/css'> -->

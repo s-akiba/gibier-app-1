@@ -1,3 +1,12 @@
+<!-- 
+ファイル名 beast_position_input.ejs
+作成者 香月涼太
+概要 害獣位置情報入力画面
+製作日 2023-1-12
+変更日
+残り　登録内容確認でのマップ表示もしくは都道府県表示
+　　　緯度と経度のvalue化
+-->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -8,12 +17,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>タイトル</title>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-    <link href='../../css/home.css' rel='stylesheet' type='text/css'>
-    <link href='../../css/form-sample.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/form-sample.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css"
         href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/css/modaal.min.css">
+
+    <!-- 技術班記述 -->
+    <!-- <link rel='stylesheet' href='/stylesheets/register_vermin_info.css' /> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+        crossorigin=""/>
+    <link rel="stylesheet" href="/stylesheets/leaflet.usermarker.css" />
+    <link rel="stylesheet" href="/stylesheets/L.Control.Zoomslider.css" />
+    <link rel="stylesheet" href="/stylesheets/leaflet.awesome-markers.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+
+
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+    integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+    crossorigin=""></script>
+    <script src="/javascripts/leaflet.usermarker.js"></script>
+    <script src="/javascripts/L.Control.Zoomslider.js"></script>
+    <script src="/javascripts/leaflet.awesome-markers.js"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+            integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+            crossorigin=""></script> -->
+    <!-- 技術班記述 -->
+
     <style>
         header {
             background-color: none;
@@ -95,7 +131,7 @@
     </style>
 </head>
 
-<body>
+<body onload="start()">
     <header id="global-head">
         <h1 id="brand-logo">Logo</h1>
     </header>
@@ -134,8 +170,31 @@
     <main id="main">
         <div id="main-in">
             <div class="box">
-                <h2>指名依頼（狩猟者を指名）</h2>
+                <h2>害獣位置情報入力</h2>
+                
+                    <!-- <input type="button" name="reset" id="reset" onclick="refresh()" value="位置リセット"> -->
                 <form id="contant-form" class="form" name="contact-form">
+                    <fieldset class="form__group">
+                        <legend class="form__group-header">
+                            <span class="form__group-label">位置情報<strong class="form__required-label">必須</strong></span>
+                        </legend>
+                        <div class="form__group-content">
+                            <div class="form__name">
+                                <div class="form__text-input">
+                                    <label class="visually-hidden" for="family-name-furigana">マップ</label>
+                                    <div id="map" style="width:500px; height:300px"></div>
+                                    <p class="text-input">
+                                        <input id="latitude" type="hidden" value="select-latitude">
+                                        <input id ="longitude" type="hidden" value="select-longitude">
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <p>現在の選択位置</p>
+                    <p id="select-latitude"></p>
+                    <p id="select-longitude"></p>
                     <fieldset class="form__group">
                         <legend class="form__group-header">
                             <span class="form__group-label">害獣名<strong class="form__required-label">必須</strong></span>
@@ -246,6 +305,24 @@
                     <section id="info">
                         <h2>登録内容確認</h2>
                         <form id="contant-form" class="form" name="contact-form">
+                            <fieldset class="form__group">
+                                <legend class="form__group-header">
+                                    <span class="form__group-label">位置情報<strong class="form__required-label">必須</strong></span>
+                                </legend>
+                                <div class="form__group-content">
+                                    <div class="form__name">
+                                        <div class="form__text-input">
+                                            <label class="visually-hidden" for="family-name-furigana">マップ</label>
+                                            <div id="map" style="width:500px; height:300px"></div>
+                                            <p class="text-input">
+                                                <input id="latitude" type="hidden" value="select-latitude">
+                                                <input id ="longitude" type="hidden" value="select-longitude">
+                                                <span class="text-input__validator"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
                             <fieldset class="form__group">
                                 <legend class="form__group-header">
                                     <span class="form__group-label">害獣名<strong
@@ -395,5 +472,7 @@
     </script>
 
 </body>
+
+<script src="/javascripts/register_vermin_info.js"></script>
 
 </html>

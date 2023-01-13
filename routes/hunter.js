@@ -6,14 +6,14 @@ router.get('/map', (req, res, next) => {
     let data = {
         title: "map"
     }
-    res.render('hunter/map', data);
+    res.render('hunter/register_vermin_info', data);
 });
 
 router.get("/register_vermin_info", (req, res, next) => {
     let data = {
         title: "害獣位置情報登録",
     }
-    res.render("hunter/register_vermin_info", data);
+    res.render("hunter/beast_position_input", data);
 });
 
 router.get("/getjson", (req, res, next) => {

@@ -1,0 +1,72 @@
+<!-- 
+    害獣情報検索画面
+ -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+      crossorigin=""/>
+    <link rel="stylesheet" href="/stylesheets/leaflet.usermarker.css" />
+    <link rel="stylesheet" href="/stylesheets/L.Control.Zoomslider.css" />
+    <link rel="stylesheet" href="/stylesheets/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+
+
+      <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+    integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+    crossorigin=""></script>
+    <script src="/javascripts/leaflet.usermarker.js"></script>
+    <script src="/javascripts/L.Control.Zoomslider.js"></script>
+    <script src="/javascripts/leaflet.awesome-markers.js"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+  </head>
+
+  <body onload="start()">
+    <h1><%= title %></h1>
+    <!-- <form method="post" action="/hunter/search_vermin_infos"> -->
+        <label for="region">地域</label>
+        <select name="region" id="select-regions">
+            <option value="0">選択なし</option>
+            <% for(let i in regions) { %>
+                <% let obj = regions[i] %>
+                <option value="<%= obj.id %>" ><%= obj.region_name %></option>
+            <% } %>
+        </select><br>
+        <label for="animal">害獣名</label>
+        <select name="animal" id="select-animals">
+            <option value="0">選択なし</option>
+            <% for(let i in animals) { %>
+                <% let obj = animals[i] %>
+                <option value="<%= obj.id %>" ><%= obj.wild_animal_name %></option>
+            <% } %>
+        </select><br>
+        <!-- <p>範囲</p> -->
+        <label for="start_day">開始日時</label>
+        <input type="datetime-local" name="start_day" id="start_day"><br>
+        <label for="end_day">終了日時</label>
+        <input type="datetime-local" name="end_day" id="end_day"><br>
+        <!-- <input type="submit" value="検索" id="search-button"> -->
+        <button id="clear-date">日付リセット</button>
+        <button id="set-1month">1ヵ月以内</button>
+        <button id="set-6month">6ヵ月以内</button><br>
+        <button id="search-vermin-button">検索</button>
+    <!-- </form> -->
+
+    <p id="results-count">検索結果：0件</p>
+    <div id="map"></div>
+
+    <!-- <details>
+        <summary id="results-count">検索結果：0件</summary>
+        <div id="search-results"></div>
+    </details> -->
+    
+
+    <script src="/javascripts/search_vermin_infos.js"></script>
+  </body>
+</html>

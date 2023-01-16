@@ -96,7 +96,7 @@
             $("#order-num").text($("#request_num").val());
             $("#selected-appointed-day").text($("#appointed_day").val());
             $("#input-content").text($("#content").val());
-            
+            $("#selected-appointed-day").text(now.getMonth()+1 + "月 " + now.getDate() + "日 " + (now.getHours() -9) + "時" + now.getMinutes( )  + "分");
         }
 
         $("#animal_options").change(function() {
@@ -123,6 +123,7 @@
             // alert("change");
             const d_string = Date.parse($("#appointed_day").val());
             var d1 = new Date(d_string);
+            // d1.setHours(d1.getHours -9);
             // alert(d1.getMonth());
             $("#selected-appointed-day").text(d1.getMonth()+1 + "月 " + d1.getDate() + "日 " + d1.getHours() + "時" + d1.getMinutes() + "分");
         });

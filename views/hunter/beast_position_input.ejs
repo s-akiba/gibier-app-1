@@ -3,9 +3,10 @@
 作成者 香月涼太
 概要 害獣位置情報入力画面
 製作日 2023-1-12
-変更日
+変更日　2023-1-16
 残り　登録内容確認でのマップ表示もしくは都道府県表示
 　　　緯度と経度のvalue化
+      確認画面formの中のselectを入力不可にする
 -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -301,6 +302,7 @@
                         <button class="button child1" type="submit">戻る</button>
                         <a href="#info" class="modal-open"><button class="button child2" type="submit">送信する</button></a>
                     </div>
+                </form>
                     <!-- モーダル -->
                     <section id="info">
                         <h2>登録内容確認</h2>
@@ -335,7 +337,7 @@
                                             <p class="text-input">
                                                 <input id="family-name-furigana" class="text-input__body" type="text"
                                                     name="family-name-furigana"
-                                                    title="害獣名を入力してください" value="鹿">
+                                                    title="害獣名を入力してください" value="鹿" readonly>
                                                 <span class="text-input__validator"></span>
                                             </p>
                                         </div>
@@ -351,7 +353,7 @@
                                     <div class="form__select-box">
                                         <div class="select-box">
                                             <select id="address-level1" class="select-box__body" name="address-level1"
-                                                title="都道府県は必ず指定してください" required aria-required="true">
+                                                title="都道府県は必ず指定してください" required aria-required="true" >
                                                 <option value="" disabled selected hidden>選択してください</option>
                                                 <option value="北海道" selected>北海道</option>
                                                 <option value="青森県">青森県</option>
@@ -416,7 +418,7 @@
                                         <div class="form__text-input">
                                             <label class="visually-hidden" for="family-name-furigana">詳細</label>
                                             <p class="text-input">
-                                                <textarea class="text-input__body" name="family-name-furigana" title="地域の詳細情報を入力してください">金峰山付近の西入口から入って一番近い滝の周辺に猪の群れを目撃しました。</textarea>
+                                                <textarea class="text-input__body" name="family-name-furigana" title="地域の詳細情報を入力してください" readonly>金峰山付近の西入口から入って一番近い滝の周辺に猪の群れを目撃しました。</textarea>
                                                 <span class="text-input__validator"></span>
                                             </p>
                                         </div>
@@ -428,8 +430,8 @@
                                 <button class="button child1" type="submit">戻る</button>
                                 <button class="button child2" type="submit">送信する</button>
                             </div>
+                        </form>
                     </section>
-                </form>
             </div>
             <footer class="footer">
                 <p>FOOTER KAKU</p>

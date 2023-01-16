@@ -16,6 +16,85 @@
     <title>
         <%= title %>
     </title>
+    <style>
+        header {
+            background-color: none;
+        }
+
+        #info {
+            display: none;
+        }
+
+        /*モーダルの横幅を変更したい場合*/
+        .modaal-container {
+            max-width: 600px;
+        }
+
+        /*モーダルのボタンの色を変更したい場合*/
+        .modaal-close:after,
+        .modaal-close:before {
+            background: #ccc;
+        }
+
+        .modaal-close:focus:after,
+        .modaal-close:focus:before,
+        .modaal-close:hover:after,
+        .modaal-close:hover:before {
+            background: #666;
+        }
+
+
+        /*========= レイアウトのためのCSS ===============*/
+        #info h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+            padding: 20px;
+            color: #fff;
+        }
+
+        #info h2 {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 0 0 30px 0;
+        }
+
+        #info p,
+        #info ul {
+            margin-top: 20px;
+        }
+
+        #info ul {
+            list-style: none;
+        }
+
+        #info a {
+            color: #333;
+            outline: none;
+        }
+
+        #info small {
+            background: #333;
+            color: #fff;
+            display: block;
+            text-align: center;
+            padding: 20px;
+        }
+
+
+        #info section {
+            padding: 30px;
+        }
+
+        #info section:nth-child(2n) {
+            background: #f3f3f3;
+        }
+
+        #info img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -113,9 +192,122 @@
         </fieldset>
         <div class="form__submit">
             <a href="#" onclick="history.back(); return false;"><button class="button" type="submit">戻る</button></a>
-            <input type="submit" value="作成" class="btn btn-primary button">
+            <a href="#info" class="modal-open"><button class="button child2" type="submit">確認する</button></a>
         </div>
     </form>
+    <section id="info">
+        <form id="contant-form" class="form" name="contact-form" method="post" action="/user/add">
+            <h2 class="form__headline">
+                <%= title %>
+            </h2>
+            <div class="form__description">
+                <p>必要事項をご入力のうえ、確認画面へお進みください。</p>
+                <p><span class="form__required-label">必須</span>の項目はお手数ですが必ず入力をお願いいたします。</p>
+            </div>
+            <!-- メール -->
+            <div class="form__group">
+                <p class="form__group-header">
+                    <label class="form__group-label" for="email">メールアドレス<strong
+                            class="form__required-label">必須</strong></label>
+                </p>
+                <div class="form__group-content">
+                    <div class="form__text-input">
+                        <p class="text-input">
+                            <input id="email" class="text-input__body" type="email" name="email"
+                            value="<%=form.name %>" class="form-control"
+                                placeholder="(例) example@example.com" autocomplete="email" title="メールアドレスは正しく記入してください"
+                                required aria-required="true" readonly>
+                        <ul class="text-danger">
+                            <% if (err!=null) { for (let i in err.get("name")) { %>
+                                <li>
+                                    <%= err.get("name")[i].message %>
+                                </li>
+                                <% }} %>
+                        </ul>
+                        <span class="text-input__validator"></span>
+                        </p>
+                    </div>
+                    <p class="form__validation" data-validation="email" role="alert" aria-live="assertive"></p>
+                </div>
+            </div>
+            <!-- パスワード -->
+            <div class="form__group">
+                <p class="form__group-header">
+                    <label class="form__group-label" for="pass">パスワード<strong
+                            class="form__required-label">必須</strong></label>
+                </p>
+                <div class="form__group-content">
+                    <div class="form__text-input -wide">
+                        <p class="text-input">
+                            <input id="pass" class="text-input__body" type="password" name="pass" id="pass"
+                                value="<%=form.pass %>" autocomplete="pass" title="パスワードの入力は必須です" required
+                                aria-required="true" readonly>
+                            <span class="text-input__validator"></span>
+                        <ul class="text-danger">
+                            <% if (err!=null) { for (let i in err.get("pass")) { %>
+                                <li>
+                                    <%= err.get("pass")[i].message %>
+                                </li>
+                                <% }} %>
+                        </ul>
+                        </p>
+                    </div>
+                    <p class="form__validation" data-validation="pass" role="alert" aria-live="assertive"></p>
+                </div>
+            </div>
+            <!-- アカウントタイプ -->
+            <fieldset class="form__group">
+                <legend class="form__group-header">
+                    <span class="form__group-label">アカウントタイプ選択</span>
+                </legend>
+                <div class="form__group-content">
+                    <ul class="form__group-list">
+                        <li class="form__group-list-item">
+                            <label class="radio">
+                                <input class="radio__input" name="usertype" type="radio" value="facility"
+                                    id="radio-facility" readonly>
+                                <span class="radio__icon"></span>
+                                <span class="radio__text">処理施設</span>
+                            </label>
+                        </li>
+                        <li class="form__group-list-item">
+                            <label class="radio">
+                                <input class="radio__input" name="usertype" type="radio" value="purchaser"
+                                    id="radio-purchaser" checked readonly>
+                                <span class="radio__icon"></span>
+                                <span class="radio__text">購入者</span>
+                            </label>
+                        </li>
+                        <li class="form__group-list-item">
+                            <label class="radio">
+                                <input class="radio__input" name="usertype" type="radio" value="hunter" 
+                                    id="radio-hunter" readonly>
+                                <span class="radio__icon"></span>
+                                <span class="radio__text">狩猟者</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+            <div class="form__submit">
+                <a href="#" onclick="history.back(); return false;"><button class="button" type="submit">戻る</button></a>
+                <input type="submit" value="作成" class="btn btn-primary button">
+            </div>
+        </form>
+    </section>
+    <script>
+        $(".modal-open").modaal({
+            // start_open: flag, // ページロード時に表示するか
+            overlay_close: true,//モーダル背景クリック時に閉じるか
+            before_open: function () {// モーダルが開く前に行う動作
+                $('html').css('overflow-y', 'hidden');/*縦スクロールバーを出さない*/
+            },
+            after_close: function () {// モーダルが閉じた後に行う動作
+                $('html').css('overflow-y', 'scroll');/*縦スクロールバーを出す*/
+            }
+        });
+    </script>
+
 </body>
 
 </html>

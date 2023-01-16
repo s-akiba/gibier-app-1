@@ -1,10 +1,59 @@
 <!-- ログイン画面 -->
+<!-- 
+ファイル名 login.ejs
+作成者 内藤壱成
+概要 ユーザのログイン画面
+製作日 2023-1-13
+変更日
+
+* ログイン画面整える！
+
+-->
 <!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        <%= title %>
+    </title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/login.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <fieldset>
+        <h1>
+            <%= title %>
+        </h1>
+        <form method="post" action="/user/login">
+            <div class="iconMail"></div>
+            <input type="text" placeholder="Mail" name="email" id="email" required>
+            <input type="password" placeholder="Password" name="pass" id="pass" required>
+            <div class="iconPassword"></div><br>
+            <a href="#">新規登録はまだ？</a>
+            <input type="submit" value="ログイン" class="btn btn-primary">
+        </form>
+    </fieldset>
+</body>
+
+</html>
+<!-- <!DOCTYPE html>
 <html lang="ja">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" http-equiv="content-type" content="text/html, charset=UTF-8, width=device-width, initial-scale=1">
-        <title><%= title %></title>
+        <title><= title %></title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -14,15 +63,16 @@
 
     <body class="container">
         <header>
-            <h1 class="display-4"><%= title %></h1>
+            <h1 class="display-4"><= title %></h1>
         </header>
         <div role="main">
-            <p><%- content %></p>
-            <% if (alert_message != "") { %>
+            <p><- content %></p>
+            < if (alert_message != "") { %>
                 <div class="alert alert-danger" role="alert">
-                    <%= alert_message %>
+                    <= alert_message %>
                 </div>
-            <% } %>
+            < } %>
+
             <form method="post" action="/user/login">
                 <div class="form-group">
                     <label for="email">EMAIL</label>
@@ -41,4 +91,4 @@
         </div>
     </body>
 
-</html>
+</html> -->

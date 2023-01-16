@@ -53,7 +53,7 @@ input[type="password"] {
     padding: 4% 4% 4% 4%;
     margin-bottom: 4%;
     background-repeat: no-repeat;
-    background-image: url(../img/icon/lock.png);
+    background-image: url(/stylesheets/images/icon/lock.png);
     background-position: center;
     border: 1px solid #ccc;
 }
@@ -66,7 +66,7 @@ input[type="password"] {
     padding: 4% 4% 4% 4%;
     margin-bottom: 4%;
     background-repeat: no-repeat;
-    background-image: url(../img/icon/mail.png);
+    background-image: url(/stylesheets/images/icon/mail.png);
     background-position: center;
     border: 1px solid #ccc;
 }

@@ -1,11 +1,133 @@
 <!-- ユーザー登録画面 -->
-<!doctype html>
+
+<!-- 
+ファイル名 add.ejs
+作成者 内藤壱成
+概要 ユーザ登録画面
+製作日 2023-1-13
+変更日
+-->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='/stylesheets/issei/form-sample.css' rel='stylesheet' type='text/css'>
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <form id="contant-form" class="form" name="contact-form" method="post" action="/user/add">
+        <h2 class="form__headline">
+            <%= title %>
+        </h2>
+        <div class="form__description">
+            <p>必要事項をご入力のうえ、確認画面へお進みください。</p>
+            <p><span class="form__required-label">必須</span>の項目はお手数ですが必ず入力をお願いいたします。</p>
+        </div>
+        <!-- メール -->
+        <div class="form__group">
+            <p class="form__group-header">
+                <label class="form__group-label" for="email">メールアドレス<strong
+                        class="form__required-label">必須</strong></label>
+            </p>
+            <div class="form__group-content">
+                <div class="form__text-input">
+                    <p class="text-input">
+                        <input id="email" class="text-input__body" type="email" name="email"
+                        value="<%=form.name %>" class="form-control"
+                            placeholder="(例) example@example.com" autocomplete="email" title="メールアドレスは正しく記入してください"
+                            required aria-required="true">
+                    <ul class="text-danger">
+                        <% if (err!=null) { for (let i in err.get("name")) { %>
+                            <li>
+                                <%= err.get("name")[i].message %>
+                            </li>
+                            <% }} %>
+                    </ul>
+                    <span class="text-input__validator"></span>
+                    </p>
+                </div>
+                <p class="form__validation" data-validation="email" role="alert" aria-live="assertive"></p>
+            </div>
+        </div>
+        <!-- パスワード -->
+        <div class="form__group">
+            <p class="form__group-header">
+                <label class="form__group-label" for="pass">パスワード<strong
+                        class="form__required-label">必須</strong></label>
+            </p>
+            <div class="form__group-content">
+                <div class="form__text-input -wide">
+                    <p class="text-input">
+                        <input id="pass" class="text-input__body" type="password" name="pass" id="pass"
+                            value="<%=form.pass %>" autocomplete="pass" title="パスワードの入力は必須です" required
+                            aria-required="true">
+                        <span class="text-input__validator"></span>
+                    <ul class="text-danger">
+                        <% if (err!=null) { for (let i in err.get("pass")) { %>
+                            <li>
+                                <%= err.get("pass")[i].message %>
+                            </li>
+                            <% }} %>
+                    </ul>
+                    </p>
+                </div>
+                <p class="form__validation" data-validation="pass" role="alert" aria-live="assertive"></p>
+            </div>
+        </div>
+        <!-- アカウントタイプ -->
+        <fieldset class="form__group">
+            <legend class="form__group-header">
+                <span class="form__group-label">アカウントタイプ選択</span>
+            </legend>
+            <div class="form__group-content">
+                <ul class="form__group-list">
+                    <li class="form__group-list-item">
+                        <label class="radio">
+                            <input class="radio__input" name="usertype" type="radio" value="facility"
+                                id="radio-facility">
+                            <span class="radio__icon"></span>
+                            <span class="radio__text">処理施設</span>
+                        </label>
+                    </li>
+                    <li class="form__group-list-item">
+                        <label class="radio">
+                            <input class="radio__input" name="usertype" type="radio" value="purchaser"
+                                id="radio-purchaser" checked>
+                            <span class="radio__icon"></span>
+                            <span class="radio__text">購入者</span>
+                        </label>
+                    </li>
+                    <li class="form__group-list-item">
+                        <label class="radio">
+                            <input class="radio__input" name="usertype" type="radio" value="hunter" id="radio-hunter">
+                            <span class="radio__icon"></span>
+                            <span class="radio__text">狩猟者</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </fieldset>
+        <div class="form__submit">
+            <a href="#" onclick="history.back(); return false;"><button class="button" type="submit">戻る</button></a>
+            <input type="submit" value="作成" class="btn btn-primary button">
+        </div>
+    </form>
+</body>
+
+</html>
+
+<!-- bk -->
+<!-- <!doctype html>
 <html lang="ja">
 
     <head>
         <meta charset="utf-8">
         <meta name="viewport" http-equiv="content-type" content="text/html, charset=UTF-8, width=device-width, initial-scale=1">
-        <title><%= title %></title>
+        <title><= title %></title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -16,41 +138,41 @@
     <body>
 
         <header>
-            <h1 class="display-4"><%= title %></h1>
+            <h1 class="display-4"><= title %></h1>
         </header>
         <div role="main">
-            <p><%- content %></p>
+            <p><- content %></p>
             <ol class="text-danger">
-                <% if (err!=null) { for (let i in err.errors) { %>
-                <li><%= err.errors[i].message %></li>
-                <% }} %>
+                < if (err!=null) { for (let i in err.errors) { %>
+                <li><= err.errors[i].message %></li>
+                < }} %>
             </ol>
-            <% if (alert_message != "") { %>
+            < if (alert_message != "") { %>
                 <div class="alert alert-danger" role="alert">
-                    <%= alert_message %>
+                    <= alert_message %>
                 </div>
-            <% } %>
+            < } %>
             <form method="post" action="/user/add">
 
                 <div class="form-group">
                     <label for="email">EMAIL</label>
                     <input type="email" name="email" id="email" 
-                        value="<%=form.name %>" class="form-control" placeholder="必須">
+                        value="<=form.name %>" class="form-control" placeholder="必須">
                     <ul class="text-danger">
-                        <% if (err!=null) { for (let i in err.get("name")) { %>
-                        <li><%= err.get("name")[i].message %></li>
-                        <% }} %>
+                        < if (err!=null) { for (let i in err.get("name")) { %>
+                        <li><= err.get("name")[i].message %></li>
+                        < }} %>
                     </ul>
                 </div>
 
                 <div class="form-group">
                     <label for="pass">PASSWORD</label>
                     <input type="password" name="pass" id="pass" 
-                    value="<%=form.pass %>" class="form-control" placeholder="8文字以上">
+                    value="<=form.pass %>" class="form-control" placeholder="8文字以上">
                     <ul class="text-danger">
-                        <% if (err!=null) { for (let i in err.get("pass")) { %>
-                        <li><%= err.get("pass")[i].message %></li>
-                        <% }} %>
+                        < if (err!=null) { for (let i in err.get("pass")) { %>
+                        <li><= err.get("pass")[i].message %></li>
+                        < }} %>
                     </ul>
                 </div>
 
@@ -70,4 +192,4 @@
 
     </body>
 
-</html>
+</html> -->

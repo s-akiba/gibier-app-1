@@ -7,6 +7,7 @@
 製作日 2023-1-13
 変更日
 -->
+<!-- モーダル表示させる -->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -98,7 +99,7 @@
 </head>
 
 <body>
-    <form id="contant-form" class="form" name="contact-form" method="post" action="/user/add">
+    <form id="contant-form" class="form">
         <h2 class="form__headline">
             <%= title %>
         </h2>
@@ -115,10 +116,9 @@
             <div class="form__group-content">
                 <div class="form__text-input">
                     <p class="text-input">
-                        <input id="email" class="text-input__body" type="email" name="email"
-                        value="<%=form.name %>" class="form-control"
-                            placeholder="(例) example@example.com" autocomplete="email" title="メールアドレスは正しく記入してください"
-                            required aria-required="true">
+                        <input id="email" class="text-input__body" type="email" name="email" value="<%=form.name %>"
+                            class="form-control" placeholder="(例) example@example.com" autocomplete="email"
+                            title="メールアドレスは正しく記入してください" required aria-required="true">
                     <ul class="text-danger">
                         <% if (err!=null) { for (let i in err.get("name")) { %>
                             <li>
@@ -213,10 +213,9 @@
                 <div class="form__group-content">
                     <div class="form__text-input">
                         <p class="text-input">
-                            <input id="email" class="text-input__body" type="email" name="email"
-                            value="<%=form.name %>" class="form-control"
-                                placeholder="(例) example@example.com" autocomplete="email" title="メールアドレスは正しく記入してください"
-                                required aria-required="true" readonly>
+                            <input id="email" class="text-input__body" type="email" name="email" value="<%=form.name %>"
+                                class="form-control" placeholder="(例) example@example.com" autocomplete="email"
+                                title="メールアドレスは正しく記入してください" required aria-required="true" readonly>
                         <ul class="text-danger">
                             <% if (err!=null) { for (let i in err.get("name")) { %>
                                 <li>
@@ -280,7 +279,7 @@
                         </li>
                         <li class="form__group-list-item">
                             <label class="radio">
-                                <input class="radio__input" name="usertype" type="radio" value="hunter" 
+                                <input class="radio__input" name="usertype" type="radio" value="hunter"
                                     id="radio-hunter" readonly>
                                 <span class="radio__icon"></span>
                                 <span class="radio__text">狩猟者</span>
@@ -295,6 +294,10 @@
             </div>
         </form>
     </section>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/js/modaal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script>
         $(".modal-open").modaal({
             // start_open: flag, // ページロード時に表示するか

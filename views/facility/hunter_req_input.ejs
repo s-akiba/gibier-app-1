@@ -5,7 +5,7 @@
 作成者 内藤壱成
 概要 処理施設の狩猟者に対して、指名という形で依頼するための情報入力画面画面
 製作日 2023-1-13
-変更日
+変更日 2023-1-16 香月
 -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -224,7 +224,7 @@
                                             <p class="text-input">
                                                 <input id="text" class="text-input__body" type="text"
                                                     name="text" placeholder="あの日、村は一夜にして消えた。海の隣で共に暮らした仲間たちも、生まれたばかりの幼子も、皆奪われていしまった。何の因果か残されたわしは、ただ1つの望みを抱いて生きてきた。オストガロア、、、やつを文字どうり骸にかえてくれ。" title="内容を入力してください"
-                                                    required aria-required="true">
+                                                    required aria-required="true" readonly>
                                                 <span class="text-input__validator"></span>
                                             </p>
                                         </div>
@@ -243,7 +243,7 @@
                                             <p class="text-input">
                                                 <input id="text" class="text-input__body" type="text"
                                                     name="text" placeholder="鹿、猪など" title="害獣名を入力してください"
-                                                    required aria-required="true">
+                                                    required aria-required="true" readonly>
                                                 <span class="text-input__validator"></span>
                                             </p>
                                         </div>
@@ -259,7 +259,7 @@
                                     <div class="form__text-input">
                                         <p class="text-input">
                                             <input id="datetime" class="text-input__body" type="date" name="datetime"
-                                                title="翌日から二週間後までで指定してください">
+                                                title="翌日から二週間後までで指定してください" readonly>
                                             <span class="text-input__validator"></span>
                                         </p>
                                     </div>

@@ -5,7 +5,8 @@
 作成者 内藤壱成
 概要 処理施設の出品登録画面
 製作日 2023-1-13
-変更日
+変更日 2023-1-16  香月
+モーダルselectの変更不可
 -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -303,7 +304,7 @@
                                             <label class="visually-hidden" for="">動物名</label>
                                             <p class="text-input">
                                                 <input id="" class="text-input__body" type="text" name=" animal"
-                                                    placeholder="鹿、猪など" title="動物名を入力してください" required aria-required="true">
+                                                    placeholder="鹿、猪など" title="動物名を入力してください" required aria-required="true" readonly>
                                                 <span class="text-input__validator"></span>
                                             </p>
                                         </div>
@@ -343,7 +344,7 @@
                                     <div class="form__textarea">
                                         <div class="textarea js-flexible-textarea">
                                             <textarea id="text" class="textarea__body" name="text" title="説明・詳細は必ず記入してください" required
-                                                aria-required="true"></textarea>
+                                                aria-required="true" readonly></textarea>
                                         </div>
                                     </div>
                                     <p class="form__validation" data-validation="text" role="alert" aria-live="assertive"></p>
@@ -357,7 +358,7 @@
                                 <div class="form__group-content">
                                     <div class="form__file-select">
                                         <div class="file-select js-flie-select">
-                                            <input id="file" class="file-select__input" type="file" name="file">
+                                            <input id="file" class="file-select__input" type="file" name="file" readonly>
                                             <label class="file-select__button" for="file">ファイルを選択する</label>
                                         </div>
                                     </div>
@@ -373,7 +374,7 @@
                                         <p class="text-input">
                                             <input id="price" class="text-input__body -placeholder-visible" type="number" name="price"
                                                 placeholder="0000" autocomplete="price"
-                                                title="価格は正しく記入してください">
+                                                title="価格は正しく記入してください" readonly>
                                             <span class="text-input__validator"></span>
                                             円</p>
                                     </div>
@@ -392,7 +393,7 @@
                                             <label class="visually-hidden" for="num">個数</label>
                                             <p class="text-input">
                                                 <input class="text-input__body" name="num" placeholder="0" title="個数を入力してください"
-                                                    type="number">
+                                                    type="number" readonly>
                                             <div class="form__select-box">
                                                 <div class="select-box">
                                                     <select id="address-level1" class="select-box__body" name="address-level1"
@@ -419,7 +420,7 @@
                                     <div class="form__text-input">
                                         <p class="text-input">
                                             <input id="limit" class="text-input__body" type="date" name="limit"
-                                                title="翌日から二週間後までで指定してください">
+                                                title="翌日から二週間後までで指定してください" readonly>
                                             <span class="text-input__validator"></span>
                                         </p>
                                     </div>

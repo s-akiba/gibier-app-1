@@ -6,6 +6,7 @@ var map = L.map('map', {
 
 
 function start() {
+    $("#selected-animal").text($("#animal_options").find('option:selected').text());
     
     // openstreetmap
     let layer1 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -75,8 +76,8 @@ var popup_list = [];
 function onMapClick(e) {
     $("#hidden-latitude").val(e.latlng.lat.toString());
     $("#hidden-longitude").val(e.latlng.lng.toString());
-    $("#select-latitude").text(e.latlng.lat.toString());
-    $("#select-longitude").text(e.latlng.lng.toString());
+    $(".select-latitude").text(e.latlng.lat.toString());
+    $(".select-longitude").text(e.latlng.lng.toString());
     var mk = L.marker(e.latlng).addTo(map).on('click', onMarkerClick);
     popup_list.push(mk);
     mk.bindPopup("選択位置").openPopup();
@@ -84,7 +85,7 @@ function onMapClick(e) {
         map.removeLayer(popup_list[0]);
         popup_list.splice(0, 1);
     }
-    if ($("#select-latitude").val() == "") {
+    if ($(".select-latitude").val() == "") {
         $("#open").prop('disabled', false);
         
     }
@@ -98,8 +99,9 @@ function onMarkerClick(e) {
     map.removeLayer(e.target);
 }
 
+// モーダルを開く前に位置を選択させる
 function checkLatlangValue() {
-    if ($("#select-latitude").val() == "") {
+    if ($(".select-latitude").val() == "") {
         alert("latitude empty");
         setTimeout(function(){
             $('#close-modal').trigger("click");
@@ -108,6 +110,7 @@ function checkLatlangValue() {
     }
 }
 
+// モーダル
 $("#open").click(function(){
     $("#a").css("display","block");
     $("#b").css("display","block");

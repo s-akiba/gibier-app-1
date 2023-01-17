@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <img src="/uploads/<%= item.image_link %>" width="150" height="150">
+        <p><%= item.wild_animal_name %></p>
+        <p><%= item.category_name %></p>
+        <p><%= item.detail %></p>
+        <p><%= item.stock %></p>
+        <p><%= item.selling_term %></p>
+        <a href="javascript:history.back();">戻る</a>
+        <form action="/facility/exhibit_delete" method="post">
+            <input type="hidden" name="image_link" value="<%= item.image_link %>">
+            <button type="submit">取り消す</button>
+        </form>
+    </body>
+</html>

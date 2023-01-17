@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <% for(var value of content) { %>
+            <div>
+                <a href="./exhibit_detail/?id=<%= value.id %>">
+                    <img src="/uploads/<%= value.image_link %>" width="150" height="150">
+                </a>
+                <p><%= value.detail %></p>
+            </div>
+        <% } %>
+    </body>
+</html>

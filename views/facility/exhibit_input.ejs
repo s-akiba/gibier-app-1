@@ -3,9 +3,14 @@
 <html>
     <head></head>
     <body>
-        <form action="/facility/exhibit_input" method="post">
+        <form action="/facility/exhibit_input" method="post" enctype="multipart/form-data">
             <label>動物名</label>
-            <input type="text" name="animal">
+            <select name="animal">
+                <option value="">----</option>
+                <option value="1">シカ</option>
+                <option value="2">イノシシ</option>
+                <option value="3">ハクビシン</option>
+            </select>
             <label>商品カテゴリ</label>
             <select name="category">
                 <option value="">----</option>

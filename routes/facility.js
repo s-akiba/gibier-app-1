@@ -3,16 +3,23 @@ var express = require('express');
 var router = express.Router();
 // 追加
 var {Client} = require('pg');
-const bcrypt = require('bcrypt'); 
 const db = require('../models/index');
-const path = require('path');
 const chalk = require('chalk');
 const { Op } = require("sequelize");
 const { sequelize } = require('../models/index');
 const { QueryTypes } = require('sequelize');
 // ファイルアップロード
 const multer = require('multer');
-const upload = multer({dest:'public/uploads/'});
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname)
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // postgresqlとの接続
 var client = new Client({
@@ -36,11 +43,66 @@ router.get('/exhibit_input',function(req,res,next){
 });
 
 /* 出品情報の登録処理 */
-/* ファイル名はreq.body.fileで持ってこれる */
 router.post('/exhibit_input',upload.single('file'),function(req,res,next){
-  console.log(req.file);
-  console.log(req.body.file);
-  res.redirect('/facility');
+  db.sequelize.sync().then(()=>db.commodities.create({
+    user_id : req.session.login['id'],
+    vermin_hunted_id : 99,  //わからんからとりあえず埋めとく
+    wild_animal_info_id : req.body.animal,
+    category_id : req.body.category,
+    detail : req.body.text,
+    image_link : req.file.filename,
+    price : req.body.price,
+    stock : req.body.num,
+    selling_term : req.body.limit
+  })).then(usr => {
+    res.redirect('/facility');
+  });
+});
+
+/* 出品一覧画面の表示処理 */
+router.get('/exhibit_list',function(req,res,next){
+  let values = []; // dbの検索結果から必要な情報を格納するための配列
+  db.commodities.findAll({
+    where:{
+      user_id : req.session.login['id']
+    }
+  }).then(item=>{
+    // 必要な情報の取り出し
+    for(const value of item){
+      values.push(value.dataValues);
+    }
+    res.render('facility/exhibit_list',{content:values});
+  });
+});
+
+/* 出品情報詳細画面 */
+/*
+  commodities,categories,wild_animal_infos を内部結合するsql:
+    select * from commodities inner join categories on commodities.category_id=categories.id inner
+    join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id
+*/
+router.get('/exhibit_detail',function(req,res,next){
+  const com_id = req.query.id;
+  const sql = 'select * from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id where commodities.id=';
+  console.log(sql+com_id+';');
+  // sequelizeで３つの表を内部結合する方法分からなかったんでsql直接書いちゃいます
+  client.query(sql+com_id+';',function(err,result){
+    if (err) throw err;
+    console.log(result.rows[0]);
+    res.render('facility/exhibit_detail',{item:result.rows[0]});
+  });
+});
+
+/* 出品情報の取り消し処理 */
+router.post('/exhibit_delete',function(req,res,next){
+  db.commodities.findOne({
+    // idで検索して削除しようとしたがうまくいかなかったんでファイル名で削除
+    where:{image_link:req.body.image_link}
+  }).then(commodity=>{
+    commodity.destroy();
+    console.log('deleted');
+    res.redirect('/facility/exhibit_list');
+  });
 });
 
 /* 狩猟者検索画面の表示 */

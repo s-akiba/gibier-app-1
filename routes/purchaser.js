@@ -144,8 +144,57 @@ router.post('/request_to_facility', (req, res, next) => {
     console.error(error);
     res.redirect("/");
   });
-})
+});
 
-// test
+// 公開購入者依頼作成 get
+router.get("/public_request_to_facility", (req, res, next) => {
+  db.wild_animal_info.findAll()
+  .then((animals) => {
+    db.categories.findAll()
+    .then((categories) => {
+      let data = {
+        title: "公開購入者依頼作成",
+        animals: animals,
+        categories: categories
+      }
+      res.render('purchaser/public_request_to_facility', data);
+    })
+    .catch((err) => {
+      console.log("err category: ", err);
+      res.redirect("/");
+    });
+  })
+  .catch((err) => {
+    console.log("err animal: ", err);
+    res.redirect("/");
+  });
+});
+
+// 公開購入者依頼 post
+router.post('/public_request_to_facility', (req, res, next) => {
+  console.log(req.body);
+  let data = {
+    user_1_id: req.session.login.id,
+    user_2_id: null,
+    category_id: req.body.category_options,
+    wild_animal_info_id: req.body.animal_options,
+    num: req.body.request_num,
+    content: req.body.content,
+    appointed_day: req.body.appointed_day,
+    is_public: true,
+    is_accepted: false,
+    is_closed: false,
+  }
+  db.req_from_purchaser.create(data)
+  .then(result => {
+    console.log("created: ", JSON.stringify(result));
+    res.redirect("/");
+  })
+  .catch((error) => {
+    console.log("DB create error");
+    console.error(error);
+    res.redirect("/");
+  });
+});
 
 module.exports = router;

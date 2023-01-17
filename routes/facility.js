@@ -39,6 +39,7 @@ router.get('/', function(req, res, next) {
 
 /* 出品情報入力画面の表示 */
 router.get('/exhibit_input',function(req,res,next){
+  console.log('login user id : '+req.session.login["id"]);
   res.render('facility/exhibit_input');
 });
 
@@ -57,6 +58,7 @@ router.post('/exhibit_input',upload.single('file'),function(req,res,next){
   })).then(usr => {
     res.redirect('/facility');
   });
+
 });
 
 /* 出品一覧画面の表示処理 */

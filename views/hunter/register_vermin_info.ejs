@@ -34,34 +34,57 @@
     <div id="map"></div>
     <!-- <input type="button" name="reset" id="reset" onclick="refresh()" value="位置リセット"> -->
 
-    <p>現在の選択位置</p>
-    <p id="select-latitude"></p>
-    <p id="select-longitude"></p>
-    <button type="button" id="open" onclick="openModal" disabled >
-        確認する
-    </button>
-    <div class="container" id="a"></div>
-    <button id="a-button">ajax</button>
+    <form action="/hunter/register_vermin_info" method="POST">
+      <p>現在の選択位置</p>
+      <p class="select-latitude"></p>
+      <p class="select-longitude"></p>
+      <label for="content">詳細情報入力</label><br>
+      <textarea name="content" id="content" cols="30" rows="10"></textarea><br>
+      <label for="animal_options">害獣名選択</label>
+      <select name="animal_options" id="animal_options">
+          <% for(let i in animals) { %>
+              <% let obj = animals[i] %>
+              <option value="<%= obj.id %>"><%= obj.wild_animal_name %></option>
+          <% } %>
+      </select><br>
 
+      <button type="button" id="open" onclick="openModal" disabled >
+          確認する
+      </button>
+      <div class="container" id="a"></div>
 
-    <!-- Modal -->
-    <div class="modal" id="b">
-        <div class="header">
-          <a href="#" class="cancel">X</a>
-        </div>
-        <form action="/test" method="POST">
-            <div class="content">
-                <input type="hidden" name="latitude" value="" id="hidden-latitude">
-                <input type="hidden" name="longitude" value="" id="hidden-longitude">
+      <!-- Modal -->
+      <div class="modal" id="b">
+          <div class="header">
+            <a href="#" class="cancel">X</a>
+          </div>
+          <div class="content">
+            <p>この選択位置を送信しますか？</p>
+            <input type="hidden" name="latitude" value="" id="hidden-latitude">
+            <input type="hidden" name="longitude" value="" id="hidden-longitude">
+            <p class="select-latitude"></p>
+            <p class="select-longitude"></p>
+            <h2>選択された害獣名</h2>
+            <p id="selected-animal"></p>
+            <h2>詳細情報</h2>
+            <p id="input-content"></p>
+          </div>
+          <div class="footer">
+              <button type="submit">送信</button>
+          </div>
 
-            </div>
-            <div class="footer">
-                <button type="submit">送信</button>
-            </div>
-        </form>
       </div>
-      
+    </form>
+
     <script src="/javascripts/register_vermin_info.js"></script>
+    <script>
+      $("#content").change(function() {
+            $("#input-content").text($("#content").val());
+      });
+      $("#animal_options").change(function() {
+            $("#selected-animal").text($("#animal_options").find('option:selected').text());
+      });
+    </script>
 
   </body>
 </html>

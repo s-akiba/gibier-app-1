@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <form action="/purchaser/items_list" method="post">
+            <label>動物名</label>
+            <select name="animal">
+                <option value="">-----</option>
+                <option value="1">シカ</option>
+                <option value="2">イノシシ</option>
+                <option value="3">ハクビシン</option>
+            </select>
+            <label>カテゴリ</label>
+            <select name="category">
+                <option value="">-----</option>
+                <option value="1">背ロース</option>
+                <option value="2">バラ</option>
+                <option value="3">モモ</option>
+                <option value="4">スネ</option>
+                <option value="5">その他</option>
+            </select>
+            <label>処理施設名</label>
+            <input type="text" name="facility">
+            <button type="submit">検索</button>
+        </form>
+    </body>
+</html>

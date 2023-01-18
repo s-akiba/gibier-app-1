@@ -2,6 +2,95 @@ var express = require('express');
 var router = express.Router();
 const db = require('../models/index');
 const { Op } = require("sequelize");
+var {Client} = require('pg');
+
+// postgresqlとの接続
+var client = new Client({
+  user:'postgres',
+  host:'127.0.0.1',
+  database:'gibier_db_1',
+  password:'postgres',
+  port:5432
+})
+client.connect()
+
+// 購入者ホーム画面の表示
+router.get('/',(req,res,next)=>{
+  res.render('purchaser/home');
+})
+
+// 商品検索画面の表示
+router.get('/search_item',(req,res,next)=>{
+  res.render('purchaser/search_item');
+});
+
+// 商品の検索処理
+/* 
+  sequelizeで表4つの内部結合分からんのでsqlベタ打ちします
+  ・commodities,wild_animal_infos,categories,usersを内部結合するsql
+    select *
+    from commodities 
+    inner join categories on commodities.category_id=categories.id
+    inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id
+    inner join users on commodities.user_id=users.id
+*/
+router.post('/items_list',(req,res,next)=>{
+  let animal_id = req.body.animal;
+  let category_id = req.body.category;
+  let facility = req.body.facility;
+  let sql = 'select * from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id inner join users on commodities.user_id=users.id ';
+  let where = '';
+  let values = [];
+  // 動物名だけで検索
+  if(animal_id!='' && category_id=='' && facility==''){
+    where = 'where wild_animal_info_id=';
+    client.query(sql+where+animal_id+';',function(err,result){
+      if (err) throw err;
+      console.log(result.rows);
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // カテゴリだけで検索
+  else if(animal_id=='' && category_id!='' && facility==''){
+    where = 'where category_id=';
+    client.query(sql+where+category_id+';',function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // 処理施設だけで検索
+  else if(animal_id=='' && category_id=='' && facility!=''){
+    where = "where user_name like '%"+facility+"%'";
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // 動物名とカテゴリで検索
+  else if(animal_id!='' && category_id!='' && facility==''){
+    where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+';';
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // 動物名と処理施設名で検索
+  else if(animal_id!='' && category_id=='' && facility!=''){
+    where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'";
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // カテゴリと処理施設名で検索
+  else if(animal_id=='' && category_id!='' && facility!=''){
+    where = "where category_id="+category_id+" and user_name like '%"+facility+"%'";
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+});
 
 // 処理施設検索 get
 router.get('/search_facilities', (req, res, next) => {

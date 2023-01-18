@@ -7,9 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>タイトル</title>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-    <link href='./css/home.css' rel='stylesheet' type='text/css'>
-    <link href='./css/form-sample.css' rel='stylesheet' type='text/css'>
-    <link href='./css/profile.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/form-sample.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/issei/profile.css' rel='stylesheet' type='text/css'>
+    <!-- <link href='../../css/contact.css' rel='stylesheet' type='text/css'> -->
 </head>
 
 <body>
@@ -35,11 +36,12 @@
         <div id="main-in">
             <!-- box -->
             <div class="box-c">
-                <h2>配送先住所</h2>
+                <h2>問い合わせ</h2>
                     <form id="contant-form" class="form" name="contact-form">
                         <!-- <h1 class="form__headline">お問い合わせフォーム</h1> -->
                         <!--  -->
                         <div class="form__description">
+                            <p>必要事項をご入力のうえ、確認画面へお進みください。</p>
                             <p><span class="form__required-label">必須</span>の項目はお手数ですが必ず入力をお願いいたします。</p>
                         </div>
                         <fieldset class="form__group">
@@ -236,12 +238,136 @@
                                 <p class="form__validation" data-validation="address-level2" role="alert" aria-live="assertive"></p>
                             </div>
                         </div>
+                        <fieldset class="form__group">
+                            <legend class="form__group-header">
+                                <span class="form__group-label">性別</span>
+                            </legend>
+                            <div class="form__group-content">
+                                <!-- 性別のコードはISO 5218で定められたものに従う。 -->
+                                <!-- @see https://ja.wikipedia.org/wiki/ISO_5218 -->
+                                <ul class="form__group-list">
+                                    <li class="form__group-list-item">
+                                        <label class="radio">
+                                            <input class="radio__input" type="radio" name="sex" value="1">
+                                            <span class="radio__icon"></span>
+                                            <span class="radio__text">男性</span>
+                                        </label>
+                                    </li>
+                                    <li class="form__group-list-item">
+                                        <label class="radio">
+                                            <input class="radio__input" type="radio" name="sex" value="2">
+                                            <span class="radio__icon"></span>
+                                            <span class="radio__text">女性</span>
+                                        </label>
+                                    </li>
+                                    <li class="form__group-list-item">
+                                        <label class="radio">
+                                            <input class="radio__input" type="radio" name="sex" value="9">
+                                            <span class="radio__icon"></span>
+                                            <span class="radio__text">その他</span>
+                                        </label>
+                                    </li>
+                                    <li class="form__group-list-item">
+                                        <label class="radio">
+                                            <input class="radio__input" type="radio" name="sex" value="0">
+                                            <span class="radio__icon"></span>
+                                            <span class="radio__text">不明・回答しない</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__group">
+                            <legend class="form__group-header">
+                                <span class="form__group-label">当店をどこで知りましたか？</span>
+                            </legend>
+                            <div class="form__group-content">
+                                <ul class="form__group-list">
+                                    <li class="form__group-list-item">
+                                        <label class="checkbox">
+                                            <input class="checkbox__input" type="checkbox" name="survey" value="twitter">
+                                            <span class="checkbox__icon"></span>
+                                            <span class="checkbox__text">Twitter</span>
+                                        </label>
+                                    </li>
+                                    <li class="form__group-list-item">
+                                        <label class="checkbox">
+                                            <input class="checkbox__input" type="checkbox" name="survey" value="facebook">
+                                            <span class="checkbox__icon"></span>
+                                            <span class="checkbox__text">Facebook</span>
+                                        </label>
+                                    </li>
+                                    <li class="form__group-list-item">
+                                        <label class="checkbox">
+                                            <input class="checkbox__input" type="checkbox" name="survey" value="instagram" disabled>
+                                            <span class="checkbox__icon"></span>
+                                            <span class="checkbox__text">Instagram</span>
+                                        </label>
+                                    </li>
+                                    <li class="form__group-list-item">
+                                        <label class="checkbox">
+                                            <input class="checkbox__input" type="checkbox" name="survey" value="other">
+                                            <span class="checkbox__icon"></span>
+                                            <span class="checkbox__text">その他</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                        <div class="form__group">
+                            <p class="form__group-header">
+                                <label class="form__group-label" for="datetime">来店予定時間</label>
+                            </p>
+                            <div class="form__group-content">
+                                <div class="form__text-input">
+                                    <p class="text-input">
+                                        <input id="datetime" class="text-input__body" type="date" name="datetime"
+                                            title="翌日から二週間後までで指定してください">
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                                <p class="form__notion">翌日から二週間後まで指定いただけます</p>
+                                <p class="form__validation" data-validation="datetime" role="alert" aria-live="assertive"></p>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <p class="form__group-header">
+                                <span class="form__group-label">添付ファイル</span>
+                            </p>
+                            <div class="form__group-content">
+                                <div class="form__file-select">
+                                    <div class="file-select js-flie-select">
+                                        <input id="file" class="file-select__input" type="file" name="file">
+                                        <label class="file-select__button" for="file">ファイルを選択する</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <p class="form__group-header">
+                                <label class="form__group-label" for="message">お問い合わせ内容<strong
+                                        class="form__required-label">必須</strong></label>
+                            </p>
+                            <div class="form__group-content">
+                                <div class="form__textarea">
+                                    <div class="textarea js-flexible-textarea">
+                                        <textarea id="message" class="textarea__body" name="message" title="お問い合わせ内容は必ず記入してください" required
+                                            aria-required="true"></textarea>
+                                    </div>
+                                </div>
+                                <p class="form__validation" data-validation="message" role="alert" aria-live="assertive"></p>
+                            </div>
+                        </div>
+                        <div class="form__confirm">
+                            <p class="form__confirm-text">
+                                <a class="form__link" href="#privacy-policy">プライバシーポリシー</a>に同意の上、「送信する」ボタンからお進みください。
+                            </p>
+                        </div>
                         <div class="form__submit">
                             <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
-                            <button class="button" type="submit">決済に進む</button>
+                            <button class="button" type="submit">送信する</button>
                         </div>
                     </form>
-                    
             </div>
         </div>
     </main>

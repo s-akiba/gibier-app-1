@@ -1,7 +1,8 @@
 
 var map = L.map('map', {
     zoomsliderControl: true,
-    zoomControl: false})
+    zoomControl: false,
+    minZoom: 5})
     .setView([35.6986075,139.756673], 16);
 
 

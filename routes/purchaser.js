@@ -2,74 +2,49 @@ var express = require('express');
 var router = express.Router();
 const db = require('../models/index');
 const { Op } = require("sequelize");
+var func_file = require("./func_file.js");
 
 // 処理施設検索 get
 router.get('/search_facilities', (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.regions.findAll()
   .then(regs => {
     let data = {
-      title: "search",
-      content: "",
+      title: "処理施設検索",
       regions: regs,
       alert_message: "",
       result: ""
     }
     res.render("purchaser/search_facilities", data);
   });
-  
 });
 
-// 処理施設検索 post
-router.post('/search_facilities', (req, res, next) => {
-  console.log("region_id:", req.body.region);
-  console.log("word:", req.body.word);
-  db.regions.findAll()
-  .then((regs) => {
-    if (req.body.region != 0) {
-      db.users.findAll({
-        where: {
-          [Op.and]: {
-            is_facility: true,
-            region_id: req.body.region
-          }
-        }
-      })
-      .then((result) => {
-        let data = {
-          title: "Edit",
-          content: "",
-          regions: regs,
-          alert_message: "",
-          result: result
-        }
-        res.render("purchaser/search_facilities", data);
-      });
-    } else {
-      db.users.findAll({
-        where: {
-          [Op.and]: {
-            is_facility: true,
-            user_name: {[Op.like]: '%' + req.body.word + '%'}
-          }
-        }
-      })
-      .then((result) => {
-        let data = {
-          title: "Edit",
-          content: "",
-          regions: regs,
-          alert_message: "",
-          result: result
-        }
-        res.render("purchaser/search_facilities", data);
-      });
-    }
+
+router.get("/search_facilities_json", (req, res, next) => {
+  let query_data = {is_facility: true};
+  if (req.query.region != 0) {
+    query_data["region_id"] = req.query.region;
+  }
+  if (req.query.search_word.length != 0) {
+    query_data["user_name"] = {[Op.like]: '%' + req.query.search_word + '%'};
+  }
+  console.log(query_data);
+  db.users.findAll({
+    where: query_data
   })
+  .then((results) => {
+    console.log(JSON.stringify(results));
+    res.json(results);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 
 // 処理施設詳細 get
 // findOne id&&is_facility にする
 router.get('/facility_detail', (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   console.log("facility id: ", req.query.id);
   db.users.findByPk(req.query.id)
   .then((usr) => {
@@ -87,6 +62,7 @@ router.get('/facility_detail', (req, res, next) => {
 
 // 購入者依頼 get
 router.get('/request_to_facility', (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   console.log("facility id: ", req.query.facility_id);
   db.users.findByPk(req.query.facility_id)
   .then((usr) => {
@@ -121,6 +97,7 @@ router.get('/request_to_facility', (req, res, next) => {
 
 // 購入者依頼 post
 router.post('/request_to_facility', (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   console.log(req.body);
   let data = {
     user_1_id: req.session.login.id,
@@ -148,6 +125,7 @@ router.post('/request_to_facility', (req, res, next) => {
 
 // 公開購入者依頼作成 get
 router.get("/public_request_to_facility", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.wild_animal_info.findAll()
   .then((animals) => {
     db.categories.findAll()
@@ -172,6 +150,7 @@ router.get("/public_request_to_facility", (req, res, next) => {
 
 // 公開購入者依頼 post
 router.post('/public_request_to_facility', (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   console.log(req.body);
   let data = {
     user_1_id: req.session.login.id,

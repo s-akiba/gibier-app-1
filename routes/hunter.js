@@ -5,6 +5,10 @@ var fs = require("fs");
 const db = require('../models/index');
 const { sequelize } = require('../models/index');
 const { QueryTypes, and } = require('sequelize');
+var func_file = require("./func_file.js");
+const chalk = require('chalk');
+const { Op } = require("sequelize");
+
 var prefectures_t= fs.readFileSync("./prefectures.geojson", {encoding: 'utf-8'});
 var df_t = JSON.parse(prefectures_t);
 
@@ -18,6 +22,7 @@ router.get('/map', (req, res, next) => {
 
 // 害獣情報登録 get
 router.get("/register_vermin_info", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.wild_animal_info.findAll()
   .then((result_animals) => {
     let data = {
@@ -30,6 +35,7 @@ router.get("/register_vermin_info", (req, res, next) => {
 
 // 害獣情報登録 post
 router.post("/register_vermin_info", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   console.log("latitude:", req.body.latitude);
   console.log("longitude", req.body.longitude);
 
@@ -66,7 +72,7 @@ router.post("/register_vermin_info", (req, res, next) => {
   }
   db.vermin_info.create(create_data)
   .then((result) => {
-    console.log("created: ", JSON.stringify(result));
+    console.log(chalk.green("created: "), JSON.stringify(result));
     res.redirect("/");
   })
   .catch((error) => {
@@ -76,19 +82,10 @@ router.post("/register_vermin_info", (req, res, next) => {
   });
 });
 
-router.get("/getjson", (req, res, next) => {
-  let j = {"data1": ["aiu", "eo"]};
-  res.json(j);
-});
-
-function fmt(template, values) {
-  return !values
-  ? template
-  : new Function(...Object.keys(values), `return \`${template}\`;`)(...Object.values(values).map(value => value ?? ''));
-}
 
 // 害獣情報検索 get
 router.get("/search_vermin_infos", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.wild_animal_info.findAll()
   .then((result_animals) => {
     db.regions.findAll()
@@ -103,111 +100,151 @@ router.get("/search_vermin_infos", (req, res, next) => {
   })
 });
 
-// 害獣情報検索 post
-router.post("/search_vermin_infos", (req, res, next) => {
-  console.log("animal:", req.body.animal);
-  console.log("regions:", req.body.region);
-
-  let query_str = "select * from vermin_infos where ";
-  let where_str = [];
-  if (req.body.region != 0) {
-    where_str.push(fmt("region_id = ${region_id}", {region_id: req.body.region}));
-  }
-  if (req.body.animal != 0) {
-    where_str.push(fmt("wild_animal_info_id = ${animal_id}", {animal_id: req.body.animal}));
-  }
-  let join_query;
-  if (where_str.length == 1) {
-    query_str += where_str[0];
-  } else {
-    join_query = where_str.join(" AND ");
-    query_str += join_query
-  }
-  console.log(query_str);
-  sequelize.query(query_str, { type: QueryTypes.SELECT })
-  .then((results) => {
-    console.log(JSON.stringify(results));
-    res.redirect("/");
-  });
-
-  
-});
-
-
-function slice_result_by_date(req, original_results) {
-  return new Promise((resolve, reject) => {
-    let slice_result = [];
-    let start_day_to_date = null;
-    let end_day_to_date = null;
-    if (req.query.start_day != 0) {
-      start_day_to_date = new Date(req.query.start_day);
-    }
-    if (req.query.end_day != 0) {
-      end_day_to_date = new  Date(req.query.end_day);
-    }
-    
-    if (req.query.start_day == 0 && req.query.end_day == 0) {
-      slice_result = original_results;
-    } else {
-      for (i in original_results) {
-        console.log(original_results[i])
-        const createdAt_to_date = new Date(original_results[i]["createdAt"].toString())
-        if (req.query.start_day.length != 0 && req.query.end_day.length != 0) {
-          if (createdAt_to_date >= start_day_to_date && createdAt_to_date <= end_day_to_date) {
-            slice_result.push(original_results[i]);
-          }
-        } else {
-          if (req.query.start_day.length != 0 && createdAt_to_date >= start_day_to_date) {
-            slice_result.push(original_results[i]);
-          } 
-          if (req.query.end_day.length != 0 && createdAt_to_date <= end_day_to_date) {
-            slice_result.push(original_results[i]);
-          }
-        }
-      }
-    }
-    console.log(slice_result.length);
-    resolve(slice_result);
-  })
-}
 
 
 // 検索 get
 router.get("/search_vermin_infos_json",(req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   console.log(req.query);
 
   if (req.query.animal == 0 && req.query.region == 0) {
     res.json([]);
   } else {
-    let query_str = "select * from vermin_infos where ";
-    let where_str = [];
+    let query_str2 = {};
     if (req.query.region != 0) {
-      where_str.push(fmt("region_id = ${region_id}", {region_id: req.query.region}));
+      query_str2["region_id"] = req.query.region;
     }
     if (req.query.animal != 0) {
-      where_str.push(fmt("wild_animal_info_id = ${animal_id}", {animal_id: req.query.animal}));
+      query_str2["wild_animal_info_id"] = req.query.animal;
     }
-
-    let join_query;
-    if (where_str.length == 1) {
-      query_str += where_str[0];
-    } else {
-      join_query = where_str.join(" AND ");
-      query_str += join_query
-    }
-    console.log("query: ",query_str);
-    sequelize.query(query_str, { type: QueryTypes.SELECT })
+    db.vermin_info.findAll({
+      where: query_str2,
+      include: [
+        {model: db.wild_animal_info},
+        {model: db.users},
+        {model: db.regions}
+      ],
+    })
     .then((results) => {
-      console.log(JSON.stringify(results));
-      
-      // console.log("result", results.length, "to slice", slice_result.length);
-      slice_result_by_date(req, results)
+      // console.log(JSON.stringify(results));
+      func_file.slice_result_by_date(req, results)
       .then((slice_result) => {
+        // console.log(JSON.stringify(slice_result));
+        console.log("検索結果: ", slice_result.length, "件");
         res.json(slice_result);
       })
     });
   }
 });
 
+// 登録害獣位置情報一覧 get
+router.get("/show_registered_vermin_infos", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
+  res.redirect("/hunter/show_registered_vermin_infos/0");
+});
+
+router.get("/show_registered_vermin_infos/:page", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
+  const pnum = 10;
+  const pg = req.params.page *1;
+  if (Number(pg) < 0) {
+    res.redirect("/hunter/show_registered_vermin_infos/0")
+  } else {
+    db.vermin_info.findAndCountAll({
+      where: {
+        user_id: req.session.login.id
+      },
+      include: [
+        {model: db.wild_animal_info},
+        {model: db.regions}
+      ],
+      order: [['updatedAt', 'DESC']],
+      offset: pg *pnum,
+      limit: pnum
+    })
+    .then((results) => {
+      if (Math.floor(results.count /pnum) < pg) {
+        res.redirect("/hunter/show_registered_vermin_infos/"+Math.floor(results.count /pnum))
+      } else {
+        let data = {
+          title: "登録害獣情報一覧",
+          vermin_infos: results.rows,
+          count: results.count,
+          page: pg,
+          pnum: pnum
+        }
+        res.render("hunter/show_registered_vermin_infos", data);
+      }
+    })
+  }
+});
+
+// 登録害獣位置情報一覧 post (削除)
+router.post("/show_registered_vermin_infos", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
+  db.vermin_info.destroy({
+    where: {
+      id: req.body.vermin_infos_id
+    }
+  })
+  .then(() => {
+    console.log(chalk.red("deleted: "), req.body.vermin_infos_id);
+    res.redirect("/hunter/show_registerd_vermin_infos");
+  })
+  .catch((err) => {
+    console.log(err);
+    res.redirect("/");
+  });
+});
+
+// 処理施設検索 get
+router.get("/search_facilities", (req, res, next) => {
+  db.regions.findAll()
+  .then((all_regions) => {
+    let data = {
+      title: "処理施設検索",
+      regions: all_regions,
+      result: ""
+    }
+    res.render("hunter/search_facilities", data);
+  });
+});
+
+router.get("/search_facilities_json", (req, res, next) => {
+  let query_data = {is_facility: true};
+  if (req.query.region != 0) {
+    query_data["region_id"] = req.query.region;
+  }
+  if (req.query.search_word.length != 0) {
+    query_data["user_name"] = {[Op.like]: '%' + req.query.search_word + '%'};
+  }
+  console.log(query_data);
+  db.users.findAll({
+    where: query_data
+  })
+  .then((results) => {
+    console.log(JSON.stringify(results));
+    res.json(results);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+
+// 処理施設詳細 get
+router.get("/facility_detail", (req, res, next) => {
+  db.users.findByPk(req.query.id)
+  .then((usr) => {
+    let data = {
+      title: "処理施設詳細",
+      result: usr
+    }
+    res.render("hunter/facility_detail", data);
+  })
+  .catch((err) => {
+    console.log(err);
+    res.redirect("/");
+  });
+});
 
 module.exports = router;

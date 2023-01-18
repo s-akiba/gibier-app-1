@@ -1,0 +1,664 @@
+<!-- 右下ボタンを「＋」もしくわ「登録」にする -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='../../css/test.css' rel='stylesheet' type='text/css'>
+    <link href='../../css/form-sample.css' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        /* モーダルCSS */
+        .modalArea {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            /*サイトによってここの数値は調整 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modalBg {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 30, 30, 0.9);
+        }
+
+        .modalWrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            max-width: 500px;
+            padding: 10px 30px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .closeModal {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            cursor: pointer;
+        }
+
+        /*  */
+        .btn {
+            margin: 50px 50px;
+            padding: 8px 24px;
+            border: 1px solid #5f5d60;
+            background-color: #2294d6;
+            display: inline-block;
+            color: white;
+            cursor: pointer;
+        }
+
+        /*モーダル*/
+        .modal-wrapper {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 100;
+        }
+        .modal {
+            padding: 20px 0 40px;
+            /* text-align: center; */
+            /* 階層を上にする */
+            position: fixed;
+            /* モーダルの幅 */
+            width: 50%;
+            /* モーダルの高さ */
+            height: 80%;
+            /* bodyの上から50%分ずらす */
+            top: 50%;
+            /* bodyの左から50%分ずらす */
+            left: 50%;
+            /* 指定した位置から真ん中にずらす */
+            transform: translate(-50%, -50%);
+            /* モーダルの色 */
+            background: rgb(255, 255, 255);
+            /* 高さを指定しているので中身が超えた分はスクロールできるように */
+            overflow-y: scroll;
+        }
+
+        #close-modal {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            color: rgba(128, 128, 128, 0.46);
+            cursor: pointer;
+        }
+
+        .close {
+            position: block;
+            /* top: 12px;
+            right: 12px; */
+            /* color: rgba(128, 128, 128, 0.46); */
+            /* cursor: pointer; */
+        }
+
+        .form {
+            width: 100%;
+        }
+
+        .form h2 {
+            color: #5f5d60;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+
+        .form input {
+            width: 320px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            padding: 12px 12px;
+            border: 1px solid #d0d5d8;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 14px 140px;
+            background-color: #2294d6;
+            border: none;
+            border-radius: 3px;
+            color: white;
+            margin: 10px auto;
+            cursor: pointer;
+        }
+
+        /* モーダル背景 */
+        .bg {
+            position: fixed;
+            /* 階層を上にする */
+            width: 100%;
+            /* 画面めいっぱい */
+            height: 100%;
+            /* 画面めいっぱい */
+            background: rgba(0, 0, 0, 0.4);
+            /* 背景色 */
+        }
+
+        /* モーダル本体 */
+        /* .modal {
+        } */
+        .contents_box::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+            <ul>
+                <li><a href="./home.html" class="nav-tach">Home</a></li>
+                <li><a href="./item-list.html" class="nav-tach">商品一覧</a></li>
+                <li><a href="./cart.html" class="nav-tach">購入一覧</a></li>
+                <li><a href="./items_history_list.html" class="nav-tach">購入履歴</a></li>
+                <li><a href="./institution_list.html" class="nav-tach">購入依頼</a></li>
+                <li><a href="./contact.html" class="nav-tach">（仮）問い合わせ</a></li>
+                <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2>処理施設詳細</h2>
+                <form id="contant-form" class="form" name="contact-form">
+                    <fieldset class="form__group">
+                        <legend class="form__group-header">
+                            <span class="form__group-label">ユーザ名</span>
+                        </legend>
+                        <div class="form__group-content">
+                            <div class="form__name">
+                                <div class="form__text-input">
+                                    <label class="visually-hidden" for="family-name">ユーザ名</label>
+                                    <p class="text-input">
+                                        <input id="family-name" class="text-input__body" type="text" name="family-name"
+                                            autocomplete="family-name" value="さいたま"
+                                            title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required
+                                            aria-required="true" disabled>
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="family-name" role="alert"
+                                aria-live="assertive"></p>
+                            <p class="form__validation" data-validation="given-name" role="alert" aria-live="assertive">
+                            </p>
+                        </div>
+                    </fieldset>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="email">メールアドレス</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__text-input">
+                                <p class="text-input">
+                                    <input id="email" class="text-input__body" type="email" name="email"
+                                        value="example@example.com" autocomplete="email"
+                                        title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required
+                                        aria-required="true" disabled>
+                                    <span class="text-input__validator"></span>
+                                </p>
+                            </div>
+                            <p class="form__validation" data-validation="email" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="postal-code">郵便番号</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__postal-code">
+                                <div class="form__text-input -narrow">
+                                    <p class="text-input">
+                                        <input id="postal-code" class="text-input__body" type="text" name="postal-code"
+                                            value="000-0000" autocomplete="postal-code" pattern="\d{3}-?\d{4}"
+                                            title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required
+                                            aria-required="true" disabled>
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="postal-code" role="alert"
+                                aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="address-level1">都道府県</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__select-box">
+                                <div class="select-box">
+                                    <select id="address-level1" class="select-box__body" name="address-level1"
+                                        title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required
+                                        aria-required="true" disabled>
+                                        <option value="">選択してください</option>
+                                        <option value="北海道">北海道</option>
+                                        <option value="青森県">青森県</option>
+                                        <option value="岩手県">岩手県</option>
+                                        <option value="宮城県">宮城県</option>
+                                        <option value="秋田県">秋田県</option>
+                                        <option value="山形県">山形県</option>
+                                        <option value="福島県">福島県</option>
+                                        <option value="茨城県">茨城県</option>
+                                        <option value="栃木県">栃木県</option>
+                                        <option value="群馬県">群馬県</option>
+                                        <option value="埼玉県" selected>埼玉県</option>
+                                        <option value="千葉県">千葉県</option>
+                                        <option value="東京都">東京都</option>
+                                        <option value="神奈川県">神奈川県</option>
+                                        <option value="新潟県">新潟県</option>
+                                        <option value="富山県">富山県</option>
+                                        <option value="石川県">石川県</option>
+                                        <option value="福井県">福井県</option>
+                                        <option value="山梨県">山梨県</option>
+                                        <option value="長野県">長野県</option>
+                                        <option value="岐阜県">岐阜県</option>
+                                        <option value="静岡県">静岡県</option>
+                                        <option value="愛知県">愛知県</option>
+                                        <option value="三重県">三重県</option>
+                                        <option value="滋賀県">滋賀県</option>
+                                        <option value="京都府">京都府</option>
+                                        <option value="大阪府">大阪府</option>
+                                        <option value="兵庫県">兵庫県</option>
+                                        <option value="奈良県">奈良県</option>
+                                        <option value="和歌山県">和歌山県</option>
+                                        <option value="鳥取県">鳥取県</option>
+                                        <option value="島根県">島根県</option>
+                                        <option value="岡山県">岡山県</option>
+                                        <option value="広島県">広島県</option>
+                                        <option value="山口県">山口県</option>
+                                        <option value="徳島県">徳島県</option>
+                                        <option value="香川県">香川県</option>
+                                        <option value="愛媛県">愛媛県</option>
+                                        <option value="高知県">高知県</option>
+                                        <option value="福岡県">福岡県</option>
+                                        <option value="佐賀県">佐賀県</option>
+                                        <option value="長崎県">長崎県</option>
+                                        <option value="熊本県">熊本県</option>
+                                        <option value="大分県">大分県</option>
+                                        <option value="宮崎県">宮崎県</option>
+                                        <option value="鹿児島県">鹿児島県</option>
+                                        <option value="沖縄県">沖縄県</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="address-level1" role="alert"
+                                aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="address-level2">以降の住所</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__text-input -wide">
+                                <p class="text-input">
+                                    <input id="address-level2" class="text-input__body" type="text"
+                                        name="address-level2" value="埼玉県さいたま市西区大字指扇2045番地" autocomplete="address-level2"
+                                        title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required
+                                        aria-required="true" disabled>
+                                    <span class="text-input__validator"></span>
+                                </p>
+                            </div>
+                            <p class="form__validation" data-validation="address-level2" role="alert"
+                                aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__submit">
+                        <a href="#" onclick="history.back(); return false;"><button class="button"
+                                type="submit">戻る</button></a>
+                        <div class="btn signup-show button">依頼</div>
+                    </div>
+                </form>
+            </div>
+            <footer class="footer">
+                <p>FOOTER KAKU</p>
+                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                    10:00～19:30</p>
+                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+            </footer>
+        </div>
+    </main>
+    <!-- モーダル -->
+    <div class="modal-wrapper" id="signup-modal">
+        <div class="modal contents_box">
+            <div id="close-modal">×</div>
+            <div class="form">
+                <h2>タイトル</h2>
+                <!-- <form action="#">
+                    <input class="form-control" type="text" placeholder="メールアドレス">
+                    <input class="form-control" type="password" placeholder="パスワード">
+                    <div class="submit-btn">テキスト</div>
+                </form> -->
+                <form id="contant-form" class="form" name="contact-form">
+                    <h1 class="form__headline"></h1>
+                    <div class="form__description">
+                        <p>必要事項をご入力のうえ、確認画面へお進みください。</p>
+                        <p><span class="form__required-label">必須</span>の項目はお手数ですが必ず入力をお願いいたします。</p>
+                    </div>
+                    <fieldset class="form__group">
+                        <legend class="form__group-header">
+                            <span class="form__group-label">動物名<strong class="form__required-label">必須</strong></span>
+                        </legend>
+                        <div class="form__group-content">
+                            <div class="form__name">
+                                <div class="form__text-input">
+                                    <label class="visually-hidden" for="family-name">動物名</label>
+                                    <p class="text-input">
+                                        <input id="family-name" class="text-input__body" type="text" name="family-name"
+                                            autocomplete="family-name" placeholder="猪、鹿などの名称を入力してください" title="姓の入力は必須です"
+                                            required aria-required="true">
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="family-name" role="alert"
+                                aria-live="assertive"></p>
+                            <p class="form__validation" data-validation="given-name" role="alert" aria-live="assertive">
+                            </p>
+                        </div>
+                    </fieldset>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="postal-code">カテゴリ<strong
+                                    class="form__required-label">必須</strong></label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__postal-code">
+                                <div class="form__text-input -narrow">
+                                    <p class="text-input">
+                                        <input id="postal-code" class="text-input__body" type="text" name="postal-code"
+                                            autocomplete="postal-code" pattern="\d{3}-?\d{4}"
+                                            placeholder="カテゴリを入力してください" title="郵便番号はハイフンありなしの7桁で記入してください" required
+                                            aria-required="true">
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="postal-code" role="alert"
+                                aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="address-level2">個数<strong
+                                    class="form__required-label">必須</strong></label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__text-input -wide">
+                                <p class="text-input">
+                                    <input id="address-level2" class="text-input__body" type="number"
+                                        name="address-level2" autocomplete="address-level2" title="住所の入力は必須です"
+                                        placeholder="0" required aria-required="true">個
+                                    <span class="text-input__validator"></span>
+                                </p>
+                            </div>
+                            <p class="form__validation" data-validation="address-level2" role="alert"
+                                aria-live="assertive"></p>
+                        </div>
+                    </div>
+
+                    <div class="form__submit">
+                        <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
+                        <button class="button close" type="submit">戻る</button>
+                        <button class="button" type="submit">依頼</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- モーダルエリアここから -->
+    <section id="modalArea" class="modalArea">
+        <div id="modalBg" class="modalBg"></div>
+        <div class="modalWrapper wrapper">
+            <div class="modalContents">
+                <h1>依頼確認画面</h1>
+                <p>本当に依頼しますか？</p>
+            </div>
+            <div id="closeModal" class="closeModal">
+                ×
+            </div>
+            <!-- 詳細に戻る -->
+            <a href=""><button class="button">戻る</button></a>
+            <!-- 購入一覧に遷移する -->
+            <!-- <a href=""><button class="button">確定</button></a> -->
+            <input class="button" type="button" id="openModal" value="確定">
+        </div>
+    </section>
+    <!-- モーダルエリアここまで -->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/test-sd.js"></script>
+    <script>
+        $(function () {
+            $('#openModal').click(function () {
+                $('#modalArea').fadeIn();
+            });
+            $('#closeModal , #modalBg').click(function () {
+                $('#modalArea').fadeOut();
+            });
+        });
+        $(function () {
+            $('.signup-show').click(function () {
+                $('#signup-modal').fadeIn();
+            });
+            $('#close-modal , .close').click(function () {
+                $('#signup-modal').fadeOut();
+            });
+        });
+    </script>
+
+</body>
+
+</html>
+<!-- 右下ボタンを「＋」もしくわ「登録」にする
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='css/test.css' rel='stylesheet' type='text/css'>
+    <link href='css/form-sample.css' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+            <ul>
+                <li><a href="./home.html" class="nav-tach">Home</a></li>
+                <li><a href="./item-list.html" class="nav-tach">商品一覧</a></li>
+                <li><a href="./cart.html" class="nav-tach">購入一覧</a></li>
+                <li><a href="./items_history_list.html" class="nav-tach">購入履歴</a></li>
+                <li><a href="#" class="nav-tach">購入依頼</a></li>
+                <li><a href="./contact.html" class="nav-tach">（仮）問い合わせ</a></li>
+                <li><a href="./" class="nav-tach">アカウント情報</a></li>
+                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2>処理施設詳細</h2>
+                <form id="contant-form" class="form" name="contact-form">
+                    <fieldset class="form__group">
+                        <legend class="form__group-header">
+                            <span class="form__group-label">ユーザ名</span>
+                        </legend>
+                        <div class="form__group-content">
+                            <div class="form__name">
+                                <div class="form__text-input">
+                                    <label class="visually-hidden" for="family-name">ユーザ名</label>
+                                    <p class="text-input">
+                                        <input id="family-name" class="text-input__body" type="text" name="family-name"
+                                            autocomplete="family-name" value="さいたま" title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required
+                                            aria-required="true" disabled>
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="family-name" role="alert" aria-live="assertive"></p>
+                            <p class="form__validation" data-validation="given-name" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </fieldset>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="email">メールアドレス</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__text-input">
+                                <p class="text-input">
+                                    <input id="email" class="text-input__body" type="email" name="email"
+                                        value="example@example.com" autocomplete="email" title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます"
+                                        required aria-required="true" disabled>
+                                    <span class="text-input__validator"></span>
+                                </p>
+                            </div>
+                            <p class="form__validation" data-validation="email" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="postal-code">郵便番号</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__postal-code">
+                                <div class="form__text-input -narrow">
+                                    <p class="text-input">
+                                        <input id="postal-code" class="text-input__body" type="text" name="postal-code"
+                                            value="000-0000" autocomplete="postal-code" pattern="\d{3}-?\d{4}"
+                                            title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required aria-required="true" disabled>
+                                        <span class="text-input__validator"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="postal-code" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="address-level1">都道府県</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__select-box">
+                                <div class="select-box">
+                                    <select id="address-level1" class="select-box__body" name="address-level1"
+                                        title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required aria-required="true" disabled>
+                                        <option value="">選択してください</option>
+                                        <option value="北海道">北海道</option>
+                                        <option value="青森県">青森県</option>
+                                        <option value="岩手県">岩手県</option>
+                                        <option value="宮城県">宮城県</option>
+                                        <option value="秋田県">秋田県</option>
+                                        <option value="山形県">山形県</option>
+                                        <option value="福島県">福島県</option>
+                                        <option value="茨城県">茨城県</option>
+                                        <option value="栃木県">栃木県</option>
+                                        <option value="群馬県">群馬県</option>
+                                        <option value="埼玉県" selected>埼玉県</option>
+                                        <option value="千葉県">千葉県</option>
+                                        <option value="東京都">東京都</option>
+                                        <option value="神奈川県">神奈川県</option>
+                                        <option value="新潟県">新潟県</option>
+                                        <option value="富山県">富山県</option>
+                                        <option value="石川県">石川県</option>
+                                        <option value="福井県">福井県</option>
+                                        <option value="山梨県">山梨県</option>
+                                        <option value="長野県">長野県</option>
+                                        <option value="岐阜県">岐阜県</option>
+                                        <option value="静岡県">静岡県</option>
+                                        <option value="愛知県">愛知県</option>
+                                        <option value="三重県">三重県</option>
+                                        <option value="滋賀県">滋賀県</option>
+                                        <option value="京都府">京都府</option>
+                                        <option value="大阪府">大阪府</option>
+                                        <option value="兵庫県">兵庫県</option>
+                                        <option value="奈良県">奈良県</option>
+                                        <option value="和歌山県">和歌山県</option>
+                                        <option value="鳥取県">鳥取県</option>
+                                        <option value="島根県">島根県</option>
+                                        <option value="岡山県">岡山県</option>
+                                        <option value="広島県">広島県</option>
+                                        <option value="山口県">山口県</option>
+                                        <option value="徳島県">徳島県</option>
+                                        <option value="香川県">香川県</option>
+                                        <option value="愛媛県">愛媛県</option>
+                                        <option value="高知県">高知県</option>
+                                        <option value="福岡県">福岡県</option>
+                                        <option value="佐賀県">佐賀県</option>
+                                        <option value="長崎県">長崎県</option>
+                                        <option value="熊本県">熊本県</option>
+                                        <option value="大分県">大分県</option>
+                                        <option value="宮崎県">宮崎県</option>
+                                        <option value="鹿児島県">鹿児島県</option>
+                                        <option value="沖縄県">沖縄県</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="form__validation" data-validation="address-level1" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="address-level2">以降の住所</label>
+                        </p>
+                        <div class="form__group-content">
+                            <div class="form__text-input -wide">
+                                <p class="text-input">
+                                    <input id="address-level2" class="text-input__body" type="text" name="address-level2"
+                                        value="埼玉県さいたま市西区大字指扇2045番地" autocomplete="address-level2" title="このテキストは入力出来きません\n入力したい場合は「編集ボタン」から入力・更新ができます" required aria-required="true" disabled>
+                                    <span class="text-input__validator"></span>
+                                </p>
+                            </div>
+                            <p class="form__validation" data-validation="address-level2" role="alert" aria-live="assertive"></p>
+                        </div>
+                    </div>
+                    <div class="form__submit">
+                        <a href="#" onclick="history.back(); return false;"><button class="button" type="submit">戻る</button></a>
+                        <a href="#"><button class="button" type="submit">依頼</button></a>
+                    </div>
+                </form>
+            </div>
+            <footer class="footer">
+                <p>FOOTER KAKU</p>
+                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                    10:00～19:30</p>
+                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+            </footer>
+
+        </div>
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/test-sd.js"></script>
+
+</body>
+
+</html> -->

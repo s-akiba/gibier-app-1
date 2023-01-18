@@ -1,0 +1,171 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400);
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* html,
+body {
+    background: #f0f1f3;
+    font-family: Lato;
+} */
+
+.credit {
+    max-width: 350px;
+    background: white;
+    margin: 2em auto;
+    padding: 1em;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.credit .credit-card {
+    width: 100%;
+    height: 200px;
+    background-image: -owg-linear-gradient(top left, #282828 50%, #141414 50%);
+    background-image: -webkit-linear-gradient(top left, #282828 50%, #141414 50%);
+    background-image: -moz-linear-gradient(top left, #282828 50%, #141414 50%);
+    background-image: -o-linear-gradient(top left, #282828 50%, #141414 50%);
+    background-image: linear-gradient(top left, #282828 50%, #141414 50%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+    padding: 1em;
+    color: white;
+    -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.credit .credit-card #visa {
+    float: right;
+    clear: both;
+}
+
+.credit .credit-card #chip {
+    margin-top: 2em;
+    margin-left: 0.25em;
+}
+
+.credit .credit-card .card-name {
+    font-size: 0.8em;
+    line-height: 2;
+    text-indent: 0.5em;
+    font-family: 300;
+    opacity: 0.5;
+    text-shadow: 1px 1px 0 black;
+}
+
+.credit .credit-card .card-number {
+    text-shadow: 1px 1px 0 black, 2px 2px 0 black;
+    font-family: OCR-A, monospace;
+    font-size: 1.5em;
+    text-align: center;
+    color: #eee;
+    margin-top: 0.5em;
+}
+
+.credit .credit-card .valid {
+    position: absolute;
+    right: 4em;
+    float: right;
+}
+
+.credit .credit-card .valid i {
+    font-size: 0.7em;
+    opacity: 0.4;
+    display: block;
+    vertical-align: text-top;
+}
+
+.credit .credit-card .valid .group {
+    float: left;
+    margin-right: 0.25em;
+}
+
+.credit .credit-card .valid .expiry {
+    float: right;
+    margin-top: 3px;
+}
+
+.credit form input {
+    width: 100%;
+    padding: 1em;
+    font-family: Lato;
+    font-size: 0.9em;
+    margin: 0.25em 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    outline: none;
+    font-weight: 300;
+    color: #333;
+}
+
+.credit form input[type=submit] {
+    background: #38a294;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.credit form input[type=submit]:hover {
+    background: #318F83;
+}
+
+.credit form select {
+    padding: 1em;
+    width: calc(50% - 0.25em);
+    display: inline-block;
+    background: white;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    font-size: 0.9em;
+    outline: none;
+    margin-left: -5px;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    font-family: Lato;
+    color: #333;
+    font-weight: 300;
+}
+
+.credit form select:first-of-type {
+    margin-right: 0.5em;
+    margin-left: 0;
+}
+
+.cf:before,
+.credit .credit-card:before,
+.cf:after,
+.credit .credit-card:after {
+    content: " ";
+    display: table;
+}
+
+.cf:after,
+.credit .credit-card:after {
+    clear: both;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}

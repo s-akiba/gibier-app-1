@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='../../css/home.css' rel='stylesheet' type='text/css'>
+    <link href='../../css/accepting_orders_detail.css' rel='stylesheet' type='text/css'>
+    <style>
+    </style>
+</head>
+
+<body>
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+            <ul>
+                <li><a href="./home.html" class="nav-tach">Home</a></li>
+                <li><a href="./item-list.html" class="nav-tach">商品一覧</a></li>
+                <li><a href="./cart.html" class="nav-tach">購入一覧</a></li>
+                <li><a href="./items_history_list.html" class="nav-tach">購入履歴</a></li>
+                <li><a href="./institution_list.html" class="nav-tach">購入依頼</a></li>
+                <li><a href="./contact.html" class="nav-tach">（仮）問い合わせ</a></li>
+                <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2>購入依頼受注情報詳細</h2>
+                <form>
+                    <div class="inputs">
+                        <label class="label">ユーザID</label>
+                        <p>0000</p>
+                    </div>
+                    <div class="inputs">
+                        <label class="label">地域</label>
+                        <p>北海道</p>
+                    </div>
+                    <div class="inputs">
+                        <label class="label">動物名</label>
+                        <p>鹿</p>
+                    </div>
+                    <div class="inputs">
+                        <label class="label">依頼内容</label>
+                        <p>エゾジカの肉１Kg</p>
+                    </div>
+                    <div class="inputs">
+                        <label class="label">納期</label>
+                        <p>2022/1/10 ~ 2022/2/22</p>
+                    </div>
+                    <div class="inputs">
+                        <label class="label">受託フラグ</label>
+                        <p>完了</p>
+                    </div>
+                    <div class="btn-area">
+                        <div class="child1">
+                            <input type="reset" value="戻る">
+                        </div>
+                        <div class="child2">
+                            <input type="reset" value="取消" style="background-color: red;" onclick="buttonClick1()"><input type="submit"
+                                value="完了" style="background-color:greenyellow;" onclick="buttonClick2()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <footer class="footer">
+                <p>FOOTER KAKU</p>
+                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                    10:00～19:30</p>
+                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+            </footer>
+        </div><!-- /#main-in -->
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+    <script>
+        function buttonClick1(){
+            confirm('件名： 〇〇〇〇〇〇〇〇〇〇\n納期：0000/00/00\n受注内容：○○○○○○○○○○○○○○○○○○○○○\nこちらでお間違いありませんか？');
+            // モーダルの「いいえ」でも送られてしまう場合の参考
+            // https://se-tomo.com/2018/10/06/alert%E3%81%A8confirm%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%81%AE%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95/
+        }
+        // function buttonClick1(){
+        //     confirm('件名： 〇〇○の使い方について\nメールアドレス：hoge@email.com\nお問い合わせ内容：○○○が分からないんですがどうしたらいいですか？\nこちらでお間違いありませんか？');
+        //     // モーダルの「いいえ」でも送られてしまう場合の参考
+        //     // https://se-tomo.com/2018/10/06/alert%E3%81%A8confirm%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%81%AE%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95/
+        // }
+    </script>
+
+</body>
+
+</html>

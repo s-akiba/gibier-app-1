@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- モーダル -->
+    <!-- https://coco-factory.jp/ugokuweb/move01/9-6-1/ -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='../../css/home.css' rel='stylesheet' type='text/css'>
+    <link href='../../css/form-sample.css' rel='stylesheet' type='text/css'>
+    <link href='../../css/profile.css' rel='stylesheet' type='text/css'>
+    <link href='../../css/pay.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css"
+        href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/css/modaal.min.css">
+
+
+</head>
+
+<body>
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+            <ul>
+                <li><a href="./home.html" class="nav-tach">Home</a></li>
+                <li><a href="./item-list.html" class="nav-tach">商品一覧</a></li>
+                <li><a href="./cart.html" class="nav-tach">購入一覧</a></li>
+                <li><a href="./items_history_list.html" class="nav-tach">購入履歴</a></li>
+                <li><a href="./institution_list.html" class="nav-tach">購入依頼</a></li>
+                <li><a href="./contact.html" class="nav-tach">（仮）問い合わせ</a></li>
+                <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main id="main">
+        <div id="main-in">
+            <div class="box-c">
+                <script src="https://code.jquery.com/jquery-1.7.0.js"></script>
+                <script src="https://canjs.com/release/1.1.0/can.jquery.js"></script>
+                <div class="credit cf container">
+                    <div class="credit-card cf" width="350px">
+                        <img src="http://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" width="80"
+                            id="visa">
+                        <img src="http://alfoart.com/images/golden_credit_card/chip.png" width="40" id="chip">
+                        <div class="card-number">
+                            <!-- カードナンバー -->
+                            <p>00000000000</p>
+                        </div>
+                        <div class="card-name">
+                            <!-- カード名義 -->
+                            <p>旋律のタツマキ</p>
+                        </div>
+                        <div class="valid">
+                            <div class="group">
+                                <i>Valid</i>
+                                <i>Thru</i>
+                            </div>
+                            <div class="expiry">
+                                <!-- 月/年 -->
+                                01/2023
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/ejs" id="form"></script>
+                    <form>
+                        <input name="cardName" placeholder="カード名義">
+                        <div class="input-group">
+                            <input name="cardNumber" maxlength="19" placeholder="カード番号">
+                            <span class="icon-credit-card"></span>
+                        </div>
+                        <select>
+                            <option value="01" selected>01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <select>
+                            <option value="2015" selected>2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                        </select>
+                        <!-- セキュリティコード -->
+                        <input type="number" placeholder="セキュリティコード">
+                        <input type="submit" value="決済">
+                    </form>
+                </div>
+            </div>
+        </div><!-- /#main-in -->
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        // サイドメニューs
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/js/modaal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script>
+        $(".modal-open").modaal({
+            // start_open: flag, // ページロード時に表示するか
+            overlay_close: true,//モーダル背景クリック時に閉じるか
+            before_open: function () {// モーダルが開く前に行う動作
+                $('html').css('overflow-y', 'hidden');/*縦スクロールバーを出さない*/
+            },
+            after_close: function () {// モーダルが閉じた後に行う動作
+                $('html').css('overflow-y', 'scroll');/*縦スクロールバーを出す*/
+            }
+        });
+    </script>
+    <!-- アラートで退会確認 -->
+    <script>
+        function alert() {
+            var noProblem = confirm('件名：本当に退会しますか？');
+            noProblem;
+            if (noProblem != true) {
+                return false;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

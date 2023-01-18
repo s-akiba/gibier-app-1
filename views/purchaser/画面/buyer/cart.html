@@ -1,0 +1,94 @@
+<!-- 商品とカートの関連づけ -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='../../css/test.css' rel='stylesheet' type='text/css'>
+    <link href='../../css/cart.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+            <ul>
+                <li><a href="./home.html" class="nav-tach">Home</a></li>
+                <li><a href="./item-list.html" class="nav-tach">商品一覧</a></li>
+                <li><a href="./cart.html" class="nav-tach">購入一覧</a></li>
+                <li><a href="./items_history_list.html" class="nav-tach">購入履歴</a></li>
+                <li><a href="./institution_list.html" class="nav-tach">購入依頼</a></li>
+                <li><a href="./contact.html" class="nav-tach">（仮）問い合わせ</a></li>
+                <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <div class="c-cart-modal__inner">
+                    <div class="c-cart-modal__title">購入一覧（カート）</div>
+                    <div>
+                    </div>
+                    <div class="c-cart-modal__footer">
+                        <div class="c-cart-modal__text"><span lang="en">Subtotal</span> / <span class="c-cart-modal__jp"
+                                lang="jp">小計</span></div>
+                        <div class="c-cart-modal__subtotal"><span>¥0</span> inc. tax</div>
+                    </div>
+                    <div class="c-cart-modal__shipping">
+                        <div class="c-cart-modal__shipping_ttl">配送料について</div>
+                        <div class="c-cart-modal__shipping_charges">送料無料キャンペーン<br><s>全国一律 0000円（税込）</s><br>
+                            1回の購入合計金額00,000円以上（税込）の場合は送料弊社負担にてお届けいたします。<br>
+                            ※ 商品不良を除く返品・交換の際の往復送料は、お客様ご負担となります。</div>
+                    </div>
+                    <div class="c-cart-modal__note">
+                        <label for="CartNote">備考欄</label>
+                        <textarea name="note" id="CartNote"></textarea>
+                    </div>
+                    <div class="c-cart-modal__empty-message">現在、カートは空です。</div>
+                    <a href="./pay.html">
+                        <button class="c-cart-modal__checkout js-cart-modal__checkout" type="button">Check Out<span class="c-cart-modal__checkout_seq">/</span><span class="c-cart-modal__jp">決済する</span></button>
+                    </a>
+                </div>
+            </div>
+            <footer class="footer">
+                <p>FOOTER KAKU</p>
+                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                    10:00～19:30</p>
+                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+            </footer>
+        </div>
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+
+    <!-- <footer class="footer">
+    <p>FOOTER KAKU</p>
+    <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX
+        (076)256-0620<br>営業時間 /
+        10:00～19:30</p>
+    <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+</footer> -->
+</body>
+
+</html>

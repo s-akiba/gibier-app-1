@@ -1,0 +1,100 @@
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>タイトル</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='../../css/home.css' rel='stylesheet' type='text/css'>
+    <link href='../../css/profile.css' rel='stylesheet' type='text/css'>
+</head>
+<header id="global-head">
+    <h1 id="brand-logo">Logo</h1>
+</header>
+<aside id="sidebar">
+    <nav id="global-nav">
+        <ul>
+            <li><a href="./home.html" class="nav-tach">Home</a></li>
+            <li><a href="./accepting_orders_list" class="nav-tach">受注一覧</a></li>
+            <li class="sub-menu">
+                <a href="#">出品</a>
+                <ul class="sub-menu-nav">
+                    <li><a href="./exhibit_input.html" class="nav-tach">出品情報の登録</a></li>
+                    <li><a href="./exhibit_list.html" class="nav-tach">出品済み一覧</a></li>
+                </ul>
+            </li>
+            <!-- 依頼した一覧 -->
+            <li class="sub-menu">
+                <a href="#">（依）狩猟者への依頼</a>
+                <ul class="sub-menu-nav">
+                    <li><a href="./hunting_req_input.html">指名依頼（狩猟者を指名）の依頼一覧</a></li>
+                    <li><a href="./open_orders_input.html">公開依頼（依頼を公開）の依頼一覧</a></li>
+                </ul>
+            </li>
+            <!-- 受注した一覧 -->
+            <li class="sub-menu">
+                <a href="#">（受）購入者依頼受注</a>
+                <ul class="sub-menu-nav">
+                    <li><a href="specific_orders_list.html">指名依頼の受注一覧</a></li>
+                    <li><a href="./open_orders_input_receive.html">公開依頼の受注検索</a></li>
+                </ul>
+            </li>
+            <li><a href="./contact.html" class="nav-tach">問い合わせ</a></li>
+            <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+            <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<main id="main">
+    <div id="main-in">
+        <!-- box1 -->
+        <div class="box-c">
+            <!-- <section class="inner"> -->
+            <!-- <div class="content"> -->
+            <!-- <h2 class="heading-lv1">アカウント情報</h2> -->
+            <!-- <h2>Sub Title</h2> -->
+            <div class="white-space">
+                <!-- <h2 class="heading-lv1 text-center">Profile</h2> -->
+                <figure class="profile-image">
+                    <div class="flex">
+                        <img src="../../img/sample.jpg" alt="" width="400px" height="400px">
+                        <div class="description-div">
+                            <h1>ユーザ名</h1>
+                            <div>
+                                <p><b>項目名</b><br>pテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキスト</p>
+                                <p><b>項目名</b><br>pテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキスト</p>
+                            </div>
+                            <!-- <p class="text">pテキスト</p> -->
+                            <!-- 何もなければSNSボタンを配置 -->
+                        </div>
+                    </div>
+                </figure>
+            </div>
+            <!-- </section> -->
+        </div>
+        <footer class="footer">
+            <p>FOOTER KAKU</p>
+            <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                10:00～19:30</p>
+            <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+        </footer>
+    </div><!-- /#main-in -->
+</main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script type="text/javascript">
+    (function ($) {
+        $(function () {
+            $('.sub-menu').on({
+                'mouseenter': function () {
+                    $(this).addClass('is-active');
+                },
+                'mouseleave': function () {
+                    $(this).removeClass('is-active');
+                }
+            });
+        });
+    })(jQuery);
+</script>
+
+</html>

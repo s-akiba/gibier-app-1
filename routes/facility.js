@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+var func_file = require("./func_file.js");
 
 // postgresqlとの接続
 var client = new Client({
@@ -215,6 +216,7 @@ router.post('/create_hunter_req',function(req,res,next){
 // 購入者指名依頼一覧
 // 受注済みでないものだけ取得するようにする
 router.get("/show_requests_from_purchaser", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.req_from_purchaser.findAll({
     where: {
       [Op.and]: {
@@ -246,6 +248,7 @@ router.get("/show_requests_from_purchaser", (req, res, next) => {
 // 購入者指名依頼詳細
 // 日付指定する
 router.get("/request_from_purchaser_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.req_from_purchaser.findOne({
     where: {
       id: req.query.id,
@@ -271,6 +274,7 @@ router.get("/request_from_purchaser_detail", (req, res, next) => {
 
 // 依頼受諾処理
 router.post("/response_to_request", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   console.log(req.body.accept);
   db.req_from_purchaser.findByPk(req.body.req_id)
   .then((result) => {
@@ -309,6 +313,7 @@ router.post("/response_to_request", (req, res, next) => {
 
 // 受注済み購入者依頼一覧
 router.get("/show_accepted_requests", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.req_from_purchaser.findAll({
     where: {
       [Op.and]: {
@@ -337,6 +342,7 @@ router.get("/show_accepted_requests", (req, res, next) => {
 
 // 受注済み購入者依頼詳細
 router.get("/accepted_request_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.req_from_purchaser.findOne({
     where: {
       id: req.query.id,
@@ -363,6 +369,7 @@ router.get("/accepted_request_detail", (req, res, next) => {
 
 // 受注済み購入者依頼状態変更
 router.post("/response_to_accepted_request", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.req_from_purchaser.findByPk(req.body.req_id)
   .then((result) => {
     if (req.body.completed == "true") {
@@ -402,6 +409,7 @@ router.post("/response_to_accepted_request", (req, res, next) => {
 
 // 購入者公開依頼検索 get
 router.get("/search_requests_from_purchaser", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.categories.findAll()
   .then((result_categories) => {
     db.wild_animal_info.findAll()
@@ -425,25 +433,20 @@ router.get("/search_requests_from_purchaser", (req, res, next) => {
 });
 
 
-function fmt(template, values) {
-  return !values
-  ? template
-  : new Function(...Object.keys(values), `return \`${template}\`;`)(...Object.values(values).map(value => value ?? ''));
-}
-
-
 // 購入者公開依頼検索 post
 router.post("/search_requests_from_purchaser", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
+
   let query_str = "select * from req_from_purchasers where is_public = true AND ";
   let where_str = [];
   if (req.body.word != "") {
-    where_str.push(fmt("content LIKE '%${word}%'", {word: req.body.word}));
+    where_str.push(func_file.fmt("content LIKE '%${word}%'", {word: req.body.word}));
   }
   if (req.body.categories != 0) {
-    where_str.push(fmt("category_id = ${category_id}", {category_id: req.body.categories}));
+    where_str.push(func_file.fmt("category_id = ${category_id}", {category_id: req.body.categories}));
   }
   if (req.body.animals != 0) {
-    where_str.push(fmt("wild_animal_info_id = ${animal_id}", {animal_id: req.body.animals}));
+    where_str.push(func_file.fmt("wild_animal_info_id = ${animal_id}", {animal_id: req.body.animals}));
   }
   let join_query;
   if (where_str.length == 1) {
@@ -506,6 +509,7 @@ router.post("/search_requests_from_purchaser", (req, res, next) => {
 
 // 購入者公開依頼詳細 get
 router.get("/public_request_from_purchaser_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.req_from_purchaser.findOne({
     where: {
       id: req.query.id,
@@ -531,6 +535,7 @@ router.get("/public_request_from_purchaser_detail", (req, res, next) => {
 
 // 購入者公開依頼受注処理 post
 router.post("/response_to_public_request", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.req_from_purchaser.findByPk(req.body.req_id)
   .then((result) => {
     result.is_accepted = true

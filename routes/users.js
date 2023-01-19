@@ -5,17 +5,8 @@ const sendmail = require('sendmail')();
 const db = require('../models/index');
 const uuid = require('uuid');
 const chalk = require('chalk');
+var func_file = require("./func_file.js");
 
-// ログインチェックの関数
-function lgcheck(req, res) {
-  if (req.session.login == null) {
-      req.session.back = "/";
-      res.redirect("/user/login");
-      return true;
-  } else {
-      return false;
-  }
-}
 
 // バリデーションする
 // バリデーションのエラー表示するようにする
@@ -270,7 +261,7 @@ router.post('/login', (req, res, next) => {
 // 編集 get
 router.get('/edit', (req, res, next) => {
   // findByPk → 指定したIDのモデルを取り出す
-  if(lgcheck(req, res)){return};
+  if (func_file.login_class_check(req, res, {})){return};
   db.users.findByPk(req.session.login.id)
   .then(usr => {
     db.regions.findAll()
@@ -290,7 +281,7 @@ router.get('/edit', (req, res, next) => {
 
 // 編集 post
 router.post('/edit', (req, res, next) => {
-  if(lgcheck(req, res)){return};
+  if (func_file.login_class_check(req, res, {})){return};
   console.log("req body",req.body);
   db.users.findByPk(req.body.id)
   .then(usr => {

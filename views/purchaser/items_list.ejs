@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <form action="/purchaser/items_list" method="post">
+            <label>動物名</label>
+            <select name="animal">
+                <option value="">-----</option>
+                <option value="1">シカ</option>
+                <option value="2">イノシシ</option>
+                <option value="3">ハクビシン</option>
+            </select>
+            <label>カテゴリ</label>
+            <select name="category">
+                <option value="">-----</option>
+                <option value="1">背ロース</option>
+                <option value="2">バラ</option>
+                <option value="3">モモ</option>
+                <option value="4">スネ</option>
+                <option value="5">その他</option>
+            </select>
+            <label>処理施設名</label>
+            <input type="text" name="facility">
+            <button type="submit">検索</button>
+        </form>
+        <a href="cart_list">カート一覧</a>
+        <% for(var value of item){ %>
+            <div>
+                <img src="/uploads/<%= value.image_link %>" width="150" height="150">
+                <p><%= value.wild_animal_name %></p>
+                <p><%=value.category_name %></p>
+                <p><%= value.detail %></p>
+                <p>在庫：<%= value.stock %></p>
+                <p>価格：<%= value.price %></p>
+                <p>出品施設：<%= value.user_name %></p>
+            </div>
+            <form action="/purchaser/add_cart" method="post">
+                <input type="hidden" name="id" value="<%= value.id %>">
+                <input type="hidden" name="facility_id" value="<%= value.user_id %>">
+                <label>購入数：</label>
+                <input type="text" name="quantity">
+                <button type="submit">カートに入れる</button>
+            </form>
+        <% } %>
+    </body>
+</html>

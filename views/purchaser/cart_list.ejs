@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div>
+            <% var pur_info_id = [] %>
+            <% for(var value of items){ %>
+                <img src="/uploads/<%= value.image_link %>" width="150" height="150">
+                <p><%= value.wild_animal_name%></p>
+                <p><%= value.category_name %></p>
+                <p><%= value.detail %></p>
+                <p><%= value.price %></p>
+                <form action="/purchaser/delete_cart_list" method="post">
+                    <input type="hidden" name="id" value="<%= value.id %>">
+                    <button type="submit">削除</button>
+                </form>
+                <% pur_info_id.push(value.id) %>
+            <% } %>
+        </div>
+        <a href="payment/?pur_info_id=<%= pur_info_id %>">購入</a>
+    </body>
+</html>

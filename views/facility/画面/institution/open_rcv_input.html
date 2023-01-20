@@ -1,11 +1,15 @@
-<!-- 狩猟依頼情報入力画面 -->
+<!-- 公開依頼受注の入力 -->
+
 <!-- 
-ファイル名 hunting_req_input.html
-作成者 香月涼太,内藤壱成
-概要 狩猟依頼入力画面を表示する画面
-製作日 2023-1-19
-変更日 
+ファイル名 open_rcv_input.html
+作成者 内藤壱成
+概要 処理施設の公開依頼を受注したい情報を入力できる入力画面
+製作日 2023-1-13
+変更日 2023-1-16  香月
+       2023-1-19 香月
+       2023-1-20 内藤
 -->
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -144,27 +148,8 @@
     <main id="main">
         <div id="main-in">
             <div class="box">
-                <h2>狩猟依頼情報入力画面</h2>
+                <h2>公開依頼情報の入力</h2>
                 <form id="contant-form" class="form" name="contact-form">
-                    <!-- 依頼する狩猟者ID -->
-                    <fieldset class="form__group">
-                        <legend class="form__group-header">
-                            <span class="form__group-label">狩猟者ID<strong class="form__required-label">必須</strong></span>
-                        </legend>
-                        <div class="form__group-content">
-                            <div class="form__name">
-                                <div class="form__text-input">
-                                    <label class="visually-hidden" for="family-name-furigana">狩猟者ID</label>
-                                    <p class="text-input">
-                                        <input id="family-name-furigana" class="text-input__body" type="text"
-                                            name="family-name-furigana" placeholder="000000" title="狩猟者IDを入力してください"
-                                            required aria-required="true">
-                                        <span class="text-input__validator"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
                     <!-- 害獣名 -->
                     <fieldset class="form__group">
                         <legend class="form__group-header">
@@ -175,7 +160,7 @@
                                 <div class="form__text-input">
                                     <label class="visually-hidden" for="family-name-furigana">害獣名</label>
                                     <p class="text-input">
-                                        <input id="family-name-furigana" class="text-input__body" type="text"
+                                        <input readonly id="family-name-furigana" class="text-input__body" type="text"
                                             name="family-name-furigana" placeholder="鹿、猪など" title="害獣名を入力してください"
                                             required aria-required="true">
                                         <span class="text-input__validator"></span>
@@ -212,7 +197,7 @@
                         <div class="form__group-content">
                             <div class="form__text-input">
                                 <p class="text-input">
-                                    <input id="datetime" class="text-input__body" type="date" name="datetime"
+                                    <input readonly id="datetime" class="text-input__body" type="date" name="datetime"
                                         title="翌日から二週間後までで指定してください">
                                     <span class="text-input__validator"></span>
                                 </p>
@@ -230,25 +215,7 @@
                     <section id="info">
                         <h2>登録内容確認</h2>
                         <form id="contant-form" class="form" name="contact-form">
-                            <!-- 依頼する狩猟者ID -->
-                    <fieldset class="form__group">
-                        <legend class="form__group-header">
-                            <span class="form__group-label">狩猟者ID<strong class="form__required-label">必須</strong></span>
-                        </legend>
-                        <div class="form__group-content">
-                            <div class="form__name">
-                                <div class="form__text-input">
-                                    <label class="visually-hidden" for="family-name-furigana">狩猟者ID</label>
-                                    <p class="text-input">
-                                        <input id="family-name-furigana" class="text-input__body" type="text"
-                                            name="family-name-furigana" placeholder="000000" title="狩猟者IDを入力してください"
-                                            required aria-required="true">
-                                        <span class="text-input__validator"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
+                            <!-- 害獣名 -->
                             <fieldset class="form__group">
                                 <legend class="form__group-header">
                                     <span class="form__group-label">害獣名<strong class="form__required-label">必須</strong></span>
@@ -258,7 +225,7 @@
                                         <div class="form__text-input">
                                             <label class="visually-hidden" for="family-name-furigana">害獣名</label>
                                             <p class="text-input">
-                                                <input id="family-name-furigana" class="text-input__body" type="text"
+                                                <input readonly id="family-name-furigana" class="text-input__body" type="text"
                                                     name="family-name-furigana" placeholder="鹿、猪など" title="害獣名を入力してください"
                                                     required aria-required="true">
                                                 <span class="text-input__validator"></span>
@@ -280,7 +247,7 @@
                                                 <textarea class="text-input__body" name="family-name-furigana"
                                                     placeholder="鹿、猪を1頭づつお願いします。鹿は50Kg以上,猪は60Kgのものを希望しています。" 
                                                     title="内容の情報を入力してください"
-                                                    cols="30" rows="40"></textarea>
+                                                    cols="30" rows="40" readonly></textarea>
                                                 <span class="text-input__validator"></span>
                                             </p>
                                         </div>
@@ -295,7 +262,7 @@
                                 <div class="form__group-content">
                                     <div class="form__text-input">
                                         <p class="text-input">
-                                            <input id="datetime" class="text-input__body" type="date" name="datetime"
+                                            <input readonly id="datetime" class="text-input__body" type="date" name="datetime"
                                                 title="翌日から二週間後までで指定してください">
                                             <span class="text-input__validator"></span>
                                         </p>
@@ -307,7 +274,7 @@
                             <div class="btn-area" style="padding-top:100px">
                                 <!-- <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p> -->
                                 <button class="button child1" type="submit">戻る</button>
-                                <a href="./specific_req_list.html"><button class="button child2" type="submit">送信する</button></a>
+                                <a href="./open_req_list.html"><button class="button child2" type="submit">送信する</button></a>
                             </div>
                     </section>
             </div>

@@ -23,6 +23,7 @@
             <input type="text" name="facility">
             <button type="submit">検索</button>
         </form>
+        <a href="cart_list">カート一覧</a>
         <% for(var value of item){ %>
             <div>
                 <img src="/uploads/<%= value.image_link %>" width="150" height="150">
@@ -33,6 +34,13 @@
                 <p>価格：<%= value.price %></p>
                 <p>出品施設：<%= value.user_name %></p>
             </div>
+            <form action="/purchaser/add_cart" method="post">
+                <input type="hidden" name="id" value="<%= value.id %>">
+                <input type="hidden" name="facility_id" value="<%= value.user_id %>">
+                <label>購入数：</label>
+                <input type="text" name="quantity">
+                <button type="submit">カートに入れる</button>
+            </form>
         <% } %>
     </body>
 </html>

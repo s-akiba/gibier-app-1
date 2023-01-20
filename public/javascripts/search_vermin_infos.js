@@ -1,7 +1,8 @@
 
 var map = L.map('map', {
     zoomsliderControl: true,
-    zoomControl: false})
+    zoomControl: false,
+    minZoom: 5})
     .setView([35.6986075,139.756673], 16);
 
 var searchLayer = new L.LayerGroup();
@@ -78,14 +79,18 @@ $('#search-vermin-button').click(function() {
                     markerColor: 'red',
                     iconColor: "white"
                 };
-                let html_data = "";
+                // let html_data = "";
                 for (i in data) {
-                    html_data += "<p>"+ data[i]["id"] +"</p>"
-                    let each_marker = L.marker([data[i]["latitude"], data[i]["longitude"]], {icon: L.AwesomeMarkers.icon(fa_options)}).bindPopup(data[i]["createdAt"]);
+                    // html_data += "<p>"+ data[i]["id"] +"</p>"
+                    let each_date = new Date(data[i]["createdAt"]);
+                    let popup_data = each_date.getFullYear() +"年"+ each_date.getMonth()+1 +"月"+ each_date.getDate() +"日";
+                    popup_data += "<br>害獣名："+ data[i]["wild_animal_info"]["wild_animal_name"] +"<br>地域："+ data[i]["region"]["region_name"] +"<br>情報提供者："+ data[i]["user"]["user_name"];
+                    popup_data += "<details><summary>詳細情報</summary><p>"+ data[i]["content"] +"</p></details>";
+                    let each_marker = L.marker([data[i]["latitude"], data[i]["longitude"]], {icon: L.AwesomeMarkers.icon(fa_options)}).bindPopup(popup_data);
                     searchLayer.addLayer(each_marker);
                 }
-                
-                $("#search-results").html(html_data);
+                map.setView([data[0]["latitude"], data[0]["longitude"]], 9);
+                // $("#search-results").html(html_data);
                 // $("input[type='checkbox']").prop("checked", true);
             } else {
                 $(".awesome-marker-icon-red").remove();

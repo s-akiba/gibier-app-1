@@ -63,15 +63,15 @@ function start() {
 }
 
 
-function refresh() {
-    map.setView([35.6986075,139.756673], 15);
-}
+// function refresh() {
+//     map.setView([35.6986075,139.756673], 15);
+// }
 
-$('#a-button').click(function() {
-    $.getJSON("/hunter/getjson", function (json) {
-        alert(json.data1)
-    })
-})
+// $('#a-button').click(function() {
+//     $.getJSON("/hunter/getjson", function (json) {
+//         alert(json.data1)
+//     })
+// })
 
 var popup_list = [];
 function onMapClick(e) {
@@ -87,7 +87,7 @@ function onMapClick(e) {
         popup_list.splice(0, 1);
     }
     if ($(".select-latitude").val() == "") {
-        $("#open").prop('disabled', false);
+        $("#submit-button").prop('disabled', false);
         
     }
 }
@@ -99,6 +99,13 @@ function onMarkerClick(e) {
 
     map.removeLayer(e.target);
 }
+
+$("#open").click(function () {
+    if ($("#hidden-latitude").val() == "") {
+        alert("地点を選択してください");
+        console.log("q");
+    }
+})
 
 // モーダルを開く前に位置を選択させる
 function checkLatlangValue() {
@@ -112,13 +119,13 @@ function checkLatlangValue() {
 }
 
 // モーダル
-$("#open").click(function(){
-    $("#a").css("display","block");
-    $("#b").css("display","block");
-                });
+// $("#open").click(function(){
+//     $("#a").css("display","block");
+//     $("#b").css("display","block");
+//                 });
 
 
-$(".cancel").click(function(){
-    $("#a").fadeOut();
-    $("#b").fadeOut();
-});
+// $(".cancel").click(function(){
+//     $("#a").fadeOut();
+//     $("#b").fadeOut();
+// });

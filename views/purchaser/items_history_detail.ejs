@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div>
+            <% for(var value of items){ %>
+                <img src="/uploads/<%= value.image_link %>" width="150" height="150">
+                <p>商品名：<%= value.wild_animal_name %></p>
+                <p>価格：<%= value.price %></p>
+                <p>購入個数<%= value.num_purchased %></p>
+                <p>商品カテゴリ：<%= value.category_name %></p>
+                <p>説明：<%= value.detail %></p>
+                <p>処理施設名：<%= value.user_name %></p>
+                <form action="/purchaser/cancel_purchase" method="post">
+                    <input type="hidden" name="purchase_id" value="<%= value.id %>">
+                    <button type="submit">削除</button>
+                </form>
+            <% } %>
+        </div>
+    </body>
+</html>

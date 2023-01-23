@@ -135,7 +135,7 @@ router.post('/add_cart',(req,res,next)=>{
 */
 router.get('/cart_list',(req,res,next)=>{
   let sql = 'select purchase_infos.id,commodity_id,wild_animal_name,category_name,detail,image_link,price from purchase_infos inner join (select commodities.id,wild_animal_name,detail,category_name,image_link,price from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id) as ccw on purchase_infos.commodity_id=ccw.id where user_2_id=';
-  client.query(sql+req.session.login['id'],function(err,result){
+  client.query(sql+req.session.login['id']+" and delivery_address=''",function(err,result){
     if(err) throw err;
     res.render('purchaser/cart_list',{items:result.rows});
   })
@@ -153,11 +153,6 @@ router.post('/delete_cart_list',(req,res,next)=>{
 
 // 決済画面の表示
 router.get('/payment',(req,res,next)=>{
-  // purchase_infoのidをintにキャスト
-  // let id_list = req.query.pur_info_id.split(',').map(function (e){
-  //   return Number(e);
-  // })
-  // console.log(id_list);
   res.render('purchaser/payment',{items:req.query.pur_info_id});
 })
 
@@ -174,6 +169,45 @@ router.post('/payment',(req,res,next)=>{
     )
   }
   res.redirect('/purchaser');
+});
+
+// 購入履歴画面の表示
+/*
+  欲しい情報：カートID、動物名、カテゴリ、詳細、値段、個数、更新日時
+  purchase_info、commodities、categories、wild_animal_infosの内部結合
+*/
+// データベースに列があるのを確認したが、updatedAtを取得しようとするとなぜか存在しない言われる
+router.get('/items_history_list',(req,res,next)=>{
+  let sql = 'select purchase_infos.id,commodity_id,wild_animal_name,category_name,detail,image_link,price,delivery_address from purchase_infos inner join (select commodities.id,wild_animal_name,detail,category_name,image_link,price from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id) as ccw on purchase_infos.commodity_id=ccw.id where user_2_id=';
+  client.query(sql+req.session.login['id']+" and not delivery_address=''",function(err,result){
+    if(err) throw err;
+    console.log(result.rows);
+    res.render('purchaser/items_history_list',{items:result.rows});
+  })
+});
+
+// 購入履歴詳細画面の表示
+/*
+  結合する表：commodities,users,purchase_infos,wild_animal_infos
+*/
+router.get('/items_history_detail',(req,res,next)=>{
+  let sql = 'select user_name,num_purchased,purchase_infos.id,commodity_id,wild_animal_name,category_name,detail,image_link,price,delivery_address from purchase_infos inner join (select commodities.id,wild_animal_name,detail,category_name,image_link,price from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id) as ccw on purchase_infos.commodity_id=ccw.id inner join users on purchase_infos.user_1_id=users.id where user_2_id=';
+  client.query(sql+req.session.login['id']+" and not delivery_address=''",function(err,result){
+    if(err) throw err;
+    console.log(result.rows);
+    res.render('purchaser/items_history_detail',{items:result.rows});
+  })
+});
+
+// 購入取り消し
+router.post('/cancel_purchase',(req,res,next)=>{
+  db.purchase_info.findOne({
+    where:{id:req.body.purchase_id}
+  }).then(result=>{
+    result.destroy();
+    console.log('deleted');
+    res.redirect('/purchaser/items_history_list');
+  });
 });
 
 // 処理施設検索 get

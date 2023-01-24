@@ -1,30 +1,118 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
     <title><%= title %></title>
-
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/form-sample.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/hunter_search_facilities.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-  </head>
+</head>
 
-  <body>
-    <h1>処理施設検索</h1>
-        <label for="search_word">検索ワード</label>
-        <input type="text" id="search-word" name="word"><br>
-        <label for="region">地域</label>
-        <select name="region" id="region">
-            <option value="0">選択なし</option>
-            <% for(let i in regions) { %>
-                <% let obj = regions[i] %>
-                <option value="<%= obj.id %>" ><%= obj.region_name %></option>
-            <% } %>
-        </select><br>
-        <input type="submit" value="検索" id="search-button">
-    
+<body onload="start()">
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+            <ul>
+                <li><a href="./home.html" class="nav-tach">Home</a></li>
+                <li><a href="./accepting_orders_list.html" class="nav-tach">受注一覧</a></li>
+                <li class="sub-menu">
+                    <a href="#">狩猟者依頼受注</a>
+                    <ul class="sub-menu-nav">
+                        <li><a href="./specific_orders_list.html">指名依頼一覧</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="#">購入者依頼受注</a>
+                    <ul class="sub-menu-nav">
+                        <li><a href="./open_orders_search.html">公開依頼検索</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="#">害獣位置情報</a>
+                    <ul class="sub-menu-nav">
+                        <li><a href="beast_position_input.html">登録</a></li>
+                        <li><a href="beast_position_search.html">検索</a></li>
+                    </ul>
+                </li>
+                <li><a href="./contact.html" class="nav-tach">問い合わせ</a></li>
+                <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2><%= title %></h2>
 
-    <div id="search-results">
-    </div>
+                <fieldset class="form__group">
+                  <legend class="form__group-header">
+                      <span class="form__group-label">検索ワード</span>
+                  </legend>
+                  <div class="form__group-content">
+                      <div class="form__name">
+                          <div class="form__text-input">
+                              <input  class="text-input__body" type="text" name="search-word" id="search-word">
+                          </div>
+                      </div>
+                  </div>
+                </fieldset>
+
+                <div class="form__group">
+                  <p class="form__group-header">
+                      <label class="form__group-label" for="region">地域</label>
+                  </p>
+                  <div class="form__group-content">
+                      <div class="form__select-box">
+                          <div class="select-box">
+                            <select name="region" id="region" class="select-box__body">
+                                <option value="0">選択なし</option>
+                                <% for(let i in regions) { %>
+                                    <% let obj = regions[i] %>
+                                    <option value="<%= obj.id %>" ><%= obj.region_name %></option>
+                                <% } %>
+                            </select><br>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <button type="button"  id="search-button" class="button">検索</button>
+            <div id="search-results"></div>
+            </div>
+        <footer class="footer">
+            <p>FOOTER KAKU</p>
+            <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                10:00～19:30</p>
+            <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+        </footer>
+        </div><!-- /#main-in -->
+    </main>
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
     <script src="/javascripts/hunter_search_facilities.js"></script>
-  </body>
+</body>
+
 </html>

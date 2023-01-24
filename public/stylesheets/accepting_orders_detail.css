@@ -1,0 +1,84 @@
+@charset "utf-8";
+form {
+    width: 100%;
+    /*お好みで調整してください*/
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.inputs {
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.inputs p{
+    font-size:24px;
+    font-weight: lighter;
+}
+
+.label {
+    float: left;
+    margin-right: 160px;
+    width: 135px;
+    border-left: solid 3px #7d7d7d;
+    padding-left: 10px;
+    font-size:24px;
+}
+
+.input_form {
+    float: left;
+    width: 300px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+textarea {
+    border: solid 1px #e0e0e0;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 15px;
+}
+
+.btn-area {
+    justify-content: space-between;
+    display: flex;
+    width: 60%;
+}
+
+input[type="submit"] {
+    background: #a9a9a9;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 10px;
+}
+
+input[type="reset"] {
+    background: #aaa;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 10px;
+}
+
+#button-back {
+    background: #aaa;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 10px;
+}
+
+#button-back:hover {
+    background-color: gray;
+}

@@ -2,16 +2,20 @@
 <html>
     <head></head>
     <body>
-        <% for(var value of items){ %>
-            <div>
-                <!-- updatedAtを取得できない問題を解決できなかった -->
-                <!-- <p>注文日時：<%= value.updatedAt %></p> -->
-                <img src="/uploads/<%= value.image_link %>" width="150" height="150">
-                <p>動物名：<%= value.wild_animal_name %></p>
-                <p>部位：<%= value.category_name %></p>
-                <p>個数：<%= value.num_purchased %></p>
-                <a href="items_history_detail">注文詳細</a>
-            </div>
+        <% if(items.length == 0){ %>
+            <p>現在注文している商品はありません</p>
+        <% }else{ %>
+            <% for(var value of items){ %>
+                <div>
+                    <!-- updatedAtを取得できない問題を解決できなかった -->
+                    <!-- <p>注文日時：<%= value.updatedAt %></p> -->
+                    <img src="/uploads/<%= value.image_link %>" width="150" height="150">
+                    <p>動物名：<%= value.wild_animal_name %></p>
+                    <p>部位：<%= value.category_name %></p>
+                    <p>個数：<%= value.num_purchased %></p>
+                    <a href="items_history_detail">注文詳細</a>
+                </div>
+            <% } %>
         <% } %>
     </body>
 </html>

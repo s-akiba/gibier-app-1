@@ -2,6 +2,7 @@
 <html>
     <head></head>
     <body>
+        <button type="button" onclick="history.back()">戻る</button>
         <div>
             <% for(var value of items){ %>
                 <img src="/uploads/<%= value.image_link %>" width="150" height="150">
@@ -11,10 +12,16 @@
                 <p>商品カテゴリ：<%= value.category_name %></p>
                 <p>説明：<%= value.detail %></p>
                 <p>処理施設名：<%= value.user_name %></p>
-                <form action="/purchaser/cancel_purchase" method="post">
-                    <input type="hidden" name="purchase_id" value="<%= value.id %>">
-                    <button type="submit">削除</button>
-                </form>
+                <% if(!value.is_accepted){ %>
+                    <form action="/purchaser/cancel_purchase" method="post">
+                        <input type="hidden" name="purchase_id" value="<%= value.id %>">
+                        <button type="submit">購入取り消し</button>
+                    </form>
+                <% }else{ %>
+                    <p>
+                        <font color="red">購入手続き完了</font>
+                    </p>
+                <% } %>
             <% } %>
         </div>
     </body>

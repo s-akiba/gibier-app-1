@@ -4,20 +4,22 @@
     <body>
         <div>
             <% var pur_info_id = [] %>
+            <% var com_id = [] %>
             <% for(var value of items){ %>
                 <img src="/uploads/<%= value.image_link %>" width="150" height="150">
-                <p><%= value.wild_animal_name%></p>
-                <p><%= value.category_name %></p>
-                <p><%= value.detail %></p>
-                <p><%= value.price %></p>
+                <p>動物名；<%= value.wild_animal_name%></p>
+                <p>カテゴリ：<%= value.category_name %></p>
+                <p>説明：<%= value.detail %></p>
+                <p>値段：<%= value.price %></p>
                 <form action="/purchaser/delete_cart_list" method="post">
                     <input type="hidden" name="id" value="<%= value.id %>">
                     <button type="submit">削除</button>
                 </form>
                 <% pur_info_id.push(value.id) %>
+                <% com_id.push(value.commodity_id) %>
             <% } %>
         </div>
-        <a href="payment/?pur_info_id=<%= pur_info_id %>">購入</a>
+        <a href="payment/?pur_info_id=<%= pur_info_id %>&com_id=<%= com_id %>">購入</a>
         <button type="button" onclick="history.back()">戻る</button>
     </body>
 </html>

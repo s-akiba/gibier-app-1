@@ -5,14 +5,14 @@
     <body>
         <form action="/facility/exhibit_input" method="post" enctype="multipart/form-data">
             <label>動物名</label>
-            <select name="animal">
+            <select name="animal" required>
                 <option value="">----</option>
                 <option value="1">シカ</option>
                 <option value="2">イノシシ</option>
                 <option value="3">ハクビシン</option>
             </select>
             <label>商品カテゴリ</label>
-            <select name="category">
+            <select name="category" required>
                 <option value="">----</option>
                 <option value="1">背ロース</option>
                 <option value="2">バラ</option>
@@ -25,12 +25,12 @@
             <label>画像</label>
             <input type="file" name="file">
             <label>価格</label>
-            <input type="text" name="price">
+            <input type="text" name="price" required>
             <label>個数</label>
-            <input type="text" name="num">
+            <input type="text" name="num" required>
             <label>掲載期限</label>
-            <input type="date" name="limit">
-            <input type="submit" value="登録">
+            <input type="date" name="limit" required>
+            <button type="submit">登録</button>
         </form>
     </body>
 </html>

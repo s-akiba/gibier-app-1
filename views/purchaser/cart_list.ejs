@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <title><%= title %></title>
+    </head>
     <body>
         <div>
+            <% if (alert_message != 0) { %>
+                <% if (alert_message == 1) { %>
+                    <p style="color: lightgreen;">購入が完了しました。</p>
+                <% } %>
+                <% if (alert_message == 2) { %>
+                    <p style="color: red;">以下の商品の購入に失敗しました。</p>
+                <% } %>
+            <% } %>
+            <% if (items == "") { %>
+                <p>カートの中身はありません</p>
+            <% } %>
             <% var pur_info_id = [] %>
             <% for(var value of items){ %>
                 <img src="/uploads/<%= value.image_link %>" width="150" height="150">
@@ -10,6 +23,7 @@
                 <p><%= value.category_name %></p>
                 <p><%= value.detail %></p>
                 <p><%= value.price %></p>
+                <p><%= value.num_purchased %>個</p>
                 <form action="/purchaser/delete_cart_list" method="post">
                     <input type="hidden" name="id" value="<%= value.id %>">
                     <button type="submit">削除</button>
@@ -17,6 +31,6 @@
                 <% pur_info_id.push(value.id) %>
             <% } %>
         </div>
-        <a href="payment/?pur_info_id=<%= pur_info_id %>">購入</a>
+        <a href="/purchaser/payment/?pur_info_id=<%= pur_info_id %>">購入</a>
     </body>
 </html>

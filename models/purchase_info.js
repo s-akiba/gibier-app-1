@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "purchase_info_id"
       });
       purchase_info.belongsTo(models.users, {
+        as: "facility_user",
         foreignKey: "user_1_id",
         targetKey: "id"
       });

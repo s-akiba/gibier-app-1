@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
-    <body>
+    <head>
+        <title><%= title %></title>
+        <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+
+    </head>
+    <body onload="init()">
         <form action="/purchaser/payment" method="post">
             <input type="hidden" name="id_list" value="<%= items %>">
-            <label>メールアドレス：</label>
-            <input type="email" name="email">
-            <label>お届け先住所：</label>
-            <input type="text" name="address">
+            <input type="radio" name="select_address" id="select-address-old" value="old_address" checked>
+            <label for="select-address-old">登録されてる住所を使う</label><br>
+            <div id="address-registered">
+                <p><%= user.address %></p>
+                <input type="hidden" name="hidden_old_address" value="<%= user.address %>">
+            </div>
+            <input type="radio" name="select_address" id="select-address-new" value="new_address">
+            <label for="select-address-new">新しく配送先を入力する</label><br>
+            <input type="text" name="input_new_address" id="input-new-address">
             <button type="submit">確定</button>
         </form>
     </body>
+    <script type="text/javascript">
+        function init() {
+            $("#input-new-address").hide();
+        }
+
+        $('input[type=radio][name=select_address]').change(function() {
+            if (this.value == 'old_address') {
+                $("#address-registered").show();
+                $("#input-new-address").hide();
+            }
+            if (this.value == 'new_address') {
+                $("#address-registered").hide();
+                $("#input-new-address").show();
+            }
+        });
+    </script>
 </html>

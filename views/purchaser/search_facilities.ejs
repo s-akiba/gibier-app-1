@@ -1,30 +1,86 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
     <title><%= title %></title>
-
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/form-sample.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/hunter_search_facilities.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-  </head>
+</head>
 
-  <body>
-    <h1>処理施設検索</h1>
-        <label for="search_word">検索ワード</label>
-        <input type="text" id="search-word" name="word"><br>
-        <label for="region">地域</label>
-        <select name="region" id="region">
-            <option value="0">選択なし</option>
-            <% for(let i in regions) { %>
-                <% let obj = regions[i] %>
-                <option value="<%= obj.id %>" ><%= obj.region_name %></option>
-            <% } %>
-        </select><br>
-        <input type="submit" value="検索" id="search-button">
-    
+<body onload="start()">
+    <%- include("../sidebar_purchaser.ejs") %>
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2><%= title %></h2>
 
-    <div id="search-results">
-    </div>
+                <fieldset class="form__group">
+                  <legend class="form__group-header">
+                      <span class="form__group-label">検索ワード</span>
+                  </legend>
+                  <div class="form__group-content">
+                      <div class="form__name">
+                          <div class="form__text-input">
+                              <input  class="text-input__body" type="text" name="search-word" id="search-word">
+                          </div>
+                      </div>
+                  </div>
+                </fieldset>
+
+                <div class="form__group">
+                  <p class="form__group-header">
+                      <label class="form__group-label" for="region">地域</label>
+                  </p>
+                  <div class="form__group-content">
+                      <div class="form__select-box">
+                          <div class="select-box">
+                            <select name="region" id="region" class="select-box__body">
+                                <option value="0">選択なし</option>
+                                <% for(let i in regions) { %>
+                                    <% let obj = regions[i] %>
+                                    <option value="<%= obj.id %>" ><%= obj.region_name %></option>
+                                <% } %>
+                            </select><br>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <button type="button"  id="search-button" class="button">検索</button>
+            <div id="search-results"></div>
+            </div>
+        <footer class="footer">
+            <p>FOOTER KAKU</p>
+            <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                10:00～19:30</p>
+            <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+        </footer>
+        </div><!-- /#main-in -->
+    </main>
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
     <script src="/javascripts/purchaser_search_facilities.js"></script>
-  </body>
+</body>
+
 </html>

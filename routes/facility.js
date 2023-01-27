@@ -41,16 +41,28 @@ router.get('/', function(req, res, next) {
 /* 出品情報入力画面の表示 */
 router.get('/exhibit_input',function(req,res,next){
   console.log('login user id : '+req.session.login["id"]);
-  res.render('facility/exhibit_input');
+  db.wild_animal_info.findAll()
+  .then((result_animals) => {
+    db.categories.findAll()
+    .then((result_categories) => {
+      let data = {
+        title: "出品情報入力画面",
+        animals: result_animals,
+        categories: result_categories
+      }
+      res.render('facility/exhibit_input', data);
+    })
+  })
+  
 });
 
 /* 出品情報の登録処理 */
 router.post('/exhibit_input',upload.single('file'),function(req,res,next){
   db.sequelize.sync().then(()=>db.commodities.create({
     user_id : req.session.login['id'],
-    vermin_hunted_id : 99,  //わからんからとりあえず埋めとく
-    wild_animal_info_id : req.body.animal,
-    category_id : req.body.category,
+    vermin_hunted_id : null,  //わからんからとりあえず埋めとく
+    wild_animal_info_id : req.body.animal_options,
+    category_id : req.body.category_options,
     detail : req.body.text,
     image_link : req.file.filename,
     price : req.body.price,

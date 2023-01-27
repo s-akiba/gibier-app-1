@@ -1,0 +1,24 @@
+#file-label {
+    padding: 10px 40px;
+    color: #ffffff;
+    background-color: #384878;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#global-nav .sub-menu-nav {
+    padding-left: 0;
+    left: 310px;
+}
+
+#confirm-button-div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#content-input {
+    height: auto;
+}

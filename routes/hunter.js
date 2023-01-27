@@ -12,13 +12,12 @@ const { Op } = require("sequelize");
 var prefectures_t= fs.readFileSync("./prefectures.geojson", {encoding: 'utf-8'});
 var df_t = JSON.parse(prefectures_t);
 
-// マップテスト
-router.get('/map', (req, res, next) => {
-  let data = {
-    title: "map"
-  }
-  res.render('hunter/map', data);
-});
+
+// 狩猟者home get
+router.get("/", (req, res, next) => {
+  res.render("hunter/home");
+})
+
 
 // 害獣情報登録 get
 router.get("/register_vermin_info", (req, res, next) => {

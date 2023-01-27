@@ -1,24 +1,82 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
     <title><%= title %></title>
-
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/hunter_facility_detail.css' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-
+    <link rel="stylesheet" href="/stylesheets/purchaser_facility_detail.css">
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-  </head>
+</head>
 
-  <body>
-    <h2>処理施設名</h2>
-    <h3><%= result.user_name %></h3>
+<body>
+    <header id="global-head">
+        <h1 id="brand-logo">Logo</h1>
+    </header>
+    <aside id="sidebar">
+        <nav id="global-nav">
+          <ul>
+            <li><a href="./home.html" class="nav-tach">Home</a></li>
+            <li><a href="./item-list.html" class="nav-tach">商品一覧</a></li>
+            <li><a href="./cart.html" class="nav-tach">購入一覧</a></li>
+            <li><a href="./items_history_list.html" class="nav-tach">購入履歴</a></li>
+            <li><a href="./institution_list.html" class="nav-tach">購入依頼</a></li>
+            <li><a href="./contact.html" class="nav-tach">（仮）問い合わせ</a></li>
+            <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
+            <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
+        </ul>
+        </nav>
+    </aside>
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2><%= title %></h2>
+                <form>
+                    <div class="inputs">
+                        <label class="label">処理施設名</label>
+                        <p><%= result.user_name %></p>
+                    </div>
+                    <div class="inputs">
+                        <label class="label">住所</label>
+                        <p><%= result.address %></p>
+                    </div>
+                    <div class="inputs">
+                        <label class="label">ひとこと</label>
+                        <p><%= result.bio %></p>
+                    </div>
+                    <div class="btn-area">
+                        <button onclick="history.back()" type="button" id="button-back">戻る</button>
+                        <button onclick="location.href='/purchaser/request_to_facility?facility_id=<%= result.id %>'" type="button" id="button-create-req">依頼作成</button>
+                    </div>
+                </form>
+            </div>
+            <footer class="footer">
+                <p>FOOTER KAKU</p>
+                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                    10:00～19:30</p>
+                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+            </footer>
+        </div><!-- /#main-in -->
+    </main>
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
 
-    <h2>住所</h2>
-    <h3><%= result.address %></h3>
+</body>
 
-    <h2>ひとこと</h2>
-    <p><%= result.bio %></p>
-
-    <button onclick="location.href='/purchaser/request_to_facility?facility_id=<%= result.id %>'">依頼作成</button>
-
-  </body>
 </html>

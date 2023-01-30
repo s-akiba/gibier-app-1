@@ -10,7 +10,7 @@
                 <p>価格：<%= value.price %></p>
                 <p>購入個数<%= value.num_purchased %></p>
                 <p>商品カテゴリ：<%= value.category_name %></p>
-                <p>説明：<%= value.detail %></p>
+                
                 <p>処理施設名：<%= value.user_name %></p>
                 <% if(!value.is_accepted){ %>
                     <form action="/purchaser/cancel_purchase" method="post">

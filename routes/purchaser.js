@@ -38,10 +38,11 @@ router.post('/items_list',(req,res,next)=>{
   let facility = req.body.facility;
   let sql = 'select commodities.id,image_link,wild_animal_name,category_name,detail,stock,price,user_name,user_id from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id inner join users on commodities.user_id=users.id ';
   let where = '';
+  let term = ' and not stock=0 and selling_term>=current_date'
   // 動物名だけで検索
   if(animal_id!='' && category_id=='' && facility==''){
     where = 'where wild_animal_info_id=';
-    client.query(sql+where+animal_id+';',function(err,result){
+    client.query(sql+where+animal_id+term,function(err,result){
       if (err) throw err;
       res.render('purchaser/items_list',{item:result.rows});
     });
@@ -49,7 +50,7 @@ router.post('/items_list',(req,res,next)=>{
   // カテゴリだけで検索
   else if(animal_id=='' && category_id!='' && facility==''){
     where = 'where category_id=';
-    client.query(sql+where+category_id+';',function(err,result){
+    client.query(sql+where+category_id+term,function(err,result){
       if (err) throw err;
       res.render('purchaser/items_list',{item:result.rows});
     });
@@ -57,14 +58,14 @@ router.post('/items_list',(req,res,next)=>{
   // 処理施設だけで検索
   else if(animal_id=='' && category_id=='' && facility!=''){
     where = "where user_name like '%"+facility+"%'";
-    client.query(sql+where,function(err,result){
+    client.query(sql+where+term,function(err,result){
       if (err) throw err;
       res.render('purchaser/items_list',{item:result.rows});
     });
   }
   // 動物名とカテゴリで検索
   else if(animal_id!='' && category_id!='' && facility==''){
-    where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+';';
+    where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+term;
     client.query(sql+where,function(err,result){
       if (err) throw err;
       res.render('purchaser/items_list',{item:result.rows});
@@ -72,7 +73,7 @@ router.post('/items_list',(req,res,next)=>{
   }
   // 動物名と処理施設名で検索
   else if(animal_id!='' && category_id=='' && facility!=''){
-    where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'";
+    where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'"+term;
     client.query(sql+where,function(err,result){
       if (err) throw err;
       res.render('purchaser/items_list',{item:result.rows});
@@ -80,7 +81,7 @@ router.post('/items_list',(req,res,next)=>{
   }
   // カテゴリと処理施設名で検索
   else if(animal_id=='' && category_id!='' && facility!=''){
-    where = "where category_id="+category_id+" and user_name like '%"+facility+"%'";
+    where = "where category_id="+category_id+" and user_name like '%"+facility+"%'"+term;
     client.query(sql+where,function(err,result){
       if (err) throw err;
       res.render('purchaser/items_list',{item:result.rows});
@@ -134,6 +135,7 @@ router.get('/cart_list',(req,res,next)=>{
   let sql = 'select purchase_infos.id,commodity_id,wild_animal_name,category_name,detail,image_link,price from purchase_infos inner join (select commodities.id,wild_animal_name,detail,category_name,image_link,price from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id) as ccw on purchase_infos.commodity_id=ccw.id where user_2_id=';
   client.query(sql+req.session.login['id']+" and delivery_address=''",function(err,result){
     if(err) throw err;
+    console.log(result.rows);
     res.render('purchaser/cart_list',{items:result.rows});
   })
 });
@@ -151,20 +153,46 @@ router.post('/delete_cart_list',(req,res,next)=>{
 // 決済画面の表示
 router.get('/payment',(req,res,next)=>{
   if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
-  res.render('purchaser/payment',{items:req.query.pur_info_id});
+  let stock_list = [];
+  let num_purchased_list = [];
+  db.commodities.find
+  
+  res.render('purchaser/payment',{
+    pur_info_id: req.query.pur_info_id, 
+    com_id: req.query.com_id
+  });
 })
 
 // 決済処理
 router.post('/payment',(req,res,next)=>{
-  console.log(req.body.id_list);
   let id_list = req.body.id_list.split(',').map(function(e){
     return Number(e);
   });
+  let com_id_list = req.body.com_id_list.split(',').map(function(e){
+    return Number(e);
+  });
+  
+  // purchase_infoに届け先住所を登録
   for(var pur_info_id of id_list){
     db.purchase_info.update(
-      {delivery_address:req.body.address},
-      {where:{id:pur_info_id}}
+      {delivery_address: req.body.address},
+      {where: {id: pur_info_id}}
     )
+  }
+  // 決済時に出品商品の在庫数を購入数分だけ減らす
+  for(let i=0;i<id_list.length;i++){
+    db.purchase_info.findOne({
+      where: {id: id_list[i]},
+    }).then(purchase_info=>{
+      db.commodities.findOne({
+        where: {id: com_id_list[i]}
+      }).then(commodity=>{
+        commodity.stock = commodity.stock - purchase_info.num_purchased;
+        commodity.save();
+      })
+    }).catch(err=>{
+      console.log(err);
+    })
   }
   res.redirect('/');
 });
@@ -174,13 +202,16 @@ router.post('/payment',(req,res,next)=>{
   欲しい情報：カートID、動物名、カテゴリ、詳細、値段、個数、更新日時
   purchase_info、commodities、categories、wild_animal_infosの内部結合
 */
-// データベースに列があるのを確認したが、updatedAtを取得しようとするとなぜか存在しない言われる
 router.get('/items_history_list',(req,res,next)=>{
   if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
-  let sql = 'select purchase_infos.id,commodity_id,wild_animal_name,category_name,detail,image_link,price,delivery_address from purchase_infos inner join (select commodities.id,wild_animal_name,detail,category_name,image_link,price from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id) as ccw on purchase_infos.commodity_id=ccw.id where user_2_id=';
+  let sql = 'select "updatedAt",purchase_infos.id,num_purchased,commodity_id,wild_animal_name,category_name,detail,image_link,price,delivery_address from purchase_infos inner join (select commodities.id,wild_animal_name,detail,category_name,image_link,price from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id) as ccw on purchase_infos.commodity_id=ccw.id where user_2_id=';
   client.query(sql+req.session.login['id']+" and not delivery_address=''",function(err,result){
     if(err) throw err;
-    console.log(result.rows);
+    // dateオブジェクトを yyyy/mm/dd の文字列に変える
+    for(var value of result.rows){
+      date = value.updatedAt;
+      value.updatedAt = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
+    }
     res.render('purchaser/items_history_list',{items:result.rows});
   })
 });
@@ -192,7 +223,7 @@ router.get('/items_history_list',(req,res,next)=>{
 router.get('/items_history_detail',(req,res,next)=>{
   if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   let sql = 'select user_name,num_purchased,purchase_infos.id,commodity_id,wild_animal_name,category_name,detail,image_link,price,delivery_address,is_accepted from purchase_infos inner join (select commodities.id,wild_animal_name,detail,category_name,image_link,price from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id) as ccw on purchase_infos.commodity_id=ccw.id inner join users on purchase_infos.user_1_id=users.id where user_2_id=';
-  client.query(sql+req.session.login['id']+" and not delivery_address=''",function(err,result){
+  client.query(sql+req.session.login['id']+" and purchase_infos.id="+req.query.id+" and not delivery_address=''",function(err,result){
     if(err) throw err;
     console.log(result.rows);
     res.render('purchaser/items_history_detail',{items:result.rows});

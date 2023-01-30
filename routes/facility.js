@@ -31,14 +31,9 @@ var client = new Client({
 })
 client.connect()
 
-
-/* 処理施設ホーム画面の表示 */
-router.get('/', function(req, res, next) {
-  res.render('facility/home');
-});
-
 /* 出品情報入力画面の表示 */
 router.get('/exhibit_input',function(req,res,next){
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   console.log('login user id : '+req.session.login["id"]);
   res.render('facility/exhibit_input');
 });
@@ -56,13 +51,14 @@ router.post('/exhibit_input',upload.single('file'),function(req,res,next){
     stock : req.body.num,
     selling_term : req.body.limit
   })).then(usr => {
-    res.redirect('/facility');
+    res.redirect('/');
   });
 
 });
 
 /* 出品一覧画面の表示処理 */
 router.get('/exhibit_list',function(req,res,next){
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   let values = []; // dbの検索結果から必要な情報を格納するための配列
   db.commodities.findAll({
     where:{
@@ -84,6 +80,7 @@ router.get('/exhibit_list',function(req,res,next){
     join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id
 */
 router.get('/exhibit_detail',function(req,res,next){
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   const com_id = req.query.id;
   const sql = 'select * from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id where commodities.id=';
   console.log(sql+com_id+';');
@@ -91,7 +88,9 @@ router.get('/exhibit_detail',function(req,res,next){
   client.query(sql+com_id+';',function(err,result){
     if (err) throw err;
     console.log(result.rows[0]);
-    res.render('facility/exhibit_detail',{item:result.rows[0]});
+    let date = result.rows[0].selling_term;
+    let limit = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+    res.render('facility/exhibit_detail',{item:result.rows[0],limit:limit});
   });
 });
 
@@ -109,6 +108,7 @@ router.post('/exhibit_delete',function(req,res,next){
 
 /* 狩猟者検索画面の表示 */
 router.get('/search_hunter',function(req,res,next){
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   res.render('facility/search_hunter');
 });
 
@@ -147,6 +147,7 @@ router.post('/search',function(req,res,next){
 // みたいなかんじで遷移
 /* 狩猟者詳細画面の表示 */
 router.get('/hunter_detail/',function(req,res,next){
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.users.findAll({
     where:{
       // urlパラメータで狩猟者のID取得
@@ -162,6 +163,7 @@ router.get('/hunter_detail/',function(req,res,next){
 /* 狩猟者情報入力画面の表示 */
 //hunter_detail/hunter_req_input
 router.get('/hunter_req_input',function(req,res,next){
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   res.render('facility/hunter_req_input');
 });
 

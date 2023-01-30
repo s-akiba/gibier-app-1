@@ -3,7 +3,8 @@
     <head></head>
     <body>
         <form action="/purchaser/payment" method="post">
-            <input type="hidden" name="id_list" value="<%= items %>">
+            <input type="hidden" name="id_list" value="<%= pur_info_id %>">
+            <input type="hidden" name="com_id_list" value="<%= com_id %>">
             <label>お届け先住所：</label>
             <input type="text" name="address">
             <button type="submit">確定</button>

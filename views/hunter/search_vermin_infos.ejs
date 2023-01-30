@@ -3,8 +3,9 @@
 ファイル名 search_vermin_infos.ejs
 作成者 内藤壱成
 概要 登録済みの害獣の位置情報を検索する入力画面
-変更日 2023-1-19
-フロント ナビ、ボタンのデザイン修正
+変更日 2023-1-30
+フロントの残り
+・ボタンのデザイン
 -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -74,7 +75,7 @@
     <main id="main">
         <div id="main-in">
             <div class="box">
-                <h2>害獣位置情報検索</h2>
+                <h2>害獣位置情報検索２</h2>
                 <!-- <form id="contant-form" class="form" name="contact-form"> -->
                 <fieldset class="form__group">
                     <legend class="form__group-header">
@@ -120,18 +121,46 @@
                         </p>
                     </div>
                 </div>
-
-
                 <!-- </form> -->
-                <div id="start-day-div">
+                <!-- bk -->
+                <!-- <div id="start-day-div">
                     <label for="start_day">開始日時</label>
                     <input type="datetime-local" name="start_day" id="start_day"><br>
-                </div>
-                <div id="end-day-div">
+                </div> -->
+                <fieldset class="form__group">
+                    <legend class="form__group-header">
+                        <!-- <legend> -->
+                        <span class="form__group-label">開始日時</span>
+                    </legend>
+                    <div class="form__group-content">
+                        <div class="form__name">
+                            <div class="form__text-input start-day-div">
+                                <input id="start_day" class="text-input__body" type="date" name="start_day"
+                                    title="開始日時を指定してください">
+                                <span class="text-input__validator"></span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="form__group">
+                    <legend class="form__group-header">
+                        <!-- <legend> -->
+                        <span class="form__group-label">終了日時</span>
+                    </legend>
+                    <div class="form__group-content">
+                        <div class="form__name">
+                            <div class="form__text-input start-day-div">
+                                <input id="start_day" class="text-input__body" type="date" name="start_day"
+                                    title="終了日時を指定してください">
+                                <span class="text-input__validator"></span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <!-- <div id="end-day-div">
                     <label for="end_day">終了日時</label>
                     <input type="datetime-local" name="end_day" id="end_day"><br>
-                </div>
-                <!-- <input type="submit" value="検索" id="search-button"> -->
+                </div> -->
                 <button class="button" id="clear-date">日付リセット</button>
                 <button class="button" id="set-1month">1ヵ月以内</button>
                 <button class="button" id="set-6month">6ヵ月以内</button><br>

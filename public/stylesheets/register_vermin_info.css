@@ -1,12 +1,10 @@
 #map {
   height: 500px;
   position: sticky;
+  z-index: 1; /*追加*/
 }
 
 #content {
-  border-color: black;
-  margin: 5px;
-  border-width: 1px;
   border-style: solid;
 }
 

@@ -10,6 +10,7 @@
     <!-- <link href='../css/item-list.css' rel='stylesheet' type='text/css'> -->
     <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/stylesheets/form-sample.css">
+    <link rel="stylesheet" href="/stylesheets/item_detail.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -38,13 +39,22 @@
                         </div>
                         <div class="col-md-7">
                             <p>価格：<%= commodity.price %>円</p>
-                            <p>購入個数：<%= purchase_info.num_purchased %></p>
+                            <p>在庫数：<%= commodity.stock %></p>
                             <p>害獣名：<%= commodity.wild_animal_info.wild_animal_name %></p>
                             <p>カテゴリ：<%= commodity.category.category_name %></p>
                             <p>説明：<%= commodity.detail %></p>
                             <p>出品者名：<%= commodity.user.user_name %></p>
-                            <% let updated_at = new Date(purchase_info.updatedAt) %>
-                            <p>購入日時：<%= updated_at.getFullYear() %>年 <%= updated_at.getMonth() +1 %>月<%= updated_at.getDate() %>日 <%= updated_at.getHours() %>時<%= updated_at.getMinutes() %>分</p>
+                            <% let d = new Date(commodity.selling_term); %>
+                            <p>掲載期限：<%= d.getFullYear() %>年 <%= d.getMonth() +1 %>月<%= d.getDate() %>日 <%= d.getHours() %>時<%= d.getMinutes() %>分</p>
+                            <span class="prd-lst-span">
+                                <form action="/purchaser/add_cart" method="post">
+                                    <input type="hidden" name="id" value="<%= commodity.id %>">
+                                    <input type="hidden" name="facility_id" value="<%= commodity.user_id %>">
+                                    <label for="quantity">購入数：</label>
+                                    <input type="number" min="1" max="<%= commodity.stock %>" class="num_textbox" name="quantity">個
+                                    <button type="submit" class="add-cart-button">カートに入れる</button>
+                                </form>
+                            </span>
                         </div>
                         
                     </div>

@@ -246,4 +246,169 @@ router.get("/facility_detail", (req, res, next) => {
   });
 });
 
+// 狩猟者指名依頼 get
+router.get("/show_requests_from_facility", (req, res, next) => {
+  db.req_from_facility.findAll({
+    where: {
+      [Op.and]: {
+        user_2_id: req.session.login.id,
+        is_accepted: false,
+        is_closed: false
+      }
+    },
+    include: [{
+      model: db.users,
+      as: "request_user"
+    }]
+  })
+  .then((results) => {
+    let data  = {
+      title: "狩猟者依頼一覧",
+      results: results,
+    }
+    res.render("hunter/show_requests_from_facility", data);
+  })
+});
+
+// 狩猟者依頼詳細 get
+router.get("/request_from_facility_detail", (req, res, next) => {
+  db.req_from_facility.findOne({
+    where: {
+      id: req.query.id,
+    },
+    include: [
+      {
+        model: db.users,
+        as: "request_user"
+      },
+      {model: db.wild_animal_info},
+    ]
+  })
+  .then((result) => {
+    console.dir(result);
+    let data = {
+      title: "狩猟者依頼詳細",
+      result: result,
+    }
+    res.render("hunter/request_from_facility_detail", data);
+  })
+});
+
+router.post("/response_to_request", (req, res, next) => {
+  db.req_from_facility.findByPk(req.body.req_id)
+  .then((result) => {
+    if (req.body.accept == "true") {
+      result.is_accepted = true
+      result.save()
+      .then(() => {
+        console.log(chalk.blue("saved is_accepted: true"));
+        res.redirect("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        res.redirect("/");
+      })
+    } else if (req.body.accept == "false") {
+      result.is_closed = true
+      result.save()
+      .then(() => {
+        console.log(chalk.blue("saved is_accepted: false, is_closed: true"));
+        res.redirect("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        res.redirect("/");
+      })
+    } else {
+      console.log("errr");
+      res.redirect("/");
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.redirect("/");
+  })
+});
+
+// 公開狩猟者依頼検索 get
+router.get("/search_requests_from_facility", (req, res, next) => {
+  db.wild_animal_info.findAll()
+  .then((result_animals) => {
+    let data = {
+      title: "狩猟者公開依頼検索",
+      animals: result_animals,
+      results: "",
+      users: "",
+    }
+    res.render("hunter/search_requests_from_facility", data);
+  })
+  .catch((err) => {
+    console.log("2:", err);
+  });
+});
+
+// 公開狩猟者依頼検索 post
+router.post("/search_requests_from_facility", (req, res, next) => {
+  let query_str = "select * from req_from_facilities where is_public = true";
+  let where_str = [];
+  if (req.body.word != "") {
+    where_str.push(func_file.fmt("content LIKE '%${word}%'", {word: req.body.word}));
+  }
+  if (req.body.animals != 0) {
+    where_str.push(func_file.fmt("wild_animal_info_id = ${animal_id}", {animal_id: req.body.animals}));
+  }
+  let join_query;
+  if (where_str.length == 1) {
+    query_str += " AND ";
+    query_str += where_str[0];
+  } else {
+    if (where_str.length != 0) {
+      query_str += " AND ";
+      join_query = where_str.join(" AND ");
+      query_str += join_query
+    }
+  }
+  console.log(query_str);
+  sequelize.query(query_str, { type: QueryTypes.SELECT })
+  .then((results) => {
+    let list_user = [];
+    for (let i in results) {
+      console.log(results[i]);
+      list_user.push(results[i].user_1_id)
+    }
+    db.users.findAll({
+      where: {
+        id: {
+          [Op.in]: list_user
+        }
+      }
+    })
+    .then((req_users) => {
+      console.log(chalk.blue(req_users));
+      db.wild_animal_info.findAll()
+      .then((result_animals) => {
+        let data = {
+          title: "購入者公開依頼検索",
+          results: results,
+          users: req_users,
+          animals: result_animals,
+        }
+        res.render("hunter/search_requests_from_facility", data);
+      })
+      .catch((err) => {
+        console.log("2:", err);
+        res.redirect("/");
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/");
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+    res.redirect("/");
+  })
+})
+
 module.exports = router;

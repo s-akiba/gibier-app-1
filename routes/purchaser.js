@@ -206,9 +206,6 @@ router.get('/payment',(req,res,next)=>{
   })
 })
 
-async function update_and_decrement(params) {
-  
-}
 
 // 決済処理
 router.post('/payment',(req,res,next)=>{
@@ -275,12 +272,14 @@ router.post('/payment',(req,res,next)=>{
       }
     })
     .then((data_count) => {
-      if (data_count == 0){
-        // success
-        res.redirect("/purchaser/cart_list?msg=1");
-      } else {
-        res.redirect("/purchaser/cart_list?msg=2");
-      }
+      setTimeout(() => {
+        if (data_count == 0){
+          // success
+          res.redirect("/purchaser/cart_list?msg=1");
+        } else {
+          res.redirect("/purchaser/cart_list?msg=2");
+        }
+      }, 1000)
     })
   })
 });
@@ -310,7 +309,8 @@ router.get('/items_history_list',(req,res,next)=>{
       {model: db.users,
       as: "facility_user"},
       {model: db.commodities}
-    ]
+    ],
+    order: [['createdAt', 'DESC']]
   })
   .then((history_results) => {
     console.log(history_results);
@@ -464,15 +464,19 @@ router.post('/request_to_facility', (req, res, next) => {
   console.log(req.body);
   let data = {
     user_1_id: req.session.login.id,
-    user_2_id: req.body.facility_id,
+    user_2_id: null,
     category_id: req.body.category_options,
     wild_animal_info_id: req.body.animal_options,
     num: req.body.request_num,
     content: req.body.content,
     appointed_day: req.body.appointed_day,
-    is_public: false,
+    is_public: true,
     is_accepted: false,
     is_closed: false,
+  }
+  if (req.body.private_or_public == "private") {
+    data.user_2_id = req.body.facility_id;
+    data.is_public = false;
   }
   db.req_from_purchaser.create(data)
   .then(result => {
@@ -538,5 +542,23 @@ router.post('/public_request_to_facility', (req, res, next) => {
     res.redirect("/");
   });
 });
+
+// 出品情報詳細 get
+router.get("/item_detail", (req, res, next) => {
+  db.commodities.findByPk(req.query.id, {
+    include: [
+      {model: db.users},
+      {model: db.wild_animal_info},
+      {model: db.categories}
+    ]
+  })
+  .then((result_commodity) => {
+    let data = {
+      title: "商品詳細",
+      commodity: result_commodity
+    }
+    res.render("purchaser/item_detail", data);
+  })
+})
 
 module.exports = router;

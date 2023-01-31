@@ -102,7 +102,7 @@
                             <% let obj = item[i] %>
                             <div class="col">
                                 <div class="card">
-                                    <a href="#">
+                                    <a href="/purchaser/item_detail?id=<%= obj.id %>">
                                         <img src="/uploads/<%= obj.image_link %>" class="card-img-top" >
                                     </a>
                                     <div class="card-body">
@@ -113,7 +113,7 @@
                                                 <input type="hidden" name="id" value="<%= obj.id %>">
                                                 <input type="hidden" name="facility_id" value="<%= obj.user_id %>">
                                                 <label for="quantity">購入数：</label>
-                                                <input type="number" min="1" class="num_textbox" name="quantity">個
+                                                <input type="number" min="1" max="<%= obj.stock %>" class="num_textbox" name="quantity">個
                                                 <button type="submit" class="add-cart-button">カートに入れる</button>
                                             </form>
                                         </span>

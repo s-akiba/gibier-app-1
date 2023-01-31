@@ -1,21 +1,3 @@
-<!-- 狩猟依頼情報入力画面 -->
-<!-- <!DOCTYPE html>
-<html>
-    <head></head>
-    <body>
-        <form action="/facility/create_hunter_req" method="post">
-            <label>依頼内容</label>
-            <input type="text" name="text">
-            <label>害獣名</label>
-            <input type="text" name="animal">
-            <label>納期</label>
-            <input type="date" name="date">
-            <input type="submit" value="決定">
-        </form>
-    </body>
-</html> -->
-
-
 
 
 <!DOCTYPE html>
@@ -44,7 +26,7 @@
         <div id="main-in">
             <div class="box">
                 <h2><%= title %></h2>
-                <form method="post" action="/facility/create_hunter_req">
+                <form method="post" action="/facility/public_hunter_req_input">
                 <div class="form__group">
                     <p class="form__group-header">
                         <label class="form__group-label" for="animal_options">害獣名選択</label>
@@ -95,15 +77,6 @@
                         </div>
                     </div>
                 </fieldset>
-                <input type="hidden" name="hunter_id" id="hunter_id" value="<%= hunter_user.id %>">
-                <input type="radio" name="private_or_public" value="private" id="radio-private" checked>
-                <label for="radio-private">処理施設を指定して依頼を作成する。</label><br>
-                <div id="selected-hunter">
-                    <h2>選択された狩猟者</h2>
-                    <p><%= hunter_user.user_name %></p>
-                </div>
-                <input type="radio" name="private_or_public" value="public" id="radio-public">
-                <label for="radio-public">狩猟者を指定せず、公開の依頼を作成する。</label><br>
                 <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     確認
@@ -134,10 +107,6 @@
                   <h2>詳細情報</h2>
                   <p id="input-content"></p>
                   <h2 id="message-public">依頼の公開：公開する</h2>
-                  <div id="message-private">
-                    <h2>選択された狩猟者</h2>
-                    <p><%= hunter_user.user_name %></p>
-                  </div>
                   
                 </div>
                 <div class="modal-footer">
@@ -163,8 +132,6 @@
             $("#order-num").text($("#request_num").val());
             $("#selected-appointed-day").text(now.getMonth()+1 + "月 " + now.getDate() + "日 " + (now.getHours() -9) + "時" + now.getMinutes( )  + "分");
             $("#input-content").text($("#content").val());
-            $("#message-private").show();
-            $("#message-public").hide();
             
         }
 
@@ -192,18 +159,6 @@
             $("#selected-appointed-day").text(d1.getMonth()+1 + "月 " + d1.getDate() + "日 " + d1.getHours() + "時" + d1.getMinutes() + "分");
         });
 
-        $('input[type=radio][name=private_or_public]').change(function() {
-            if (this.value == 'private') {
-                $("#message-private").show();
-                $("#message-public").hide();
-                $("#selected-hunter").show();
-            }
-            else if (this.value == 'public') {
-                $("#message-private").hide();
-                $("#message-public").show();
-                $("#selected-hunter").hide();
-            }
-        });
     </script>
 </body>
 

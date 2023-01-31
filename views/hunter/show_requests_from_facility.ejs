@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+  </head>
+
+  <body>
+    <h2><%= title %></h2>
+    <% if (results != "") { %>
+      <% for(let i in results) { %>
+        <% let obj = results[i] %>
+        <a href="/hunter/request_from_facility_detail?id=<%= obj.id %>">
+          <p>req id : <%= obj.id %> : <%= obj.request_user.user_name %> さんからの依頼</p>
+        </a>
+      <% } %>
+    <% } else { %>
+      <p>依頼はありません</p>
+    <% } %>
+  </body>
+</html>

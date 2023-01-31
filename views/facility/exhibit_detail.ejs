@@ -3,12 +3,12 @@
     <head></head>
     <body>
         <img src="/uploads/<%= item.image_link %>" width="150" height="150">
-        <p><%= item.wild_animal_name %></p>
-        <p><%= item.category_name %></p>
-        <p><%= item.detail %></p>
-        <p><%= item.stock %></p>
-        <p><%= item.selling_term %></p>
-        <a href="javascript:history.back();">戻る</a>
+        <p>動物名：<%= item.wild_animal_name %></p>
+        <p>部位：<%= item.category_name %></p>
+        <p>説明文：<%= item.detail %></p>
+        <p>在庫：<%= item.stock %></p>
+        <p>掲載期限：<%= limit %></p>
+        <button type="button" onclick="history.back()">戻る</button>
         <form action="/facility/exhibit_delete" method="post">
             <input type="hidden" name="image_link" value="<%= item.image_link %>">
             <button type="submit">取り消す</button>

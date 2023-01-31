@@ -16,13 +16,9 @@ var client = new Client({
 })
 client.connect()
 
-// 購入者ホーム画面の表示
-router.get('/',(req,res,next)=>{
-  res.render('purchaser/home');
-})
-
 // 商品検索画面の表示
 router.get('/search_item',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.wild_animal_info.findAll()
   .then((result_animals) => {
     db.categories.findAll()
@@ -36,7 +32,6 @@ router.get('/search_item',(req,res,next)=>{
       res.render('purchaser/search_item', data);
     })
   });
-  
 });
 
 // 商品の検索処理
@@ -65,62 +60,55 @@ router.post('/items_list',(req,res,next)=>{
         animals: result_animals,
         categories: result_categories,
       }
-      // 動物名だけで検索
-      if(animal_id!='' && category_id=='' && facility==''){
-        where = 'where wild_animal_info_id=';
-        client.query(sql+where+animal_id+';',function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // カテゴリだけで検索
-      else if(animal_id=='' && category_id!='' && facility==''){
-        where = 'where category_id=';
-        client.query(sql+where+category_id+';',function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // 処理施設だけで検索
-      else if(animal_id=='' && category_id=='' && facility!=''){
-        where = "where user_name like '%"+facility+"%'";
-        client.query(sql+where,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // 動物名とカテゴリで検索
-      else if(animal_id!='' && category_id!='' && facility==''){
-        where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+';';
-        client.query(sql+where,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // 動物名と処理施設名で検索
-      else if(animal_id!='' && category_id=='' && facility!=''){
-        where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'";
-        client.query(sql+where,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // カテゴリと処理施設名で検索
-      else if(animal_id=='' && category_id!='' && facility!=''){
-        where = "where category_id="+category_id+" and user_name like '%"+facility+"%'";
-        client.query(sql+where,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-    })
-  });
+      let term = ' and not stock=0 and selling_term>=current_date'
+  // 動物名だけで検索
+  if(animal_id!='' && category_id=='' && facility==''){
+    where = 'where wild_animal_info_id=';
+    client.query(sql+where+animal_id+term,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // カテゴリだけで検索
+  else if(animal_id=='' && category_id!='' && facility==''){
+    where = 'where category_id=';
+    client.query(sql+where+category_id+term,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // 処理施設だけで検索
+  else if(animal_id=='' && category_id=='' && facility!=''){
+    where = "where user_name like '%"+facility+"%'";
+    client.query(sql+where+term,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // 動物名とカテゴリで検索
+  else if(animal_id!='' && category_id!='' && facility==''){
+    where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+term;
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // 動物名と処理施設名で検索
+  else if(animal_id!='' && category_id=='' && facility!=''){
+    where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'"+term;
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
+  // カテゴリと処理施設名で検索
+  else if(animal_id=='' && category_id!='' && facility!=''){
+    where = "where category_id="+category_id+" and user_name like '%"+facility+"%'"+term;
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.render('purchaser/items_list',{item:result.rows});
+    });
+  }
 });
 
 // カートに追加する機能
@@ -166,6 +154,7 @@ router.post('/add_cart',(req,res,next)=>{
     where user_2_id=
 */
 router.get('/cart_list',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   let msg_num = 0;
   // console.log(req.query.msg); 
   if (req.query.msg != undefined) {
@@ -195,6 +184,7 @@ router.post('/delete_cart_list',(req,res,next)=>{
 
 // 決済画面の表示
 router.get('/payment',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.users.findByPk(req.session.login.id)
   .then((result_user) => {
     let data = {
@@ -204,12 +194,11 @@ router.get('/payment',(req,res,next)=>{
     }
     res.render('purchaser/payment',data);
   })
-})
+});
 
 
 // 決済処理
 router.post('/payment',(req,res,next)=>{
-  console.log(req.body.id_list);
   let id_list = req.body.id_list.split(',').map(function(e){
     return Number(e);
   });
@@ -365,6 +354,17 @@ router.post('/cancel_purchase',(req,res,next)=>{
     console.log('deleted');
     res.redirect('/purchaser/items_history_list');
   });
+  // if(req.body.is_accepted){
+    
+  // }else{
+  //   db.purchase_info.findOne({
+  //     where:{id:req.body.purchase_id}
+  //   }).then(result=>{
+  //     result.destroy();
+  //     console.log('deleted');
+  //     res.redirect('/purchaser/items_history_list');
+  //   });
+  // }
 });
 
 // 処理施設検索 get

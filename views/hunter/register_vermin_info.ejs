@@ -7,7 +7,7 @@
 変更日 2023-1-30
 
 フロントの残り
-・ボタンがどこのスタイルが適応されているのか、モーダルも
+なし
 -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -94,12 +94,19 @@
                 <h2>害獣位置情報入力</h2>
                 <!-- <input type="button" name="reset" id="reset" onclick="refresh()" value="位置リセット"> -->
                 <form id="contant-form" class="form" name="contact-form">
+                    <!-- 注意書き -->
+                    <div class="form__description">
+                        <p>必要事項をご入力のうえ、確認画面へお進みください。</p>
+                        <p><span class="form__required-label">必須</span>の項目はお手数ですが必ず入力をお願いいたします。</p>
+                    </div>
+                    <!-- 位置情報 -->
                     <fieldset class="form__group">
                         <p>位置情報 <strong class="form__required-label">必須</strong></p>
-                        <div class="padding">
-                            <div id="map"></div>
-                        </div>
+                        <fieldset class="itizyouhou ">
+                                <div id="map" ></div>
+                        </fieldset>
                     </fieldset>
+                    <!-- 害獣名 -->
                     <fieldset class="form__group">
                         <legend class="form__group-header">
                             <span class="form__group-label">害獣名<strong class="form__required-label">必須</strong></span>
@@ -120,6 +127,7 @@
                             </div>
                         </div>
                     </fieldset>
+                    <!-- 詳細 -->
                     <div class="form__group">
                         <p class="form__group-header">
                             <label class="form__group-label" for="message">詳細</label>
@@ -135,14 +143,14 @@
                             </p>
                         </div>
                     </div>
-
+                    <!-- ボタン -->
                     <div class="form__submit">
                         <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
                         <!-- <button class="button" type="submit">送信する</button> -->
                         <button class="button child2 check-button" type="button" id="open">確認する</button>
                     </div>
                 </form>
-                <!-- モーダル -->
+                <!-- モーダル -->   
                 <section id="info">
                     <div class="content">
                         <h2>入力確認画面</h2>
@@ -216,8 +224,12 @@
                                 </p>
                             </div>
                         </div>
-
-                        <button class="button" type="submit" id="submit-button" disabled>送信</button>
+                        <div class="form__submit">
+                            <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
+                            <!-- <button type="button" id="search-button" class="button">検索</button> -->
+                            <button class="button" type="submit" id="submit-button" disabled>送信</button>
+                            <!-- <button class="button" type="submit">送信する</button> -->
+                        </div>
                     </div>
                 </section>
             </div>

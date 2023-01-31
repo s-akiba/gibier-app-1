@@ -236,7 +236,15 @@ router.post('/login', (req, res, next) => {
         usr.last_logged_on = new Date();
         usr.save()
         .then(() => {
-          res.redirect("/");
+          if (usr.is_facility) {
+            res.redirect("/facility");
+          } else if (usr.is_hunter) {
+            res.redirect("/hunter");
+          } else if (usr.is_purchaser) {
+            res.redirect("/purchaser");
+          } else {
+            res.redirect("/");
+          }
         })
       } else {
         let data = {

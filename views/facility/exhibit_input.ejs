@@ -1,36 +1,266 @@
-<!-- 出品情報入力画面 -->
+
+
 <!DOCTYPE html>
-<html>
-    <head></head>
-    <body>
-        <form action="/facility/exhibit_input" method="post" enctype="multipart/form-data">
-            <label>動物名</label>
-            <select name="animal" required>
-                <option value="">----</option>
-                <option value="1">シカ</option>
-                <option value="2">イノシシ</option>
-                <option value="3">ハクビシン</option>
-            </select>
-            <label>商品カテゴリ</label>
-            <select name="category" required>
-                <option value="">----</option>
-                <option value="1">背ロース</option>
-                <option value="2">バラ</option>
-                <option value="3">モモ</option>
-                <option value="4">スネ</option>
-                <option value="5">その他</option>
-            </select>
-            <label>説明</label>
-            <input type="text" name="text">
-            <label>画像</label>
-            <input type="file" name="file">
-            <label>価格</label>
-            <input type="text" name="price" required>
-            <label>個数</label>
-            <input type="text" name="num" required>
-            <label>掲載期限</label>
-            <input type="date" name="limit" required>
-            <button type="submit">登録</button>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/form-sample.css' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/exhibit_input.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+            integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+            crossorigin=""></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+</head>
+
+<body onload="init_insert()">
+    <%- include("../sidebar_facility.ejs") %>
+    <main id="main">
+        <div id="main-in">
+            <div class="box">
+                <h2><%= title %></h2>
+                <form action="/facility/exhibit_input" method="post" enctype="multipart/form-data">
+                <div class="form__group">
+                    <p class="form__group-header">
+                        <label class="form__group-label" for="animal_options">動物名<strong class="form__required-label">必須</strong></label>
+                    </p>
+                    <div class="form__group-content">
+                        <div class="form__select-box">
+                            <div class="select-box">
+                                <select name="animal_options" id="animal_options" class="select-box__body">
+                                    <% for(let i in animals) { %>
+                                        <% let obj = animals[i] %>
+                                        <option value="<%= obj.id %>"><%= obj.wild_animal_name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <p class="form__group-header">
+                        <label class="form__group-label" for="category_options">商品カテゴリ<strong class="form__required-label">必須</strong></label>
+                    </p>
+                    <div class="form__group-content">
+                        <div class="form__select-box">
+                            <div class="select-box">
+                                <select name="category_options" id="category_options" class="select-box__body">
+                                    <% for(let i in categories) { %>
+                                        <% let obj = categories[i] %>
+                                        <option value="<%= obj.id %>"><%= obj.category_name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
+                <fieldset class="form__group">
+                  <legend class="form__group-header">
+                      <span class="form__group-label">説明</span>
+                  </legend>
+                  <div class="form__group-content">
+                      <div class="form__name">
+                          <div class="form__text-input">
+                              <textarea name="text" class="text-input__body" cols="3" rows="5" id="content-input" placeholder="タイトル、詳細情報"></textarea>
+                          </div>
+                      </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form__group">
+                    <legend class="form__group-header">
+                        <span class="form__group-label">画像</span>
+                    </legend>
+                    <div class="form__group-content">
+                        <div class="form__name">
+                            <div class="form__text-input">
+                                <label id="file-label">
+                                    <input  class="text-input__body" type="file" name="file" id="file-input" accept="image/*">ファイルを選択
+                                </label>
+                                <p id="file-name-p">選択されていません</p>
+                            </div>
+                        </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="form__group">
+                  <legend class="form__group-header">
+                      <span class="form__group-label">価格<strong class="form__required-label">必須</strong></span>
+                  </legend>
+                  <div class="form__group-content">
+                      <div class="form__name">
+                          <div class="form__text-input">
+                              <input  class="text-input__body" type="number" name="price" min="1" value="1000" id="price-input" required>
+                          </div>
+                      </div>
+                  </div>
+                </fieldset>
+
+                  <fieldset class="form__group">
+                    <legend class="form__group-header">
+                        <span class="form__group-label">個数<strong class="form__required-label">必須</strong></span>
+                    </legend>
+                    <div class="form__group-content">
+                        <div class="form__name">
+                            <div class="form__text-input">
+                                <input  class="text-input__body" type="number" name="num" min="1" value="1" id="num-input" required>
+                            </div>
+                        </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="form__group">
+                    <legend class="form__group-header">
+                        <span class="form__group-label">掲載期限<strong class="form__required-label">必須</strong></span>
+                    </legend>
+                    <div class="form__group-content">
+                        <div class="form__name">
+                            <div class="form__text-input">
+                                <input  class="text-input__body" type="datetime-local" name="limit" id="limit-day-input" required>
+                            </div>
+                        </div>
+                    </div>
+                  </fieldset>
+
+                <div id="confirm-button-div">
+                    <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        確認
+                    </button>
+                </div>
+
+
+<!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">入力内容確認</h5>
+                </div>
+                <div class="modal-body">
+                  <h2>選択された動物名</h2>
+                  <p id="selected-animal"></p>
+                  <h2>選択されたカテゴリー</h2>
+                  <p id="selected-category"></p>
+                  <h2>詳細情報</h2>
+                  <p id="input-content"></p>
+                  <h2>画像ファイル</h2>
+                  <p id="selected-file-name">選択されていません</p>
+                  <h2>価格</h2>
+                  <p id="selected-price-num"></p>
+                  <h2>個数</h2>
+                  <p id="selected-commodity-num"></p>
+                  <h2>掲載期限</h2>
+                  <p id="selected-limit-day"></p>
+                  
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
+                  <input type="submit" value="出品登録" class="btn btn-primary">
+                </div>
+              </div>
+            </div>
+          </div> type="submit">登録</button>
         </form>
-    </body>
+
+
+                <!-- <button type="submit"  id="submit-button" class="button">検索</button> -->
+        <footer class="footer">
+            <p>FOOTER KAKU</p>
+            <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                10:00～19:30</p>
+            <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+        </footer>
+        </div><!-- /#main-in -->
+    </main>
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.sub-menu').on({
+                    'mouseenter': function () {
+                        $(this).addClass('is-active');
+                    },
+                    'mouseleave': function () {
+                        $(this).removeClass('is-active');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+    <script type="text/javascript">
+        $('#file-input').on('change', function () {
+            var file = $(this).prop('files')[0];
+            $('#file-name-p').text(file.name);
+            $("#selected-file-name").text(file.name);
+        });
+    </script>
+        <script type="text/javascript">
+            function init_insert() {
+                var now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                    /* remove second/millisecond if needed - credit ref. https://stackoverflow.com/questions/24468518/html5-input-datetime-local-default-value-of-today-and-current-time#comment112871765_60884408 */
+                now.setMilliseconds(null)
+                now.setSeconds(null)
+                document.getElementById('limit-day-input').value = now.toISOString().slice(0, -1);
+    
+                $("#selected-animal").text($("#animal_options").find('option:selected').text());
+                $("#selected-category").text($("#category_options").find('option:selected').text());
+                $("#selected-price-num").text($("#price-input").val());
+                $("#selected-commodity-num").text($("#num-input").val());
+                $("#selected-limit-day").text(now.getMonth()+1 + "月 " + now.getDate() + "日 " + (now.getHours() -9) + "時" + now.getMinutes( )  + "分");
+                $("#input-content").text($("#content").val());
+    
+                
+            }
+    
+            $("#animal_options").change(function() {
+                $("#selected-animal").text($("#animal_options").find('option:selected').text());
+            });
+    
+            $("#category_options").change(function() {
+                $("#selected-category").text($("#category_options").find('option:selected').text());
+            });
+    
+            $("#price-input").keypress(function() {
+                $("#selected-price-num").text($("#price-input").val());
+            });
+
+            $("#price-input").change(function() {
+                $("#selected-price-num").text($("#price-input").val());
+            });
+    
+            $("#num-input").keypress(function() {
+                $("#selected-commodity-num").text($("#num-input").val());
+            });
+
+            $("#num-input").change(function() {
+                $("#selected-commdity-num").text($("#num-input").val());
+            });
+    
+            $("#content-input").change(function() {
+                $("#input-content").text($("#content-input").val());
+            })
+    
+            $("#limit-day-input").change(function() {
+                // alert("change");
+                const d_string = Date.parse($("#limit-day-input").val());
+                const d1 = new Date(d_string);
+                // alert(d1.getMonth());
+                $("#selected-limit-day").text(d1.getMonth()+1 + "月 " + d1.getDate() + "日 " + d1.getHours() + "時" + d1.getMinutes() + "分");
+            });
+    
+        </script>
+    <!-- <script src="/javascripts/hunter_search_facilities.js"></script> -->
+</body>
+
 </html>

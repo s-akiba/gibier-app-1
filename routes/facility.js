@@ -35,16 +35,28 @@ client.connect()
 router.get('/exhibit_input',function(req,res,next){
   if (func_file.login_class_check(req, res, {is_facility: true})){return};
   console.log('login user id : '+req.session.login["id"]);
-  res.render('facility/exhibit_input');
+  db.wild_animal_info.findAll()
+  .then((result_animals) => {
+    db.categories.findAll()
+    .then((result_categories) => {
+      let data = {
+        title: "出品情報入力画面",
+        animals: result_animals,
+        categories: result_categories
+      }
+      res.render('facility/exhibit_input', data);
+    })
+  })
+  
 });
 
 /* 出品情報の登録処理 */
 router.post('/exhibit_input',upload.single('file'),function(req,res,next){
   db.sequelize.sync().then(()=>db.commodities.create({
     user_id : req.session.login['id'],
-    vermin_hunted_id : 99,  //わからんからとりあえず埋めとく
-    wild_animal_info_id : req.body.animal,
-    category_id : req.body.category,
+    vermin_hunted_id : null,  //わからんからとりあえず埋めとく
+    wild_animal_info_id : req.body.animal_options,
+    category_id : req.body.category_options,
     detail : req.body.text,
     image_link : req.file.filename,
     price : req.body.price,
@@ -109,7 +121,36 @@ router.post('/exhibit_delete',function(req,res,next){
 /* 狩猟者検索画面の表示 */
 router.get('/search_hunter',function(req,res,next){
   if (func_file.login_class_check(req, res, {is_facility: true})){return};
-  res.render('facility/search_hunter');
+  // res.render('facility/search_hunter');
+  db.regions.findAll()
+  .then(regs => {
+    let data = {
+      title: "狩猟者検索",
+      regions: regs
+    }
+    res.render("facility/search_hunter", data);
+  });
+});
+
+router.get("/search_hutner_json", (req, res, next) => {
+  let query_data = {is_hunter: true};
+  if (req.query.region != 0) {
+    query_data["region_id"] = req.query.region;
+  }
+  if (req.query.search_word.length != 0) {
+    query_data["user_name"] = {[Op.like]: '%' + req.query.search_word + '%'};
+  }
+  console.log(query_data);
+  db.users.findAll({
+    where: query_data
+  })
+  .then((results) => {
+    console.log(JSON.stringify(results));
+    res.json(results);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 
 /* 狩猟者検索処理 */
@@ -162,10 +203,31 @@ router.get('/hunter_detail/',function(req,res,next){
 // みたいなかんじでgetして指定した狩猟者の情報と一緒に依頼情報入力画面表示
 /* 狩猟者情報入力画面の表示 */
 //hunter_detail/hunter_req_input
-router.get('/hunter_req_input',function(req,res,next){
+router.get("/hunter_req_input", (req, res, next) => {
   if (func_file.login_class_check(req, res, {is_facility: true})){return};
-  res.render('facility/hunter_req_input');
+  db.users.findByPk(req.query.id)
+  .then((usr) => {
+    console.log(usr);
+    db.wild_animal_info.findAll()
+    .then((animals) => {
+      let data = {
+        title: "狩猟者依頼作成",
+        hunter_user: usr,
+        animals: animals
+      }
+      res.render('facility/hunter_req_input', data);
+    })
+    .catch((err) => {
+      console.log("err animal: ", err);
+      res.redirect("/");
+    })
+  })
+  .catch((err) => {
+    console.log("err user: ", err);
+    res.redirect("/");
+  })
 });
+
 
 /* 
 狩猟依頼情報登録処理 
@@ -178,40 +240,109 @@ router.get('/hunter_req_input',function(req,res,next){
   ・動物ID
     フォームで送られてきた動物名からIDを引っ張ってくる
 */
-router.post('/create_hunter_req',function(req,res,next){
-  let user_1_id = req.session.login["id"];  // ログインしてる処理施設ユーザーID
-  let user_2_id = req.query.id;  // 狩猟者ユーザーID
-  let text = req.body.text;  // 依頼文
-  let date = req.body.date;  // 納期
-  let region = req.session.login["region.id"];  // 地域ID
-  let animal_id;  //動物ID
-  db.wild_animal_infos.findOne({
-    where:{
-      wild_animal_name:req.body.animal,
-    }
-  }).then(animal=>{
-    animal_id = animal.id;
-  })
+// router.post('/create_hunter_req',function(req,res,next){
+//   let user_1_id = req.session.login["id"];  // ログインしてる処理施設ユーザーID
+//   let user_2_id = req.query.id;  // 狩猟者ユーザーID
+//   let text = req.body.text;  // 依頼文
+//   let date = req.body.date;  // 納期
+//   let region = req.session.login["region.id"];  // 地域ID
+//   let animal_id;  //動物ID
+//   db.wild_animal_infos.findOne({
+//     where:{
+//       wild_animal_name:req.body.animal,
+//     }
+//   }).then(animal=>{
+//     animal_id = animal.id;
+//   })
 
-  /*
-  カラムの値を各変数で用意してるので、そいつら使ってCreate  
-  */
-  db.sequelize.sync().then(()=>db.req_from_facility.create({
-    user_1_id: user_1_id,
-    user_2_id: user_2_id,
-    region_id: region,
-    wild_animal_info_id: animal_id,
-    content: text,
-    appointed_day: date,
-    is_public: false,
-    is_acceptd: false,
-    is_closed: false
-  })).then(usr => {
-    res.redirect('/facility');
+//   /*
+//   カラムの値を各変数で用意してるので、そいつら使ってCreate  
+//   */
+//   db.sequelize.sync().then(()=>db.req_from_facility.create({
+//     user_1_id: user_1_id,
+//     user_2_id: user_2_id,
+//     region_id: region,
+//     wild_animal_info_id: animal_id,
+//     content: text,
+//     appointed_day: date,
+//     is_public: false,
+//     is_acceptd: false,
+//     is_closed: false
+//   })).then(usr => {
+//     res.redirect('/facility');
+//   });
+// });
+
+router.post("/create_hunter_req", (req, res, next) => {
+  let data = {
+    user_1_id: req.session.login.id,
+    user_2_id: null,
+    category_id: null,
+    wild_animal_info_id: req.body.animal_options,
+    num: req.body.request_num,
+    content: req.body.content,
+    appointed_day: req.body.appointed_day,
+    is_public: true,
+    is_accepted: false,
+    is_closed: false,
+  }
+  if (req.body.private_or_public == "private") {
+    data.user_2_id = req.body.hunter_id;
+    data.is_public = false;
+  }
+  db.req_from_facility.create(data)
+  .then(result => {
+    console.log("created: ", JSON.stringify(result));
+    res.redirect("/");
+  })
+  .catch((error) => {
+    console.log("DB create error");
+    console.error(error);
+    res.redirect("/");
   });
 });
 
+// 公開狩猟者依頼 get
+router.get("/public_hunter_req_input", (req, res, next) => {
+  db.wild_animal_info.findAll()
+  .then((animals) => {
+    let data = {
+      title: "狩猟者依頼作成",
+      animals: animals
+    }
+    res.render('facility/public_hunter_req_input', data);
+  })
+  .catch((err) => {
+    console.log("err animal: ", err);
+    res.redirect("/");
+  })
+});
 
+// 公開狩猟者依頼 post
+router.post("/public_hunter_req_input", (req, res, next) => {
+  let data = {
+    user_1_id: req.session.login.id,
+    user_2_id: null,
+    category_id: null,
+    wild_animal_info_id: req.body.animal_options,
+    num: req.body.request_num,
+    content: req.body.content,
+    appointed_day: req.body.appointed_day,
+    is_public: true,
+    is_accepted: false,
+    is_closed: false,
+  }
+  db.req_from_facility.create(data)
+  .then(result => {
+    console.log(chalk.green("created: "), JSON.stringify(result));
+    res.redirect("/");
+  })
+  .catch((error) => {
+    console.log("DB create error");
+    console.error(error);
+    res.redirect("/");
+  });
+})
 
 
 // 購入者指名依頼一覧
@@ -435,10 +566,11 @@ router.get("/search_requests_from_purchaser", (req, res, next) => {
 
 
 // 購入者公開依頼検索 post
+// 期限つける
 router.post("/search_requests_from_purchaser", (req, res, next) => {
   if (func_file.login_class_check(req, res, {is_facility: true})){return};
 
-  let query_str = "select * from req_from_purchasers where is_public = true AND ";
+  let query_str = "select * from req_from_purchasers where is_public = true";
   let where_str = [];
   if (req.body.word != "") {
     where_str.push(func_file.fmt("content LIKE '%${word}%'", {word: req.body.word}));
@@ -451,10 +583,14 @@ router.post("/search_requests_from_purchaser", (req, res, next) => {
   }
   let join_query;
   if (where_str.length == 1) {
+    query_str += " AND ";
     query_str += where_str[0];
   } else {
-    join_query = where_str.join(" AND ");
-    query_str += join_query
+    if (where_str.length != 0) {
+      query_str += " AND ";
+      join_query = where_str.join(" AND ");
+      query_str += join_query
+    }
   }
   console.log(query_str);
   sequelize.query(query_str, { type: QueryTypes.SELECT })

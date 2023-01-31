@@ -5,6 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   let data = {
     title: "Express",
+    session: req.session
   }
   res.render('index',data);
 });

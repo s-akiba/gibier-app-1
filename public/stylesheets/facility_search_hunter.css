@@ -9,3 +9,11 @@
   border-top: gray solid 1.5px;
   border-bottom: gray solid 1.5px;
 }
+
+ul {
+    padding-left: 0 !important;
+}
+
+.sub-menu-nav {
+    left: 310px !important;
+}

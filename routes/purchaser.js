@@ -61,54 +61,62 @@ router.post('/items_list',(req,res,next)=>{
         categories: result_categories,
       }
       let term = ' and not stock=0 and selling_term>=current_date'
-  // 動物名だけで検索
-  if(animal_id!='' && category_id=='' && facility==''){
-    where = 'where wild_animal_info_id=';
-    client.query(sql+where+animal_id+term,function(err,result){
-      if (err) throw err;
-      res.render('purchaser/items_list',{item:result.rows});
-    });
-  }
-  // カテゴリだけで検索
-  else if(animal_id=='' && category_id!='' && facility==''){
-    where = 'where category_id=';
-    client.query(sql+where+category_id+term,function(err,result){
-      if (err) throw err;
-      res.render('purchaser/items_list',{item:result.rows});
-    });
-  }
-  // 処理施設だけで検索
-  else if(animal_id=='' && category_id=='' && facility!=''){
-    where = "where user_name like '%"+facility+"%'";
-    client.query(sql+where+term,function(err,result){
-      if (err) throw err;
-      res.render('purchaser/items_list',{item:result.rows});
-    });
-  }
-  // 動物名とカテゴリで検索
-  else if(animal_id!='' && category_id!='' && facility==''){
-    where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+term;
-    client.query(sql+where,function(err,result){
-      if (err) throw err;
-      res.render('purchaser/items_list',{item:result.rows});
-    });
-  }
-  // 動物名と処理施設名で検索
-  else if(animal_id!='' && category_id=='' && facility!=''){
-    where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'"+term;
-    client.query(sql+where,function(err,result){
-      if (err) throw err;
-      res.render('purchaser/items_list',{item:result.rows});
-    });
-  }
-  // カテゴリと処理施設名で検索
-  else if(animal_id=='' && category_id!='' && facility!=''){
-    where = "where category_id="+category_id+" and user_name like '%"+facility+"%'"+term;
-    client.query(sql+where,function(err,result){
-      if (err) throw err;
-      res.render('purchaser/items_list',{item:result.rows});
-    });
-  }
+      // 動物名だけで検索
+      if(animal_id!='' && category_id=='' && facility==''){
+        where = 'where wild_animal_info_id=';
+        client.query(sql+where+animal_id+term,function(err,result){
+          if (err) throw err;
+          data["item"] = result.rows;
+          res.render('purchaser/items_list',data);
+        });
+      }
+      // カテゴリだけで検索
+      else if(animal_id=='' && category_id!='' && facility==''){
+        where = 'where category_id=';
+        client.query(sql+where+category_id+term,function(err,result){
+          if (err) throw err;
+          data["item"] = result.rows;
+          res.render('purchaser/items_list',data);
+        });
+      }
+      // 処理施設だけで検索
+      else if(animal_id=='' && category_id=='' && facility!=''){
+        where = "where user_name like '%"+facility+"%'";
+        client.query(sql+where+term,function(err,result){
+          if (err) throw err;
+          data["item"] = result.rows;
+          res.render('purchaser/items_list',data);
+        });
+      }
+      // 動物名とカテゴリで検索
+      else if(animal_id!='' && category_id!='' && facility==''){
+        where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+term;
+        client.query(sql+where,function(err,result){
+          if (err) throw err;
+          data["item"] = result.rows;
+          res.render('purchaser/items_list',data);
+        });
+      }
+      // 動物名と処理施設名で検索
+      else if(animal_id!='' && category_id=='' && facility!=''){
+        where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'"+term;
+        client.query(sql+where,function(err,result){
+          if (err) throw err;
+          data["item"] = result.rows;
+          res.render('purchaser/items_list',data);
+        });
+      }
+      // カテゴリと処理施設名で検索
+      else if(animal_id=='' && category_id!='' && facility!=''){
+        where = "where category_id="+category_id+" and user_name like '%"+facility+"%'"+term;
+        client.query(sql+where,function(err,result){
+          if (err) throw err;
+          data["item"] = result.rows;
+          res.render('purchaser/items_list',data);
+        });
+      }
+    })
+  })
 });
 
 // カートに追加する機能

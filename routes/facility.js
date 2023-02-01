@@ -31,6 +31,13 @@ var client = new Client({
 })
 client.connect()
 
+
+/* 処理施設ホーム画面の表示 */
+router.get('/', function(req, res, next) {
+  res.render('facility/home');
+});
+
+
 /* 出品情報入力画面の表示 */
 router.get('/exhibit_input',function(req,res,next){
   if (func_file.login_class_check(req, res, {is_facility: true})){return};

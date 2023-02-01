@@ -16,6 +16,11 @@ var client = new Client({
 })
 client.connect()
 
+// 購入者ホーム画面の表示
+router.get('/',(req,res,next)=>{
+  res.render('purchaser/home');
+})
+
 // 商品検索画面の表示
 router.get('/search_item',(req,res,next)=>{
   if (func_file.login_class_check(req, res, {is_purchaser: true})){return};

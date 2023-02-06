@@ -13,3 +13,16 @@
 ul {
     padding-left: 0 !important;
 }
+
+.sub-menu-nav {
+    /* left: 310px !important; */
+}
+
+.request-list {
+    border-top: solid gray;
+    border-width: thin;
+}
+
+.purchase-status > button {
+    opacity: 1 !important;
+}

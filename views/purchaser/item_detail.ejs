@@ -51,7 +51,7 @@
                                     <input type="hidden" name="id" value="<%= commodity.id %>">
                                     <input type="hidden" name="facility_id" value="<%= commodity.user_id %>">
                                     <label for="quantity">購入数：</label>
-                                    <input type="number" min="1" max="<%= commodity.stock %>" class="num_textbox" name="quantity">個
+                                    <input type="number" min="1" max="<%= commodity.stock %>" class="num_textbox" name="quantity" required>個
                                     <button type="submit" class="add-cart-button">カートに入れる</button>
                                 </form>
                             </span>

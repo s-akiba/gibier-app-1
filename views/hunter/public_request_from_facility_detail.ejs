@@ -32,14 +32,6 @@
                         <div class="col-8"><%= result.wild_animal_info.wild_animal_name %></div>
                     </div>
                     <div class="row">
-                        <div class="col-4 text-end">部位：</div>
-                        <div class="col-8"><%= result.category.category_name %></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 text-end">個数：</div>
-                        <div class="col-8"><%= result.num %></div>
-                    </div>
-                    <div class="row">
                         <div class="col-4 text-end">詳細：</div>
                         <div class="col-8" style="overflow-wrap: break-word;"><%= result.content %></div>
                     </div>
@@ -48,38 +40,14 @@
                         <% let appointed_day = new Date(result.appointed_day); %>
                         <div class="col-8"><%= appointed_day.getFullYear() %>/<%= appointed_day.getMonth() +1 %>/<%= appointed_day.getDate() %> <%= appointed_day.getHours() %>:<%= appointed_day.getMinutes() %></div>
                     </div>
-                    <div class="row">
-                        <div class="col-4 text-end">状態：</div>
-                        <div class="col-8">
-                        <% if (!result.is_accepted && !result.is_closed) { %>
-                            <button type="button" class="btn btn-outline-primary" disabled>未受注</button><br>
-                        <% } %>
-                        <% if (result.is_accepted && !result.is_closed) { %>
-                            <button type="button" class="btn btn-outline-info" disabled>受注済</button><br>
-                        <% } %>
-                        <% if (!result.is_accepted && result.is_closed ) { %>
-                            <button type="button" class="btn btn-outline-danger" disabled>拒否</button><br>
-                        <% } %>
-                        <% if (result.is_accepted && result.is_closed ) { %>
-                            <button type="button" class="btn btn-outline-success" disabled>完了</button><br>
-                        <% } %>
-                        </div>
-                    </div>
                     <div class="row m-3">
-                        <div class="col-6">
+                        <div class="col-8">
                             <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
                         </div>
-                        <div class="col-6 text-end">
-                            <% if (!result.is_accepted && !result.is_closed) { %>
-                                <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="button-refusal">拒否する</button>
-                                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="button-receive">受注する</button>
-                            <% } %>
-                            <% if (result.is_accepted && !result.is_closed) { %>
-                                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="button-close">完了する</button>
-                            <% } %>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="button-receive">受注する</button>
                         </div>
                     </div>
-                
                     <!-- Modal -->
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -88,11 +56,10 @@
                                     <h5 class="modal-title" id="staticBackdropLabel">確認画面</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <p id="modal-message"></p>
+                                    <p id="modal-message">この依頼を受注しますか。</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <form method="post" action="/facility/response_to_request">
-                                        <input type="hidden" name="change_status" id="change_status" value="">
+                                    <form method="post" action="/hunter/response_to_public_request">
                                         <input type="hidden" name="req_id" id="req_id" value="<%= result.id %>">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
                                         <input type="submit" value="はい" class="btn btn-primary">
@@ -123,20 +90,6 @@
                 });
             });
         })(jQuery);
-    </script>
-    <script type="text/javascript">
-        $("#button-refusal").on("click", function() {
-            $("#modal-message").text("依頼を拒否しますか。");
-            $("#change_status").val("refuse");
-        } );
-        $("#button-receive").on("click", function() {
-            $("#modal-message").text("依頼を受注しますか。");
-            $("#change_status").val("accept");
-        } );
-        $("#button-close").on("click", function() {
-            $("#modal-message").text("依頼を完了しますか。");
-            $("#change_status").val("close");
-        })
     </script>
 </body>
 

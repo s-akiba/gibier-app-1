@@ -78,8 +78,15 @@
                     <label for="bio">ひとこと</label>
                     <textarea name="bio" id="bio" cols="20" rows="10" class="form-control" ><%= form.bio %></textarea>
                 </div>
-                <input type="submit" value="更新" 
-                    class="btn btn-primary">
+                <div class="row m-5">
+                    <div class="col-6">
+                        <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
+                    </div>
+                    <div class="col-6 text-end">
+                        <input type="submit" value="更新" class="btn btn-primary">
+                    </div>
+                </div>
+                
             </form>
         </div>
         <script type="text/javascript">

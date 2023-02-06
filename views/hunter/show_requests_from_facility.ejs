@@ -8,93 +8,79 @@
 ・「依頼あり」の場合のデザイン
 ・エラー500でデザインを確認できていない！
 -->
+
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>タイトル</title>
+    <title><%= title %></title>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-    <link href='../../css/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/form-sample.css' rel='stylesheet' type='text/css'>
+    <!-- <link rel="stylesheet" href="/stylesheets/show_requests_from_purchaser.css"> -->
+    <link rel="stylesheet" href="/stylesheets/show_requests_from_facility.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 </head>
 
-<body>
-    <header id="global-head">
-        <h1 id="brand-logo">Logo</h1>
-    </header>
-    <aside id="sidebar">
-        <nav id="global-nav">
-            <ul>
-                <li><a href="./home.html" class="nav-tach">Home</a></li>
-                <!-- 受注一覧は受注した一覧で見れるのでいらないかも -->
-                <li><a href="./accepting_orders_list.html" class="nav-tach">受注一覧</a></li>
-                <li class="sub-menu">
-                    <a href="#">出品</a>
-                    <ul class="sub-menu-nav">
-                        <li><a href="./exhibit_input.html" class="nav-tach">出品情報の登録</a></li>
-                        <li><a href="./exhibit_list.html" class="nav-tach">出品済み一覧</a></li> <!--変更した-->
-                    </ul>
-                </li>
-                <!-- 依頼した一覧 -->
-                <li class="sub-menu">
-                    <a href="#">（依）狩猟者への依頼</a>
-                    <ul class="sub-menu-nav">
-                        <li><a href="./hunting_orders_input.html">指名依頼（狩猟者を指名）の依頼一覧</a></li>
-                        <li><a href="./open_orders_input.html">公開依頼（依頼を公開）の依頼一覧</a></li>
-                    </ul>
-                </li>
-                <!-- 受注した一覧 -->
-                <li class="sub-menu">
-                    <a href="#">（受）購入者依頼受注</a>
-                    <ul class="sub-menu-nav">
-                        <li><a href="./specific_rcv_list.html">指名依頼の受注一覧</a></li>
-                        <li><a href="./open_rcv_input.html">公開依頼の受注検索</a></li>
-                    </ul>
-                </li>
-                <li><a href="./contact.html" class="nav-tach">問い合わせ</a></li>
-                <li><a href="./profile.html" class="nav-tach">アカウント情報</a></li>
-                <li><a href="../accounts/withdrawal_accounts.html" class="nav-warning-tach">退会</a></li>
-            </ul>
-        </nav>
-    </aside>
+<body onload="start()">
+    <%- include("../sidebar_hunter.ejs") %>
     <main id="main">
         <div id="main-in">
-            <!-- box1 -->
             <div class="box">
-                <div class="inner">
-                    <h2>
-                        <= title %>
-                    </h2>
-                    <!-- <p>※依頼した一覧</p> -->
-                    <ul class="news-list">
-                        <!-- 依頼あり -->
-                        < if (results !="" ) { %>
-                            < for(let i in results) { %>
-                                < let obj=results[i] %>
-                                    <li class="item">
-                                        <a href="/hunter/request_from_facility_detail?id=<= obj.id %>">
-                                            <p class="date">2020/4/15</p>
-                                            <p class="date">2020/4/16</p>
-                                            <p class="category category-no"><span>拒否</span></p>
-                                            <p class="title">モモ肉１Kg</p>
-                                            <p class="img"><img src="#"
-                                                    onError="this.onerror=null;this.src='../../img/image-not-found.png';"
-                                                    style="width:50px;
-                                    height:50px;
-                                    object-fit:cover;
-                                    border-radius:50%;" /></p>
-                                            <p class="account"><= obj.request_user.user_name %> さん</p>
-                                        </a>
-                                    </li>
-                                    < } %>
-                                        <!-- 依頼なし -->
-                                        < } else { %>
-                                            <p>依頼はありません</p>
-                                            < } %>
+                <h2><%= title %></h2>
+
+                <div class="container">
+                    <ul class="list-group list-group-flush">
+                        <% if (results != "") { %>
+                            <div class="row">
+                                <div class="col-3 text-center">ユーザー</div>
+                                <div class="col-2 text-center">ステータス</div>
+                                <div class="col-3 text-center">作成日時</div>
+                                <div class="col-3 text-center">期限</div>
+                                <div class="col-1"></div>
+                            </div>
+                            <% for(let i in results) { %>
+                                <% let obj = results[i] %>
+                                <% let created_at = new Date(obj.createdAt); %>
+                                <% let appointed_day = new Date(obj.appointed_day); %>
+                                    <div class="row p-2 request-list">
+                                        <div class="col-3 text-center"><%= obj.request_user.user_name %></div>
+                                        <div class="col-2 text-center purchase-status">
+                                            <% if (!obj.is_accepted && !obj.is_closed) { %>
+                                                <button type="button" class="btn btn-outline-primary" disabled>未受注</button>
+                                            <% } %>
+                                            <% if (obj.is_accepted && !obj.is_closed) { %>
+                                                <button type="button" class="btn btn-outline-info" disabled>受注済</button>
+                                            <% } %>
+                                            <% if (!obj.is_accepted && obj.is_closed ) { %>
+                                                <button type="button" class="btn btn-outline-danger" disabled>拒否</button>
+                                            <% } %>
+                                            <% if (obj.is_accepted && obj.is_closed ) { %>
+                                                <button type="button" class="btn btn-outline-success" disabled>完了</button>
+                                            <% } %>
+                                        </div>
+                                        <div class="col-3 text-center"><%= created_at.getFullYear() %>/<%= created_at.getMonth() +1 %>/<%= created_at.getDate() %><br> <%= created_at.getHours() %>:<%= created_at.getMinutes() %></div>
+                                        <div class="col-3 text-center"><%= appointed_day.getFullYear() %>/<%= appointed_day.getMonth() +1 %>/<%= appointed_day.getDate() %><br> <%= appointed_day.getHours() %>:<%= appointed_day.getMinutes() %></div>
+                                        <div class="col-1">
+                                            <a href="/hunter/request_from_facility_detail?id=<%= obj.id %>">
+                                                <button type="button" class="btn btn-secondary">詳細</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                            <% } %>
+                        <% } else { %>
+                            <p>依頼はありません</p>
+                        <% } %>
                     </ul>
                 </div>
-            </div>
             <footer class="footer">
                 <p>FOOTER KAKU</p>
                 <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
@@ -103,7 +89,6 @@
             </footer>
         </div><!-- /#main-in -->
     </main>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script type="text/javascript">
         (function ($) {
             $(function () {
@@ -118,35 +103,6 @@
             });
         })(jQuery);
     </script>
-
 </body>
 
 </html>
-</html>
-
-<!-- bk -->
-<!-- <!DOCTYPE html>
-<html>
-  <head>
-    <title><= title %></title>
-
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-  </head>
-
-  <body>
-    <h2><= title %></h2>
-    <h1>テスト2</h1>
-    < if (results != "") { %>
-      < for(let i in results) { %>
-        < let obj = results[i] %>
-        <a href="/hunter/request_from_facility_detail?id=<= obj.id %>">
-          <p>req id : <= obj.id %> : <= obj.request_user.user_name %> さんからの依頼</p>
-        </a>
-      < } %>
-    < } else { %>
-      <p>依頼はありません</p>
-    < } %>
-  </body>
-</html> -->

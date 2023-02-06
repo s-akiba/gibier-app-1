@@ -15,23 +15,24 @@
     <a href="/user/edit">user edit</a><br>
     <h2 <% if (session.login.is_hunter == true) { %>style="color: lightgreen;"<% } %>>Hunter</h2>
     <a href="/hunter">Home</a><br>
-    <a href="/hunter/map">map</a><br>
     <a href="/hunter/register_vermin_info">register vermin</a><br>
     <a href="/hunter/search_vermin_infos">search vermin infos</a><br>
     <a href="/hunter/show_registered_vermin_infos">show registered vermin infos</a><br>
     <a href="/hunter/search_facilities">search facilities</a><br>
     <h2 <% if (session.login.is_purchaser == true) { %>style="color: lightgreen;"<% } %>>Purchaser</h2>
+    <a href="/purchaser">Home</a><br>
     <a href="/purchaser/search_item">商品購入</a><br>
     <a href="/purchaser/items_history_list">購入履歴</a><br>
     <a href="/purchaser/search_facilities">search facilities</a><br>
     <a href="/purchaser/public_request_to_facility">create public request</a>
     <h2 <% if (session.login.is_facility == true) { %>style="color: lightgreen;"<% } %>>Facility</h2>
+    <a href="/facility">Home</a><br>
     <a href="/facility/exhibit_input">出品</a><br>
     <a href="/facility/exhibit_list">出品一覧</a><br>
     <a href="/facility/search_hunter">狩猟者を氏名</a><br>
     <a href="/facility/hunter_req_input">依頼を公開</a><br>
     <a href="/facility/show_requests_from_purchaser">show requests from purchaser</a><br>
-    <a href="/facility/show_accepted_requests">show accepted requests</a><br>
+    <!-- <a href="/facility/show_accepted_requests">show accepted requests</a><br> -->
     <a href="/facility/search_requests_from_purchaser">search requests from purchaser</a><br>
   </body>
 </html>

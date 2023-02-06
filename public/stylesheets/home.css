@@ -14,7 +14,7 @@
     box-sizing: border-box;
 }
 
-html{
+html {
     height: 100%;
 }
 
@@ -216,7 +216,7 @@ h3 {
     color: #000000;
     background: #fff;
     text-align: center;
-    z-index:2;
+    z-index: 2;
 }
 
 #global-nav ul {
@@ -389,7 +389,8 @@ footer {
     width: auto;
     /* margin: 180px auto 0; */
     padding-bottom: 120px;
-    position: relative;
+    position:relative;
+    bottom: 0;
     text-align: center;
     padding: 60px 0px 30px 0px;
     background-color: rgb(212, 246, 255);
@@ -670,6 +671,7 @@ footer.footer02 {
     font-size: 12px;
     line-height: 1;
 }
+
 .news-list .item .category-yet span {
     background: rgb(0, 89, 255);
     color: #FFF;
@@ -679,6 +681,7 @@ footer.footer02 {
     font-size: 12px;
     line-height: 1;
 }
+
 .news-list .item .category-no span {
     background: rgb(255, 0, 0);
     color: #FFF;
@@ -693,6 +696,7 @@ footer.footer02 {
     margin: 0;
     width: 100%;
 }
+
 .news-list .item .account {
     margin: 0;
     width: 100%;
@@ -703,7 +707,7 @@ footer.footer02 {
     color: #00F;
 }
 
-.item p{
+.item p {
     display: flex;
     align-items: center
 }
@@ -723,7 +727,7 @@ footer.footer02 {
 }
 
 /* 項目 */
-.inner .flex p{
+.inner .flex p {
     margin: 0;
     min-width: 140px;
     padding: 0 20px 0 0;

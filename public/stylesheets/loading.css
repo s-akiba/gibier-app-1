@@ -1,0 +1,12 @@
+        /* CSSコード */
+        @import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+
+        #splash_logo h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 100px;
+        }
+
+        #splash_logo h1 {
+            font-family: 'Amatic SC', cursive;
+            font-size: 100px;
+        }

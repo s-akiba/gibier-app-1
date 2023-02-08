@@ -28,8 +28,8 @@ body {
 }
 
 h2 {
-    font-size: 45px;
-    font-weight: lighter;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 #main {
@@ -38,6 +38,8 @@ h2 {
 
 #main-in {
     padding-left: 260px;
+    min-height: 100vh;
+    position: relative;
 }
 
 /* #main p {
@@ -51,9 +53,11 @@ h2 {
 } */
 /* box1 */
 .box {
-    padding: 30px 50px 100px 100px;
+    padding: 100px 50px 100px 100px;
     background: rgb(255, 255, 255);
+    min-height: 56vh;
 }
+
 
 .inner {
     position: static;
@@ -196,146 +200,6 @@ h3 {
     color: #000000;
     margin-bottom: 40px;
 }
-
-/* サイドバー作成 */
-#global-head {
-    position: fixed;
-    color: #000000;
-    width: 260px;
-    text-align: center;
-    padding-top: 60px;
-    z-index: 100;
-}
-
-#sidebar {
-    font-size: 15px;
-    padding-top: 120px;
-    width: 260px;
-    height: 100%;
-    position: fixed;
-    color: #000000;
-    background: #fff;
-    text-align: center;
-    z-index: 2;
-}
-
-#global-nav ul {
-    list-style: none;
-    margin-left: 0;
-}
-
-#global-nav>ul>li {
-    position: relative;
-}
-
-#global-nav a {
-    color: #000000;
-    text-decoration: none;
-    display: block;
-    padding: 15px 0;
-    -moz-transition: background-color .3s linear;
-    -webkit-transition: background-color .3s linear;
-    transition: background-color .3s linear;
-}
-
-/* #global-nav .sub-menu.is-active>a, */
-#global-nav a:hover {
-    color: #fff;
-    background: #000000;
-}
-
-#global-nav .sub-menu-nav a,
-#global-nav .sub-menu:hover .sub-menu-nav {
-    width: 230px;
-}
-
-/* sub-menu icon */
-#global-nav .sub-menu>a {
-    position: relative;
-}
-
-#global-nav .sub-menu>a:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 18px;
-    margin: auto;
-    vertical-align: middle;
-    width: 8px;
-    height: 8px;
-    border-top: 1px solid #000000;
-    border-right: 1px solid #000000;
-    -moz-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-/* sub-menu */
-#global-nav .sub-menu-nav {
-    position: fixed;
-    background: #9b9b9b;
-    color: #fff;
-    top: 0;
-    padding-top: 90px;
-    left: 260px;
-    width: 0;
-    height: 100%;
-    overflow: hidden;
-    -moz-transition: width .2s ease-out;
-    -webkit-transition: width .2s ease-out;
-    transition: width .2s ease-out;
-}
-
-#global-nav .sub-menu.is-active>a:after,
-#global-nav .sub-menu>a:hover:after {
-    border-color: #fff;
-}
-
-#global-nav .sub-menu-nav a {
-    color: #fff;
-}
-
-#global-nav .sub-menu-nav a:hover {
-    color: #000000;
-    background: #fff;
-}
-
-
-/* .nav-tach {
-    color: #000000;
-    text-decoration: none;
-    display: block;
-    padding: 15px 0;
-    -moz-transition: background-color .3s linear;
-    -webkit-transition: background-color .3s linear;
-    transition: background-color .3s linear;
-} */
-
-.nav-warning-tach {
-    color: #ff1e00c9;
-    text-decoration: none;
-    display: block;
-    padding: 15px 0;
-    -moz-transition: background-color .3s linear;
-    -webkit-transition: background-color .3s linear;
-    transition: background-color .3s linear;
-}
-
-@media screen and (max-width: 930px) {
-    .mgt75sp {
-        margin-top: 75px;
-    }
-}
-
-.sp_block {
-    display: none !important;
-}
-
-.sp_none {
-    display: none !important;
-}
-
 /* box3 */
 .box3 {
     padding: 150px 100px 150px 150px;
@@ -387,13 +251,12 @@ h3 {
 /*  フッター  */
 footer {
     width: auto;
-    /* margin: 180px auto 0; */
     padding-bottom: 120px;
     position:relative;
-    bottom: 0;
     text-align: center;
     padding: 60px 0px 30px 0px;
     background-color: rgb(212, 246, 255);
+    bottom: 0;
 
 }
 

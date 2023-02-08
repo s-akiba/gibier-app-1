@@ -1,6 +1,49 @@
 <!--購入者からのリクエスト  -->
 <!DOCTYPE html>
 <html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+</head>
+
+<body>
+    <%- include("../sidebar_facility.ejs") %>
+        <main id="main">
+            <div id="main-in">
+                <div class="box">
+                    <h1>
+                        <%= title %>
+                    </h1>
+
+                    <div>
+                      <% if (results != "") { %>
+                        <% for(let i in results) { %>
+                          <% let obj = results[i] %>
+                          <a href="/facility/request_from_purchaser_detail?id=<%= obj.id %>">
+                            <p>req id : <%= obj.id %> : <%= obj.request_user.user_name %> さんからの依頼</p>
+                          </a>
+                        <% } %>
+                      <% } else { %>
+                        <p>依頼はありません</p>
+                      <% } %>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+</body>
+
+</html>
+<!DOCTYPE html>
+<html>
   <head>
     <title><%= title %></title>
 

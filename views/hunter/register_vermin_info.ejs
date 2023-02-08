@@ -1,55 +1,34 @@
-<!-- 害獣位置情報入力 -->
-<!-- 
-ファイル名 register_vermin_info.ejs
-作成者 内藤壱成
-概要 害獣の位置情報を入力するための入力画面
-製作日 2023-1-12
-変更日 2023-1-30
 
-フロントの残り
-なし
--->
+
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
-    <!-- モーダル -->
-    <!-- https://coco-factory.jp/ugokuweb/move01/9-6-1/ -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>タイトル</title>
-    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<head><title><%= title %></title>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/register_vermin_info.css' />
     <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
     <link href='/stylesheets/form-sample.css' rel='stylesheet' type='text/css'>
-    <link href='/stylesheets/modal.css' rel='stylesheet' type='text/css'>
-
-    <link rel='stylesheet' href='/stylesheets/register_vermin_info.css' />
-    <link href='/stylesheets/modal.css' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css"
-        href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/css/modaal.min.css">
-
-    <!-- 技術班記述 -->
-    <!-- <link rel='stylesheet' href='/stylesheets/register_vermin_info.css' /> -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
-        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+      crossorigin=""/>
     <link rel="stylesheet" href="/stylesheets/leaflet.usermarker.css" />
-    <link rel="stylesheet" href="/stylesheets/L.Control.Zoomslider.css" />
+    <!-- <link rel="stylesheet" href="/stylesheets/L.Control.Zoomslider.css" /> -->
     <link rel="stylesheet" href="/stylesheets/leaflet.awesome-markers.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
+
+      <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
-        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+    crossorigin=""></script>
     <script src="/javascripts/leaflet.usermarker.js"></script>
-    <script src="/javascripts/L.Control.Zoomslider.js"></script>
+    <!-- <script src="/javascripts/L.Control.Zoomslider.js"></script> -->
     <script src="/javascripts/leaflet.awesome-markers.js"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-    <script src="/javascripts/register_vermin_info.js"></script>
-    <!-- 技術班記述 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            
 </head>
 
 <body onload="start()">
@@ -57,147 +36,83 @@
     <main id="main">
         <div id="main-in">
             <div class="box">
-                <h2>害獣位置情報入力</h2>
+                <h3><%= title %></h3>
+                <div id="map"></div>
                 <!-- <input type="button" name="reset" id="reset" onclick="refresh()" value="位置リセット"> -->
-                <form id="contant-form" class="form" name="contact-form">
-                    <!-- 注意書き -->
-                    <div class="form__description">
-                        <p>必要事項をご入力のうえ、確認画面へお進みください。</p>
-                        <p><span class="form__required-label">必須</span>の項目はお手数ですが必ず入力をお願いいたします。</p>
-                    </div>
-                    <!-- 位置情報 -->
-                    <fieldset class="form__group">
-                        <p>位置情報 <strong class="form__required-label">必須</strong></p>
-                        <fieldset class="itizyouhou ">
-                                <div id="map" ></div>
-                        </fieldset>
-                    </fieldset>
-                    <!-- 害獣名 -->
+            
+                <form action="/hunter/register_vermin_info" method="POST">
+                    <!-- <p>現在の選択位置</p> -->
+                    <!-- <p class="select-latitude"></p> -->
+                    <!-- <p class="select-longitude"></p> -->
                     <fieldset class="form__group">
                         <legend class="form__group-header">
-                            <span class="form__group-label">害獣名<strong class="form__required-label">必須</strong></span>
+                            <span class="form__group-label">詳細情報入力</span>
                         </legend>
+                        <div class="form__group-content">
+                            <div class="form__name">
+                                <div class="form__text-input">
+                                    <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form__group">
+                        <p class="form__group-header">
+                            <label class="form__group-label" for="animal_options">害獣名選択</label>
+                        </p>
                         <div class="form__group-content">
                             <div class="form__select-box">
                                 <div class="select-box">
-                                    <label class="visually-hidden" for="family-name-furigana">害獣名</label>
                                     <select name="animal_options" id="animal_options" class="select-box__body">
                                         <% for(let i in animals) { %>
-                                            <% let obj=animals[i] %>
-                                                <option value="<%= obj.id %>">
-                                                    <%= obj.wild_animal_name %>
-                                                </option>
-                                                <% } %>
-                                    </select><br>
+                                            <% let obj = animals[i] %>
+                                            <option value="<%= obj.id %>"><%= obj.wild_animal_name %></option>
+                                        <% } %>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                    </fieldset>
-                    <!-- 詳細 -->
-                    <div class="form__group">
-                        <p class="form__group-header">
-                            <label class="form__group-label" for="message">詳細</label>
-                        </p>
-                        <div class="form__group-content">
-                            <div class="form__textarea">
-                                <div class="textarea js-flexible-textarea">
-                                    <textarea id="content" class="textarea__body" name="content" title="記入してください"
-                                        required aria-required="true"></textarea>
+                    </div>
+
+            
+                    <!-- <button type="button" id="open" onclick="openModal" disabled >
+                        確認する
+                    </button> -->
+                    <button type="button" class="btn btn-primary mt-4"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">確認する</button>
+                    <!-- <div class="container" id="a"></div> -->
+            
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">確認画面</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>この選択位置を送信しますか？</h3>
+                                    <p id="position-not-selected">位置を選択してください。</p>
+                                    <input type="hidden" name="latitude" value="" id="hidden-latitude">
+                                    <input type="hidden" name="longitude" value="" id="hidden-longitude">
+                                    <p class="select-latitude"></p>
+                                    <p class="select-longitude"></p>
+                                    <h3>選択された害獣名</h3>
+                                    <p id="selected-animal"></p>
+                                    <h3>詳細情報</h3>
+                                    <p id="input-content"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- <form method="post" action="/facility/response_to_request"> -->
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
+                                        <input type="submit" value="はい" class="btn btn-primary" id="submit-button" disabled>
+                                    <!-- </form> -->
                                 </div>
                             </div>
-                            <p class="form__validation" data-validation="content" role="alert" aria-live="assertive">
-                            </p>
                         </div>
                     </div>
-                    <!-- ボタン -->
-                    <div class="form__submit">
-                        <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
-                        <!-- <button class="button" type="submit">送信する</button> -->
-                        <button class="button child2 check-button" type="button" id="open">確認する</button>
-                    </div>
+
                 </form>
-                <!-- モーダル -->   
-                <section id="info">
-                    <div class="content">
-                        <h2>入力確認画面</h2>
-                        <div class="form__description">
-                            <p>必要事項をご入力のうえ、送信ボタンを押してください。</p>
-                            <p>この選択位置を送信しますか？</p>
-                            <!-- <p>この選択位置を送信しますか？</p> -->
-                        </div>
-                        <fieldset class="form__group">
-                            <legend class="form__group-header">
-                                <span class="form__group-label">
-                                    選択位置情報
-                                    <strong class="form__required-label">必須</strong>
-                                </span>
-                            </legend>
-                            <div class="form__group-content">
-                                <div class="form__name">
-                                    <div class="form__text-input">
-                                        <p class="text-input">
-                                            <input type="hidden" name="latitude" value="" id="hidden-latitude">
-                                        <p id="family-name" class="text-input__body select-latitude" type="text"
-                                            name="family-name" autocomplete="family-name" title="位置情報が表示されます" required
-                                            aria-required="true"></p>
-                                        <span class="text-input__validator"></span>
-                                        </p>
-                                    </div>
-                                    <div class="form__text-input">
-                                        <p class="text-input">
-                                            <input type="hidden" name="longitude" value="" id="hidden-longitude">
-                                        <p id="given-name" class="text-input__body select-longitude" type="text"
-                                            name="given-name" autocomplete="given-name" title="位置情報が表示されます" required
-                                            aria-required="true"></p>
-                                        <span class="text-input__validator"></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <!-- <h2>選択された害獣名</h2> -->
-                        <!-- <p id="selected-animal"></p> -->
-                        <div class="form__group">
-                            <p class="form__group-header">
-                                <label class="form__group-label" for="selected-animal">選択された害獣名
-                                    <strong class="form__required-label">必須</strong>
-                                </label>
-                            </p>
-                            <div class="form__group-content">
-                                <div class="form__text-input -wide">
-                                    <p class="text-input">
-                                    <p id="selected-animal" class="text-input__body" type="text" name="address-level2"
-                                        autocomplete="address-level2" title="害獣名が表示されます" required aria-required="true">
-                                    </p>
-                                    <span class="text-input__validator"></span>
-                                    </p>
-                                </div>
-                                <p class="form__validation" data-validation="address-level2" role="alert"
-                                    aria-live="assertive"></p>
-                            </div>
-                        </div>
-                        <div class="form__group">
-                            <p class="form__group-header">
-                                <label class="form__group-label" for="input-content">詳細</label>
-                            </p>
-                            <div class="form__group-content">
-                                <div class="form__textarea">
-                                    <div class="textarea js-flexible-textarea">
-                                        <p id="input-content" class="textarea__body" name="input-content"
-                                            title="詳細が表示されます" required aria-required="true"></p>
-                                    </div>
-                                </div>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="form__submit">
-                            <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
-                            <!-- <button type="button" id="search-button" class="button">検索</button> -->
-                            <button class="button" type="submit" id="submit-button" disabled>送信</button>
-                            <!-- <button class="button" type="submit">送信する</button> -->
-                        </div>
-                    </div>
-                </section>
             </div>
             <footer class="footer">
                 <p>FOOTER KAKU</p>
@@ -207,71 +122,15 @@
             </footer>
         </div><!-- /#main-in -->
     </main>
-    <script type="text/javascript">
-        (function ($) {
-            $(function () {
-                $('.sub-menu').on({
-                    'mouseenter': function () {
-                        $(this).addClass('is-active');
-                    },
-                    'mouseleave': function () {
-                        $(this).removeClass('is-active');
-                    }
-                });
-            });
-        })(jQuery);
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/js/modaal.min.js"></script>
+    <script src="/javascripts/register_vermin_info.js"></script>
     <script>
-        $(".check-button").modaal({
-            // start_open: flag, // ページロード時に表示するか
-            content_source: '#info',
-            overlay_close: true,//モーダル背景クリック時に閉じるか
-            before_open: function () {// モーダルが開く前に行う動作
-                $('html').css('overflow-y', 'hidden');/*縦スクロールバーを出さない*/
-            },
-            after_close: function () {// モーダルが閉じた後に行う動作
-                $('html').css('overflow-y', 'scroll');/*縦スクロールバーを出す*/
-            }
-        });
-    </script>
-
-    <script>
-        $("#content").change(function () {
+        $("#content").change(function() {
             $("#input-content").text($("#content").val());
         });
-        $("#animal_options").change(function () {
+        $("#animal_options").change(function() {
             $("#selected-animal").text($("#animal_options").find('option:selected').text());
         });
     </script>
-
 </body>
 
-<script src="/javascripts/register_vermin_info.js"></script>
-
 </html>
-
-<!-- <fieldset class="form__group">
-                        <legend class="form__group-header">
-                            <span class="form__group-label">詳細</span>
-                        </legend>
-                        <div class="form__group-content">
-                            <div class="form__name">
-                                <div class="form__text-input">
-                                    <textarea name="content" id="content" cols="30" rows="10"></textarea><br>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset> -->
-<!-- bk -->
-<!-- <div class="content">
-                                <p>この選択位置を送信しますか？</p>
-                                <input type="hidden" name="latitude" value="" id="hidden-latitude">
-                                <input type="hidden" name="longitude" value="" id="hidden-longitude">
-                                <p class="select-latitude"></p>
-                                <p class="select-longitude"></p>
-                                <h2>選択された害獣名</h2>
-                                <p id="selected-animal"></p>
-                                <h2>詳細情報</h2>
-                                <p id="input-content"></p>
-                        </div> -->

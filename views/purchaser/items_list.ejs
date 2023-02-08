@@ -1,18 +1,4 @@
 
-<!-- 
-    ・home*
-    ・商品一覧*
-    ・購入一覧
-    ・購入履歴
-    ・購入依頼
-    ・（仮）問い合わせ
-    ・アカウント情報
-    ・退会
--->
-<!-- 
-    -やること
-    ページネーションをNodeで実装
--->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -40,9 +26,9 @@
             <div class="box">
                 <!-- <div class="item-list"> -->
                 <div>
-                    <h2>商品一覧</h2>
+                    <h2><%= title %></h2>
                 </div>
-                <form action="/purchaser/items_list" method="post">
+                <!-- <form action="/purchaser/items_list" method="post"> -->
                 <div class="form__group">
                     <p class="form__group-header">
                         <label class="form__group-label" for="animal_options">害獣名選択</label>
@@ -51,6 +37,7 @@
                         <div class="form__select-box">
                             <div class="select-box">
                                 <select name="animal" id="animal_options" class="select-box__body">
+                                    <option value="0">選択なし</option>
                                     <% for(let i in animals) { %>
                                         <% let obj = animals[i] %>
                                         <option value="<%= obj.id %>"><%= obj.wild_animal_name %></option>
@@ -68,6 +55,7 @@
                         <div class="form__select-box">
                             <div class="select-box">
                                 <select name="category" id="category_options" class="select-box__body">
+                                    <option value="0">選択なし</option>
                                     <% for(let i in categories) { %>
                                         <% let obj = categories[i] %>
                                         <option value="<%= obj.id %>"><%= obj.category_name %></option>
@@ -84,45 +72,17 @@
                     <div class="form__group-content">
                         <div class="form__name">
                             <div class="form__text-input">
-                                <input  class="text-input__body" type="text" name="facility">
+                                <input  class="text-input__body" type="text" name="facility" id="facility">
                             </div>
                         </div>
                     </div>
                   </fieldset>
-                  <button type="submit" class="button">検索</button>
-                </form>
+                  <button type="button" class="button" id="search-button">検索</button>
+                <!-- </form> -->
             </div>
 
             <div class="container">
-                <div class="row row-cols-2 row-cols-md-3 g-4">
-                    
-                    <% if (item != "") { %>
-                        <% for (let i in item) { %>
-                            <% let obj = item[i] %>
-                            <div class="col">
-                                <div class="card">
-                                    <a href="/purchaser/item_detail?id=<%= obj.id %>">
-                                        <img src="/uploads/<%= obj.image_link %>" class="card-img-top" >
-                                    </a>
-                                    <div class="card-body">
-                                        <p>￥<%= obj.price %></p>
-                                        <p>在庫：<%= obj.stock %>個</p>
-                                        <span class="prd-lst-span">
-                                            <form action="/purchaser/add_cart" method="post">
-                                                <input type="hidden" name="id" value="<%= obj.id %>">
-                                                <input type="hidden" name="facility_id" value="<%= obj.user_id %>">
-                                                <label for="quantity">購入数：</label>
-                                                <input type="number" min="1" max="<%= obj.stock %>" class="num_textbox" name="quantity">個
-                                                <button type="submit" class="add-cart-button">カートに入れる</button>
-                                            </form>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        <% } %>
-                    <% } %>
-                    
-                </div>
+                <div class="row row-cols-2 row-cols-md-3 g-4 mb-4" id="search-results"></div>
             </div>
 
             <footer class="footer">
@@ -147,5 +107,6 @@
             });
         })(jQuery);
     </script>
+    <script src="/javascripts/items_list.js"></script>
 </body>
 </html>

@@ -68,11 +68,15 @@
                                         <div class="card-body">
                                             <div class="row g-0">
                                                 <div class="col-md-6">
-                                                    <img src="/uploads/<%= obj.commodity.image_link %>" width="200px">
+                                                    <% if (obj.commodity.image_link != null) { %>
+                                                        <img src="/uploads/<%= obj.commodity.image_link %>" width="200px">
+                                                    <% } else { %>
+                                                        <p>削除された商品です。</p>
+                                                    <% } %>
                                                 </div>
                                                 <div class="col-md-6 text-center">
                                                     <p><%= obj.facility_user.user_name %></p>
-                                                    <p>￥<%= obj.commodity.price %></p>
+                                                    <p>￥<% if (obj.commodity.price != null) { %><%= obj.commodity.price %><% } else { %>--<% } %></p>
                                                     <p><%= obj.num_purchased %>個</p>
                                                 </div>
                                             </div>
@@ -85,7 +89,7 @@
                             
                     </div>
                 </div>
-                <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
+                <button onclick="history.back()" class="btn btn-secondary my-4" type="button">戻る</button>
 
             <footer class="footer">
                 <p>FOOTER KAKU</p>

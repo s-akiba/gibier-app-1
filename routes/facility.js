@@ -59,7 +59,9 @@ router.get('/exhibit_input',function(req,res,next){
 
 /* 出品情報の登録処理 */
 router.post('/exhibit_input',upload.single('file'),function(req,res,next){
-  db.sequelize.sync().then(()=>db.commodities.create({
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
+  db.sequelize.sync()
+  .then(()=>db.commodities.create({
     user_id : req.session.login['id'],
     vermin_hunted_id : null,  //わからんからとりあえず埋めとく
     wild_animal_info_id : req.body.animal_options,
@@ -70,7 +72,7 @@ router.post('/exhibit_input',upload.single('file'),function(req,res,next){
     stock : req.body.num,
     selling_term : req.body.limit
   })).then(usr => {
-    res.redirect('/');
+    res.redirect('/facility');
   });
 
 });
@@ -145,6 +147,7 @@ router.get("/exhibit_detail", (req, res, next) => {
 // });
 
 router.post("/exhibit_delete", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.commodities.destroy({
     where: {
       id: req.body.delete_id
@@ -175,6 +178,7 @@ router.get('/search_hunter',function(req,res,next){
 });
 
 router.get("/search_hutner_json", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   let query_data = {is_hunter: true};
   if (req.query.region != 0) {
     query_data["region_id"] = req.query.region;
@@ -261,12 +265,12 @@ router.get("/hunter_req_input", (req, res, next) => {
     })
     .catch((err) => {
       console.log("err animal: ", err);
-      res.redirect("/");
+      res.redirect("/facility");
     })
   })
   .catch((err) => {
     console.log("err user: ", err);
-    res.redirect("/");
+    res.redirect("/facility");
   })
 });
 
@@ -316,6 +320,7 @@ router.get("/hunter_req_input", (req, res, next) => {
 // });
 
 router.post("/create_hunter_req", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   let data = {
     user_1_id: req.session.login.id,
     user_2_id: null,
@@ -335,17 +340,18 @@ router.post("/create_hunter_req", (req, res, next) => {
   db.req_from_facility.create(data)
   .then(result => {
     console.log("created: ", JSON.stringify(result));
-    res.redirect("/");
+    res.redirect("/facility");
   })
   .catch((error) => {
     console.log("DB create error");
     console.error(error);
-    res.redirect("/");
+    res.redirect("/facility");
   });
 });
 
 // 公開狩猟者依頼 get
 router.get("/public_hunter_req_input", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   db.wild_animal_info.findAll()
   .then((animals) => {
     let data = {
@@ -356,12 +362,13 @@ router.get("/public_hunter_req_input", (req, res, next) => {
   })
   .catch((err) => {
     console.log("err animal: ", err);
-    res.redirect("/");
+    res.redirect("/facility");
   })
 });
 
 // 公開狩猟者依頼 post
 router.post("/public_hunter_req_input", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   let data = {
     user_1_id: req.session.login.id,
     user_2_id: null,
@@ -377,12 +384,12 @@ router.post("/public_hunter_req_input", (req, res, next) => {
   db.req_from_facility.create(data)
   .then(result => {
     console.log(chalk.green("created: "), JSON.stringify(result));
-    res.redirect("/");
+    res.redirect("/facility");
   })
   .catch((error) => {
     console.log("DB create error");
     console.error(error);
-    res.redirect("/");
+    res.redirect("/facility");
   });
 })
 
@@ -411,7 +418,7 @@ router.get("/show_requests_from_purchaser", (req, res, next) => {
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/facility");
   });
 });
 
@@ -453,42 +460,42 @@ router.post("/response_to_request", (req, res, next) => {
       result.save()
       .then(() => {
         console.log(chalk.blue("saved is_accepted: true"));
-        res.redirect("/");
+        res.redirect("/facility");
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/facility");
       })
     } else if (req.body.change_status == "refuse") {
       result.is_closed = true
       result.save()
       .then(() => {
         console.log(chalk.blue("saved is_accepted: false, is_closed: true"));
-        res.redirect("/");
+        res.redirect("/facility");
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/facility");
       })
     } else if (req.body.change_status == "close") {
       result.is_closed = true
       result.save()
       .then(() => {
         console.log(chalk.blue("saved is_accepted: true, is_closed: true"));
-        res.redirect("/");
+        res.redirect("/facility");
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/facility");
       })
     } else {
       console.log("errr");
-      res.redirect("/");
+      res.redirect("/facility");
     }
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/facility");
   })
 });
 
@@ -595,6 +602,7 @@ router.get("/search_requests_from_purchaser", (req, res, next) => {
 // 期限つける
 
 router.get("/search_requests_from_purchaser_json", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   let query_data = {
     is_public: true,
     is_accepted: false,
@@ -667,16 +675,16 @@ router.post("/response_to_public_request", (req, res, next) => {
     result.save()
     .then(() => {
       console.log(chalk.blue("saved is_accepted: true"));
-      res.redirect("/");
+      res.redirect("/facility");
     })
     .catch((err) => {
       console.log(err);
-      res.redirect("/");
+      res.redirect("/facility");
     })
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/facility");
   })
 });
 

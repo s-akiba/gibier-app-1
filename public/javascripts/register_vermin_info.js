@@ -77,8 +77,8 @@ var popup_list = [];
 function onMapClick(e) {
     $("#hidden-latitude").val(e.latlng.lat.toString());
     $("#hidden-longitude").val(e.latlng.lng.toString());
-    $(".select-latitude").text(e.latlng.lat.toString());
-    $(".select-longitude").text(e.latlng.lng.toString());
+    $(".select-latitude").text("経度：" + e.latlng.lat.toString());
+    $(".select-longitude").text("緯度：" + e.latlng.lng.toString());
     var mk = L.marker(e.latlng).addTo(map).on('click', onMarkerClick);
     popup_list.push(mk);
     mk.bindPopup("選択位置").openPopup();
@@ -86,10 +86,12 @@ function onMapClick(e) {
         map.removeLayer(popup_list[0]);
         popup_list.splice(0, 1);
     }
-    if ($(".select-latitude").val() == "") {
-        $("#submit-button").prop('disabled', false);
+    // if ($(".select-latitude").val() != "") {
+    //     $("#submit-button").prop('disabled', false);
         
-    }
+    // }
+    $("#submit-button").prop('disabled', false);
+    $("#position-not-selected").hide();
 }
 map.on('click', onMapClick);
 
@@ -103,16 +105,19 @@ function onMarkerClick(e) {
 $("#open").click(function () {
     if ($("#hidden-latitude").val() == "") {
         alert("地点を選択してください");
-        console.log("q");
+        // console.log("q");
+        setTimeout(function(){
+            $('#modaal-close').trigger("click");
+        },500);
     }
 })
 
 // モーダルを開く前に位置を選択させる
 function checkLatlangValue() {
     if ($(".select-latitude").val() == "") {
-        alert("latitude empty");
+        // alert("latitude empty");
         setTimeout(function(){
-            $('#close-modal').trigger("click");
+            $('#modaal-close').trigger("click");
        },500);
         
     }

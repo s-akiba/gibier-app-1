@@ -939,3 +939,22 @@ a.btn-tag:hover {
     border-bottom: 2px solid #db9014;
     background: #ffa50e;
 }
+
+.form__group-header {
+    font-size: medium !important;
+}
+
+.select-box__body {
+    font-size: small !important;
+}
+
+.text-input__body {
+    font-size: small !important;
+}
+
+#search-button {
+    font-size: medium !important;
+    padding: 0.5em 2em !important;
+    margin-top: 30px;
+}
+

@@ -5,6 +5,7 @@ const { Op } = require("sequelize");
 var func_file = require("./func_file.js");
 
 var {Client} = require('pg');
+const chalk = require('chalk');
 
 // postgresqlとの接続
 var client = new Client({
@@ -22,7 +23,7 @@ router.get('/',(req,res,next)=>{
 })
 
 // 商品検索画面の表示
-router.get('/search_item',(req,res,next)=>{
+router.get('/items_list',(req,res,next)=>{
   if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.wild_animal_info.findAll()
   .then((result_animals) => {
@@ -31,10 +32,9 @@ router.get('/search_item',(req,res,next)=>{
       let data = {
         title: "商品検索/一覧",
         animals: result_animals,
-        categories: result_categories,
-        item: ""
+        categories: result_categories
       }
-      res.render('purchaser/search_item', data);
+      res.render('purchaser/items_list', data);
     })
   });
 });
@@ -49,84 +49,71 @@ router.get('/search_item',(req,res,next)=>{
     inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id
     inner join users on commodities.user_id=users.id
 */
-router.post('/items_list',(req,res,next)=>{
-  let animal_id = req.body.animal;
-  let category_id = req.body.category;
-  let facility = req.body.facility;
+router.get("/items_list_json", (req, res, next) => {
+  console.dir(req.query);
+  let animal_id = req.query.animal_id;
+  let category_id = req.query.category_id;
+  let facility = req.query.facility_name;
   let sql = 'select commodities.id,image_link,wild_animal_name,category_name,detail,stock,price,user_name,user_id from commodities inner join categories on commodities.category_id=categories.id inner join wild_animal_infos on commodities.wild_animal_info_id=wild_animal_infos.id inner join users on commodities.user_id=users.id ';
   let where = '';
-
-  db.wild_animal_info.findAll()
-  .then((result_animals) => {
-    db.categories.findAll()
-    .then((result_categories) => {
-      let data = {
-        title: "商品検索/一覧",
-        animals: result_animals,
-        categories: result_categories,
-      }
-      let term = ' and not stock=0 and selling_term>=current_date'
-      // 動物名だけで検索
-      if(animal_id!='' && category_id=='' && facility==''){
-        where = 'where wild_animal_info_id=';
-        client.query(sql+where+animal_id+term,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // カテゴリだけで検索
-      else if(animal_id=='' && category_id!='' && facility==''){
-        where = 'where category_id=';
-        client.query(sql+where+category_id+term,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // 処理施設だけで検索
-      else if(animal_id=='' && category_id=='' && facility!=''){
-        where = "where user_name like '%"+facility+"%'";
-        client.query(sql+where+term,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // 動物名とカテゴリで検索
-      else if(animal_id!='' && category_id!='' && facility==''){
-        where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+term;
-        client.query(sql+where,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // 動物名と処理施設名で検索
-      else if(animal_id!='' && category_id=='' && facility!=''){
-        where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'"+term;
-        client.query(sql+where,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-      // カテゴリと処理施設名で検索
-      else if(animal_id=='' && category_id!='' && facility!=''){
-        where = "where category_id="+category_id+" and user_name like '%"+facility+"%'"+term;
-        client.query(sql+where,function(err,result){
-          if (err) throw err;
-          data["item"] = result.rows;
-          res.render('purchaser/items_list',data);
-        });
-      }
-    })
-  })
+  let term = ' and not stock=0 and selling_term>=current_date';
+  // 動物名だけで検索
+  if(animal_id!=0 && category_id==0 && facility==''){
+    where = 'where wild_animal_info_id=';
+    client.query(sql+where+animal_id+term,function(err,result){
+      if (err) throw err;
+      res.json(result.rows)
+    });
+  }
+  // カテゴリだけで検索
+  else if(animal_id==0 && category_id!=0 && facility==''){
+    where = 'where category_id=';
+    client.query(sql+where+category_id+term,function(err,result){
+      if (err) throw err;
+      res.json(result.rows)
+    });
+  }
+  // 処理施設だけで検索
+  else if(animal_id==0 && category_id==0 && facility!=''){
+    where = "where user_name like '%"+facility+"%'";
+    client.query(sql+where+term,function(err,result){
+      if (err) throw err;
+      res.json(result.rows)
+    });
+  }
+  // 動物名とカテゴリで検索
+  else if(animal_id!=0 && category_id!=0 && facility==''){
+    where = 'where wild_animal_info_id='+animal_id+' and category_id='+category_id+term;
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.json(result.rows)
+    });
+  }
+  // 動物名と処理施設名で検索
+  else if(animal_id!=0 && category_id==0 && facility!=''){
+    where = "where wild_animal_info_id="+animal_id+" and user_name like '%"+facility+"%'"+term;
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.json(result.rows)
+    });
+  }
+  // カテゴリと処理施設名で検索
+  else if(animal_id==0 && category_id!=0 && facility!=''){
+    where = "where category_id="+category_id+" and user_name like '%"+facility+"%'"+term;
+    client.query(sql+where,function(err,result){
+      if (err) throw err;
+      res.json(result.rows)
+    });
+  } else {
+    res.json([]);
+  }
 });
+
 
 // カートに追加する機能
 // purchase_infoに商品ID,処理施設ID、購入者ID、購入個数だけを登録しておく
 router.post('/add_cart',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.sequelize.sync()
   .then(()=>db.purchase_info.create({
     commodity_id:req.body.id,
@@ -137,7 +124,7 @@ router.post('/add_cart',(req,res,next)=>{
     is_accepted:false,
     is_closed:false
   })).then(result=>{
-    res.redirect('/purchaser/search_item');
+    res.redirect('/purchaser/items_list');
   });
 });
 
@@ -187,6 +174,7 @@ router.get('/cart_list',(req,res,next)=>{
 
 // カート削除機能
 router.post('/delete_cart_list',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   console.log(req.body.id);
   db.purchase_info.destroy({
     where:{id:req.body.id}
@@ -212,6 +200,7 @@ router.get('/payment',(req,res,next)=>{
 
 // 決済処理
 router.post('/payment',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   let id_list = req.body.id_list.split(',').map(function(e){
     return Number(e);
   });
@@ -302,6 +291,7 @@ router.post('/payment',(req,res,next)=>{
 // });
 
 router.get('/items_history_list',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.purchase_info.findAll({
     where: {
       user_2_id: req.session.login.id,
@@ -338,6 +328,7 @@ router.get('/items_history_list',(req,res,next)=>{
 // });
 
 router.get("/items_history_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.purchase_info.findByPk(req.query.id)
   .then((result_purchase_info) => {
     db.commodities.findByPk(result_purchase_info.commodity_id, {
@@ -360,6 +351,7 @@ router.get("/items_history_detail", (req, res, next) => {
 
 // 購入取り消し
 router.post('/cancel_purchase',(req,res,next)=>{
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.purchase_info.findOne({
     where:{id:req.body.purchase_id}
   }).then(result=>{
@@ -432,7 +424,7 @@ router.get('/facility_detail', (req, res, next) => {
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/purchaser");
   })
 });
 
@@ -457,17 +449,17 @@ router.get('/request_to_facility', (req, res, next) => {
       })
       .catch((err) => {
         console.log("err category: ", err);
-        res.redirect("/");
+        res.redirect("/purchaser");
       })
     })
     .catch((err) => {
       console.log("err animal: ", err);
-      res.redirect("/");
+      res.redirect("/purchaser");
     })
   })
   .catch((err) => {
     console.log("err user: ", err);
-    res.redirect("/");
+    res.redirect("/purchaser");
   })
 });
 
@@ -494,12 +486,12 @@ router.post('/request_to_facility', (req, res, next) => {
   db.req_from_purchaser.create(data)
   .then(result => {
     console.log("created: ", JSON.stringify(result));
-    res.redirect("/");
+    res.redirect("/purchaser");
   })
   .catch((error) => {
     console.log("DB create error");
     console.error(error);
-    res.redirect("/");
+    res.redirect("/purchaser");
   });
 });
 
@@ -519,12 +511,12 @@ router.get("/public_request_to_facility", (req, res, next) => {
     })
     .catch((err) => {
       console.log("err category: ", err);
-      res.redirect("/");
+      res.redirect("/purchaser");
     });
   })
   .catch((err) => {
     console.log("err animal: ", err);
-    res.redirect("/");
+    res.redirect("/purchaser");
   });
 });
 
@@ -547,17 +539,18 @@ router.post('/public_request_to_facility', (req, res, next) => {
   db.req_from_purchaser.create(data)
   .then(result => {
     console.log("created: ", JSON.stringify(result));
-    res.redirect("/");
+    res.redirect("/purchaser");
   })
   .catch((error) => {
     console.log("DB create error");
     console.error(error);
-    res.redirect("/");
+    res.redirect("/purchaser");
   });
 });
 
 // 出品情報詳細 get
 router.get("/item_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_purchaser: true})){return};
   db.commodities.findByPk(req.query.id, {
     include: [
       {model: db.users},

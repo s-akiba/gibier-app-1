@@ -72,12 +72,12 @@ router.post("/register_vermin_info", (req, res, next) => {
   db.vermin_info.create(create_data)
   .then((result) => {
     console.log(chalk.green("created: "), JSON.stringify(result));
-    res.redirect("/");
+    res.redirect("/hunter");
   })
   .catch((error) => {
     console.log("DB create error");
     console.error(error);
-    res.redirect("/");
+    res.redirect("/hunter");
   });
 });
 
@@ -192,12 +192,13 @@ router.post("/show_registered_vermin_infos", (req, res, next) => {
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/hunter");
   });
 });
 
 // 処理施設検索 get
 router.get("/search_facilities", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.regions.findAll()
   .then((all_regions) => {
     let data = {
@@ -232,6 +233,7 @@ router.get("/search_facilities_json", (req, res, next) => {
 
 // 処理施設詳細 get
 router.get("/facility_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.users.findByPk(req.query.id)
   .then((usr) => {
     let data = {
@@ -242,12 +244,13 @@ router.get("/facility_detail", (req, res, next) => {
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/hunter");
   });
 });
 
 // 狩猟者依頼 get
 router.get("/show_requests_from_facility", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.req_from_facility.findAll({
     where: {
       user_2_id: req.session.login.id
@@ -268,6 +271,7 @@ router.get("/show_requests_from_facility", (req, res, next) => {
 
 // 狩猟者依頼詳細 get
 router.get("/request_from_facility_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.req_from_facility.findOne({
     where: {
       id: req.query.id,
@@ -301,47 +305,48 @@ router.post("/response_to_request", (req, res, next) => {
       result.save()
       .then(() => {
         console.log(chalk.blue("saved is_accepted: true"));
-        res.redirect("/");
+        res.redirect("/hunter");
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/hunter");
       })
     } else if (req.body.change_status == "refuse") {
       result.is_closed = true
       result.save()
       .then(() => {
         console.log(chalk.blue("saved is_accepted: false, is_closed: true"));
-        res.redirect("/");
+        res.redirect("/hunter");
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/hunter");
       })
     } else if (req.body.change_status == "close") {
       result.is_closed = true
       result.save()
       .then(() => {
         console.log(chalk.blue("saved is_accepted: true, is_closed: true"));
-        res.redirect("/");
+        res.redirect("/hunter");
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/hunter");
       })
     } else {
       console.log("errr");
-      res.redirect("/");
+      res.redirect("/hunter");
     }
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/hunter");
   })
 });
 
 // 公開狩猟者依頼検索 get
 router.get("/search_requests_from_facility", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.wild_animal_info.findAll()
   .then((result_animals) => {
     let data = {
@@ -356,7 +361,6 @@ router.get("/search_requests_from_facility", (req, res, next) => {
     console.log("2:", err);
   });
 });
-
 
 router.get("/search_requests_from_facility_json", (req, res, next) => {
   let query_data = {
@@ -392,6 +396,7 @@ router.get("/search_requests_from_facility_json", (req, res, next) => {
 
 // 処理施設公開依頼詳細 get
 router.get("/public_request_from_facility_detail", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.req_from_facility.findOne({
     where: {
       id: req.query.id,
@@ -416,6 +421,7 @@ router.get("/public_request_from_facility_detail", (req, res, next) => {
 
 // 処理施設公開依頼受注 post
 router.post("/response_to_public_request", (req, res, next) => {
+  if (func_file.login_class_check(req, res, {is_hunter: true})){return};
   db.req_from_facility.findByPk(req.body.req_id)
   .then((result) => {
     result.is_accepted = true;
@@ -423,16 +429,16 @@ router.post("/response_to_public_request", (req, res, next) => {
     result.save()
     .then(() => {
       console.log(chalk.blue("saved is_accepted: true"));
-      res.redirect("/");
+      res.redirect("/hunter");
     })
     .catch((err) => {
       console.log(err);
-      res.redirect("/");
+      res.redirect("/hunter");
     })
   })
   .catch((err) => {
     console.log(err);
-    res.redirect("/");
+    res.redirect("/hunter");
   })
 });
 

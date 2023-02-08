@@ -33,14 +33,14 @@
                     <p>カテゴリ：<%= result.category.category_name %></p>
                     <p>説明文：<%= result.detail %></p>
                     <p>在庫：<%= result.stock %></p>
-                    <p>掲載期限：<%= result.selling_term %></p>
+                    <% let d = new Date(result.selling_term) %>
+                    <p>掲載期限：<%= d.getFullYear() %>年 <%= d.getMonth() +1 %>月<%= d.getDate() %>日 <%= d.getHours() %>時<%= d.getMinutes() %>分</p>
                     
                     <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         削除する
                     </button>
                     
-
                 </div>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">

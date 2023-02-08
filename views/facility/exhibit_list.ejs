@@ -1,6 +1,7 @@
 <!-- 出品一覧 -->
 <!-- データありの場合のデザイン -->
 <!-- タイトルの設定 -->
+<!-- 画面エラー -->
 <!DOCTYPE html>
 <html>
 
@@ -32,24 +33,18 @@
                     <% if (content !="" ) { %>
                         <% for(var value of content) { %>
                             <div>
-                                <a href="./exhibit_detail/?id=<= value.id %>">
-                                    <img src="/uploads/<= value.image_link %>" width="150" height="150">
+                                <!-- <a href="./exhibit_detail/?id=<= value.id %>"> -->
+                                    <!-- <img src="/uploads/<= value.image_link %>" width="150" height="150"> -->
                                 </a>
                                 <p>
-                                    <%= value.detail %>
+                                    <= value.detail %>
                                 </p>
                             </div>
                             <% } %>
-                                <% } else { %>
-                                    <p>受注済み依頼はありません</p>
-                                    <% } %>
+                                <!-- < } else { %> -->
+                                    <!-- <p>受注済み依頼はありません</p> -->
+                                    <!-- < } %> -->
                 </div>
-                <footer class="footer">
-                    <p>FOOTER KAKU</p>
-                    <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
-                        10:00～19:30</p>
-                    <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
-                </footer>
             </div><!-- /#main-in -->
         </main>
 </body>

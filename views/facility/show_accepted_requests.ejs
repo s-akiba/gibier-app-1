@@ -13,7 +13,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>
-    <%= title %>
   </title>
   <!-- style -->
   <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
@@ -27,31 +26,18 @@
 
 <body>
   <!-- サイドバー -->
-  <%- include("../sidebar_facility.ejs") %><!--変更-->
     <main id="main">
       <div id="main-in">
         <div class="box">
           <!-- <p style="font-size: 30px; font-weight:600">受注済み購入者依頼一覧</p> -->
-          <h2>
-            <%= title %>
-          </h2>
-          <% if (results !="" ) { %>
-            <% for(let i in results) { %>
-              <% let obj=results[i] %>
-                <a href="/facility/accepted_request_detail?id=<%= obj.id %>">
-                  <p>req id : <%= obj.id %> : <%= obj.request_user.user_name %> さんからの依頼</p>
-                </a>
-                <% } %>
-                  <% } else { %>
-                    <p>受注済み依頼はありません</p>
-                    <% } %>
+          
         </div>
-        <footer class="footer">
+        <!-- <footer class="footer">
           <p>FOOTER KAKU</p>
           <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
             10:00～19:30</p>
           <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
-        </footer>
+        </footer> -->
       </div><!-- /#main-in -->
     </main>
 </body>

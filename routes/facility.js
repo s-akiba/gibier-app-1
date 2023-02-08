@@ -195,39 +195,11 @@ router.get("/search_hutner_json", (req, res, next) => {
     res.json(results);
   })
   .catch((err) => {
+    res.json([]);
     console.log(err);
   });
 });
 
-/* 狩猟者検索処理 */
-router.post('/search',function(req,res,next){
-  let name = req.body.name;
-  let region = req.body.region;
-  let eval = req.body.eval;
-  
-  //狩猟者名だけで検索
-  if(name!=""&&(region==""&&eval=="")){
-    db.users.findAll({
-      where:{
-        user_name:name
-      }
-    }).then(usrs=>{
-      res.render('facility/hunter_list',{content:usrs});
-    });
-  }
-  //地域だけで検索
-  else if(region!=""&&(name==""&&eval=="")){
-    db.users.findAll({
-      where:{
-        address:region
-      }
-    }).then(usrs=>{
-      res.render('facility/hunter_list',{content:usrs});
-    });
-  }
-  //地域と評価で検索はとりあえずスキップでおｋ
-
-});
 
 
 // 検索結果から/facility/hunter_detail?id=1
@@ -599,14 +571,14 @@ router.get("/search_requests_from_purchaser", (req, res, next) => {
 
 
 // 購入者公開依頼検索 post
-// 期限つける
 
 router.get("/search_requests_from_purchaser_json", (req, res, next) => {
   if (func_file.login_class_check(req, res, {is_facility: true})){return};
   let query_data = {
     is_public: true,
     is_accepted: false,
-    is_closed: false
+    is_closed: false,
+    appointed_day: {[Op.gt]: new Date()}
   }
   if (req.query.search_word.length != 0) {
     query_data["content"] = {[Op.like]: '%' + req.query.search_word + '%'};

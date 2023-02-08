@@ -405,6 +405,7 @@ router.get("/search_facilities_json", (req, res, next) => {
     res.json(results);
   })
   .catch((err) => {
+    res.json([]);
     console.log(err);
   });
 });

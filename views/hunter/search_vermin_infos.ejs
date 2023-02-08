@@ -100,7 +100,7 @@
                     <div class="form__group-content">
                         <div class="form__name">
                             <div class="form__text-input start-day-div">
-                                <input id="start_day" class="text-input__body" type="date" name="start_day"
+                                <input id="start_day" class="text-input__body" type="datetime-local" name="start_day"
                                     title="開始日時を指定してください">
                                 <span class="text-input__validator"></span>
                             </div>
@@ -116,7 +116,7 @@
                     <div class="form__group-content">
                         <div class="form__name">
                             <div class="form__text-input start-day-div">
-                                <input id="end_day" class="text-input__body" type="date" name="end_day"
+                                <input id="end_day" class="text-input__body" type="datetime-local" name="end_day"
                                     title="終了日時を指定してください">
                                 <span class="text-input__validator"></span>
                             </div>
@@ -127,9 +127,9 @@
                 <div class="form__submit">
                     <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
                     <!-- <button type="button" id="search-button" class="button">検索</button> -->
-                    <button class="button" id="clear-date">日付リセット</button>
-                    <button class="button" id="set-1month">1ヵ月以内</button>
-                    <button class="button" id="set-6month">6ヵ月以内</button><br>
+                    <button class="button" id="clear-date" style="margin-top: 10px;">日付リセット</button>
+                    <button class="button" id="set-1month" style="margin-top: 10px;">1ヵ月以内</button>
+                    <button class="button" id="set-6month" style="margin-top: 10px;">6ヵ月以内</button><br>
                     <div style="padding:10px 0px;">
                         <button class="button" id="search-vermin-button">検索</button>
                     </div>

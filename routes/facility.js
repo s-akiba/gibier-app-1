@@ -74,7 +74,6 @@ router.post('/exhibit_input',upload.single('file'),function(req,res,next){
   })).then(usr => {
     res.redirect('/facility');
   });
-
 });
 
 /* 出品一覧画面の表示処理 */
@@ -178,7 +177,6 @@ router.get('/search_hunter',function(req,res,next){
 });
 
 router.get("/search_hutner_json", (req, res, next) => {
-  if (func_file.login_class_check(req, res, {is_facility: true})){return};
   let query_data = {is_hunter: true};
   if (req.query.region != 0) {
     query_data["region_id"] = req.query.region;

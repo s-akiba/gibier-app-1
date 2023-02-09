@@ -1,3 +1,7 @@
 #map {
     position: sticky !important;
 }
+
+#start_day, #end_day {
+    width: 50%;
+}

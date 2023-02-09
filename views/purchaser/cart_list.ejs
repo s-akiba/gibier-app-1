@@ -66,9 +66,11 @@
                             <% } %>
                         </div>
                     </div>
-                    <a href="/purchaser/payment/?pur_info_id=<%= pur_info_id %>">
-                        <button class="c-cart-modal__checkout js-cart-modal__checkout" type="button">Check Out<span class="c-cart-modal__checkout_seq">/</span><span class="c-cart-modal__jp">決済する</span></button>
-                    </a>
+                    <% if (items != "") { %>
+                        <a href="/purchaser/payment/?pur_info_id=<%= pur_info_id %>">
+                            <button class="c-cart-modal__checkout js-cart-modal__checkout" type="button" >Check Out<span class="c-cart-modal__checkout_seq">/</span><span class="c-cart-modal__jp">決済する</span></button>
+                        </a>
+                    <% } %>
                 </div>
             </div>
             <footer class="footer">

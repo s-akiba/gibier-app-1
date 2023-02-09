@@ -1,3 +1,8 @@
+const turf = require("@turf/turf");
+var fs = require("fs");
+
+var prefectures_t= fs.readFileSync("./prefectures.geojson", {encoding: 'utf-8'});
+var df_t = JSON.parse(prefectures_t);
 
 /** 
  *  Usage
@@ -109,5 +114,36 @@ exports.slice_result_by_date = function (req, original_results) {
     }
     // console.log(slice_result.length);
     resolve(slice_result);
+  })
+}
+
+
+exports.decision_prefecture = function (lng, lat) {
+  return new Promise((resolve, reject) => {
+  let pt = turf.point([lng, lat]);
+  let pref_name ="";
+  let pref_num = 48;
+
+  outer: for (let pref = 0; pref < 47; pref++) {
+    // console.log(df_t["features"][pref]["properties"]["name"]);
+    // console.log(df_t["features"][pref]["geometry"]["coordinates"].length);
+
+    for (let each_polygon = 0; each_polygon < df_t["features"][pref]["geometry"]["coordinates"].length; each_polygon++) {
+        var poly = turf.polygon(df_t["features"][pref]["geometry"]["coordinates"][each_polygon]);
+        var tf = turf.booleanPointInPolygon(pt, poly);
+        if (tf) {
+            pref_name = df_t["features"][pref]["properties"]["name"];
+            pref_num = df_t["features"][pref]["properties"]["pref"];
+            break outer;
+        }
+    }
+  }
+  if (pref_num == 48) {
+    console.log("判定できませんでした。");
+    reject();
+  } else {
+    console.log("選択された地点: ", pref_name);
+    resolve(pref_num);
+  }
   })
 }

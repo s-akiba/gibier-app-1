@@ -52,8 +52,9 @@
                     <input type="checkbox" onclick="myFunction()">Show Password
                 </div>
                 <div class="form-group">
-                    <label for="region">地域</label>
-                    <select name="region" id="region">
+                    <label for="region">地域</label><br>
+                    <p style="font-size: small; margin-bottom: 0;">地域はマップで位置を指定すると自動で登録されます。</p>
+                    <select name="region" id="region" disabled>
                         <% for(let i in regions) { %>
                             <% let obj = regions[i] %>
                             <option value="<%= obj.id %>" <% if (obj.id == form.region_id) { %>selected<% } %>><%= obj.region_name %></option>
@@ -68,6 +69,7 @@
                     <label for="longitude">緯度</label>
                     <input type="text" name="longitude" id="longitude" value="<%= form.longitude %>" class="form-control">
                 </div>
+                <p>登録位置</p>
                 <div id="map"></div>
                 <div class="form-group">
                     <label for="address">住所</label>

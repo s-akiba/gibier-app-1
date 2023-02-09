@@ -1,14 +1,14 @@
 var map = L.map('map', {
     zoomsliderControl: true,
     zoomControl: false})
-    .setView([35.6986075,139.756673], 16);
+    .setView([Number($("#latitude").val()), Number($("#longitude").val())], 12);
 
 let layer1 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-map.addLayer(layer1)
+// map.addLayer(layer1)
 
 
 var crossIcon = L.icon({
@@ -20,12 +20,7 @@ var crossIcon = L.icon({
   //センタークロス画像を登録と表示
 var crossMarker = L.marker(map.getCenter(),{icon:crossIcon,zIndexOffset:1000,interactive:false}).addTo(map);
 
-  //ムーブイベントでセンタークロスを移動
-map.on('move', function(e) {
-    crossMarker.setLatLng(map.getCenter());
-    outputPos(map);
-
-});
+// map.setView([Number($("#latitude").val()), Number($("#longitude").val())], 16);
 
 function outputPos(map){
     var pos = map.getCenter();
@@ -33,3 +28,10 @@ function outputPos(map){
     $("#latitude").val(pos.lat);
     $("#longitude").val(pos.lng);
 };
+
+  //ムーブイベントでセンタークロスを移動
+  map.on('move', function(e) {
+    crossMarker.setLatLng(map.getCenter());
+    outputPos(map);
+
+});

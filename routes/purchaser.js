@@ -250,28 +250,26 @@ router.post('/payment',(req,res,next)=>{
     // return error_exists;
   })
   .then((error_exists_2) => {
-    // console.log("error_exists:", error_exists_2);
-    // if (error_exists_2) {
-    //   res.redirect("/purchaser/cart_list?msg=1");
-    // } else {
-    //   res.redirect("/purchaser/cart_list?msg=2");
-    // }
-    db.purchase_info.count({
-      where: {
-        user_2_id: req.session.login.id,
-        is_accepted: false
-      }
-    })
-    .then((data_count) => {
-      setTimeout(() => {
-        if (data_count == 0){
-          // success
-          res.redirect("/purchaser/cart_list?msg=1");
-        } else {
-          res.redirect("/purchaser/cart_list?msg=2");
+    setTimeout(() => {
+      db.purchase_info.count({
+        where: {
+          id: id_list,
+          user_2_id: req.session.login.id,
+          is_accepted: false
         }
-      }, 1000)
-    })
+      })
+      .then((data_count) => {
+        console.log("count:",data_count);
+        setTimeout(() => {
+          if (data_count == 0){
+            // success
+            res.redirect("/purchaser/cart_list?msg=1");
+          } else {
+            res.redirect("/purchaser/cart_list?msg=2");
+          }
+        }, 1000)
+      })
+    }, 1000);
   })
 });
 

@@ -23,15 +23,23 @@
 
     <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
     <link href='/stylesheets/form-sample.css' rel='stylesheet' type='text/css'>
-    <!-- <link rel="stylesheet" href="/stylesheets/hunter_search_facilities.css"> -->
+    <link rel="stylesheet" href="/stylesheets/hunter_search_facilities.css">
     <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
 
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" -->
-    <!-- integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+    <link rel="stylesheet" href="/stylesheets/leaflet.usermarker.css" />
+    <link rel="stylesheet" href="/stylesheets/L.Control.Zoomslider.css" />
+    <link rel="stylesheet" href="/stylesheets/leaflet.awesome-markers.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <script src="/javascripts/leaflet.usermarker.js"></script>
+    <script src="/javascripts/L.Control.Zoomslider.js"></script>
+    <script src="/javascripts/leaflet.awesome-markers.js"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 </head>
 
@@ -44,37 +52,15 @@
                     <%= title %>
                 </h2>
                 <div id="contant-form" class="form" name="contact-form">
-                    <!-- 注意書き -->
-                    <div class="form__description">
-                        <p>必要事項をご入力のうえ、確認画面へお進みください。</p>
-                        <p><span class="form__required-label">必須</span>の項目はお手数ですが必ず入力をお願いいたします。</p>
-                    </div>
-                    <!-- 検索ワード -->
-                    <fieldset class="form__group">
-                        <legend class="form__group-header">
-                            <span class="form__group-label">検索ワード</span>
-                        </legend>
-                        <div class="form__group-content">
-                            <div class="form__name">
-                                <div class="form__text-input">
-                                    <p class="text-input">
-                                        <input id="search-word" class="text-input__body" type="text" name="search-word"
-                                            title="検索ワードを入力してください" required aria-required="true">
-                                        <span class="text-input__validator"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
                     <!-- 地域 -->
-                    <div class="form__group">
+                    <div class="form__group" id="form-select-prefectures">
                         <p class="form__group-header">
                             <label class="form__group-label" for="region">地域 </label>
                         </p>
                         <div class="form__group-content">
                             <div class="form__select-box">
                                 <div class="select-box">
-                                    <select id="region" class="select-box__body" name="region" title="都道府県は必ず指定してください"
+                                    <select id="select-regions" class="select-box__body" name="region" title="都道府県は必ず指定してください"
                                         required aria-required="true">
                                         <option value="0">選択なし</option>
                                         <% for(let i in regions) { %>
@@ -82,7 +68,7 @@
                                                 <option value="<%= obj.id %>">
                                                     <%= obj.region_name %>
                                                 </option>
-                                                <% } %>
+                                            <% } %>
                                     </select>
                                 </div>
                             </div>
@@ -95,7 +81,8 @@
                         <button type="button" id="search-button" class="button">検索</button>
                         <!-- <button class="button" type="submit">送信する</button> -->
                     </div>
-                    <div id="search-results"></div>
+                    <div id="results-count"></div>
+                    <div id="map"></div>
                 </div>
             </div>
             <footer class="footer">
@@ -124,39 +111,3 @@
 </body>
 
 </html>
-
-<!-- bk -->
-<!-- 検索ワード -->
-<!-- <fieldset class="form__group">
-                    <legend class="form__group-header">
-                        <span class="form__group-label">検索ワード</span>
-                    </legend>
-                    <div class="form__group-content">
-                        <div class="form__name">
-                            <div class="form__text-input">
-                                <input class="text-input__body" type="text" name="search-word" id="search-word">
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-                地域 
-                <div class="form__group">
-                    <p class="form__group-header">
-                        <label class="form__group-label" for="region">地域</label>
-                    </p>
-                    <div class="form__group-content">
-                        <div class="form__select-box">
-                            <div class="select-box">
-                                <select name="region" id="region" class="select-box__body">
-                                    <option value="0">選択なし</option>
-                                    <% for(let i in regions) { %>
-                                        <% let obj=regions[i] %>
-                                            <option value="<%= obj.id %>">
-                                                <%= obj.region_name %>
-                                            </option>
-                                            <% } %>
-                                </select><br>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->

@@ -77,8 +77,8 @@ var popup_list = [];
 function onMapClick(e) {
     $("#hidden-latitude").val(e.latlng.lat.toString());
     $("#hidden-longitude").val(e.latlng.lng.toString());
-    $(".select-latitude").text("経度：" + e.latlng.lat.toString());
-    $(".select-longitude").text("緯度：" + e.latlng.lng.toString());
+    $(".select-latitude").text("緯度：" + e.latlng.lat.toString());
+    $(".select-longitude").text("経度：" + e.latlng.lng.toString());
     var mk = L.marker(e.latlng).addTo(map).on('click', onMarkerClick);
     popup_list.push(mk);
     mk.bindPopup("選択位置").openPopup();

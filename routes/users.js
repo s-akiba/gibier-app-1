@@ -99,12 +99,16 @@ function sendEmail(req, res) {
           subject: 'メールのタイトルです',
           text: 'メールの本文です。この例はテキストです。html形式でもOK。\n 127.0.0.1:3000/user/auth?code=' + result.id ,
         }, function(err, reply) {
-          console.log("メール送信に失敗");
-          console.log(err && err.stack);
-          console.dir(reply);
+          if (err != null) {
+            console.log("メール送信に失敗");
+            console.log(err && err.stack);
+          } else {
+            console.dir(reply);
+            console.log("send mail");
+            res.redirect("/user/login");
+          }
         });
-        console.log("send mail");
-        res.redirect("/");
+        
       })
       .catch((error) => {
         console.log("DB create error");
@@ -187,7 +191,7 @@ router.get('/auth', (req, res, next) => {
       console.log("created: ", JSON.stringify(result));
       let resdata = {
         title: "メール認証",
-        result: "メール認証, アカウント作成完了"
+        result: "アカウント作成完了"
       }
       res.render("user/auth", resdata);
     })
@@ -293,32 +297,60 @@ router.post('/edit', (req, res, next) => {
   console.log("req body",req.body);
   db.users.findByPk(req.body.id)
   .then(usr => {
-    usr.email = req.body.email;
-    usr.region_id = parseInt(req.body.region);
-    usr.user_name = req.body.name;
-    usr.address = req.body.address;
-    usr.bio = req.body.bio;
-    console.log(req.body.latitude);
-    usr.latitude = parseFloat(req.body.latitude);
-    usr.longitude = parseFloat(req.body.longitude);
-    if (req.body.pass != '') {
-      let hashed_pass = bcrypt.hashSync(req.body.pass, 10);
-      console.log(hashed_pass);
-      usr.password = hashed_pass;
-    }
-    usr.save()
-    .then(() => {
-      console.log("更新成功");
-      res.redirect("/");
-    })
-    .catch(err => {
-      console.log("更新失敗:", err);
-      res.redirect("/");
+    func_file.decision_prefecture(parseFloat(req.body.longitude), parseFloat(req.body.latitude))
+    .then((decision_region_id) => {
+
+      usr.email = req.body.email;
+      usr.region_id = decision_region_id;
+      usr.user_name = req.body.name;
+      usr.address = req.body.address;
+      usr.bio = req.body.bio;
+      console.log(req.body.latitude);
+      usr.latitude = parseFloat(req.body.latitude);
+      usr.longitude = parseFloat(req.body.longitude);
+      if (req.body.pass != '') {
+        let hashed_pass = bcrypt.hashSync(req.body.pass, 10);
+        console.log(hashed_pass);
+        usr.password = hashed_pass;
+      }
+      usr.save()
+      .then(() => {
+        console.log("更新成功");
+        if (usr.is_facility) {
+          res.redirect("/facility");
+        } else if (usr.is_hunter) {
+          res.redirect("/hunter");
+        } else if (usr.is_purchaser) {
+          res.redirect("/purchaser");
+        } else {
+          res.redirect("/");
+        }
+      })
+      .catch(err => {
+        console.log("更新失敗:", err);
+        if (usr.is_facility) {
+          res.redirect("/facility");
+        } else if (usr.is_hunter) {
+          res.redirect("/hunter");
+        } else if (usr.is_purchaser) {
+          res.redirect("/purchaser");
+        } else {
+          res.redirect("/");
+        }
+      })
     })
   })
   .catch(err => {
     console.error(err);
-    res.redirect("/");
+    if (usr.is_facility) {
+      res.redirect("/facility");
+    } else if (usr.is_hunter) {
+      res.redirect("/hunter");
+    } else if (usr.is_purchaser) {
+      res.redirect("/purchaser");
+    } else {
+      res.redirect("/");
+    }
   });
 });
 

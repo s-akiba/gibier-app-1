@@ -69,7 +69,7 @@
                                             <div class="row g-0">
                                                 <div class="col-md-6">
                                                     <% if (obj.commodity.image_link != null) { %>
-                                                        <img src="/uploads/<%= obj.commodity.image_link %>" width="200px">
+                                                        <img src="/uploads/<%= obj.commodity.image_link %>" style="object-fit: contain; width: 100%; height: 100%;">
                                                     <% } else { %>
                                                         <p>削除された商品です。</p>
                                                     <% } %>

@@ -84,9 +84,9 @@ $('#search-button').click(function() {
                 for (i in data) {
                     let popup_data = '';
                     if (now_lat != "") {
-                        popup_data += '処理施設名：'+ data[i]["user_name"] + '<br><a href="https://google.com/maps/dir/'+ now_lat +','+ now_lng +'/'+ data[i]["latitude"] +',' + data[i]["longitude"] + '/@'+ data[i]["latitude"] +','+ data[i]["longitude"] +',10z" target="_blank" rel="noopener noreferrer">google map</a><br>' ;
+                        popup_data += '処理施設名：'+ data[i]["user_name"] + '<br><a href="https://google.com/maps/dir/'+ now_lat +','+ now_lng +'/'+ data[i]["latitude"] +',' + data[i]["longitude"] + '/@'+ data[i]["latitude"] +','+ data[i]["longitude"] +',10z" target="_blank" rel="noopener noreferrer">google map <i class="fa-solid fa-map-location-dot"></i></a><br>' ;
                     } else {
-                        popup_data += '処理施設名：'+ data[i]["user_name"] + '<br><a href="https://google.com/maps/dir//'+ data[i]["latitude"] +',' + data[i]["longitude"] + '/@'+ data[i]["latitude"] +','+ data[i]["longitude"] +',10z" target="_blank" rel="noopener noreferrer">google map</a><br>' ;
+                        popup_data += '処理施設名：'+ data[i]["user_name"] + '<br><a href="https://google.com/maps/dir//'+ data[i]["latitude"] +',' + data[i]["longitude"] + '/@'+ data[i]["latitude"] +','+ data[i]["longitude"] +',10z" target="_blank" rel="noopener noreferrer">google map <i class="fa-solid fa-map-location-dot"></i></a><br>' ;
                     }
                     
                     popup_data += '<details class="details-address"><summary>住所</summary><p>'+ data[i]["address"] +'</p></details>';

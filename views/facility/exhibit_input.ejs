@@ -78,7 +78,7 @@
 
                 <fieldset class="form__group">
                     <legend class="form__group-header">
-                        <span class="form__group-label">画像</span>
+                        <span class="form__group-label">画像<strong class="form__required-label">必須</strong></span>
                     </legend>
                     <div class="form__group-content">
                         <div class="form__name">
@@ -147,26 +147,25 @@
                   <h5 class="modal-title" id="staticBackdropLabel">入力内容確認</h5>
                 </div>
                 <div class="modal-body">
-                  <h2>選択された動物名</h2>
-                  <p id="selected-animal"></p>
-                  <h2>選択されたカテゴリー</h2>
-                  <p id="selected-category"></p>
-                  <h2>詳細情報</h2>
-                  <p id="input-content"></p>
-                  <h2>画像ファイル</h2>
-                  <p id="selected-file-name">選択されていません</p>
-                  <h2>価格</h2>
-                  <p id="selected-price-num"></p>
-                  <h2>個数</h2>
-                  <p id="selected-commodity-num"></p>
-                  <h2>掲載期限</h2>
-                  <p id="selected-limit-day"></p>
-                  
-                  
+                    <p id="error-message" style="color: red;">選択されてない項目があります。</p>
+                    <h3>選択された動物名</h3>
+                    <p id="selected-animal"></p>
+                    <h3>選択されたカテゴリー</h3>
+                    <p id="selected-category"></p>
+                    <h3>詳細情報</h3>
+                    <p id="input-content"></p>
+                    <h3>画像ファイル</h3>
+                    <p id="selected-file-name">選択されていません</p>
+                    <h3>価格</h3>
+                    <p id="selected-price-num"></p>
+                    <h3>個数</h3>
+                    <p id="selected-commodity-num"></p>
+                    <h3>掲載期限</h3>
+                    <p id="selected-limit-day"></p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
-                  <input type="submit" value="出品登録" class="btn btn-primary">
+                  <input type="submit" value="出品登録" class="btn btn-primary" id="register-button" disabled>
                 </div>
               </div>
             </div>
@@ -202,6 +201,8 @@
             var file = $(this).prop('files')[0];
             $('#file-name-p').text(file.name);
             $("#selected-file-name").text(file.name);
+            $("#register-button").prop('disabled', false);
+            $("#error-message").hide();
         });
     </script>
         <script type="text/javascript">

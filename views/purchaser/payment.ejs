@@ -21,7 +21,7 @@
     <main id="main">
         <div id="main-in">
             <div class="box">
-                <form action="/purchaser/payment" method="post">
+                <form action="/purchaser/payment" method="post" id="form-input-address">
                     <div class="card">
                         <div class="card-header">
                             住所入力
@@ -40,7 +40,7 @@
                         </div>
                         <div class="card-footer text-end">
                             <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
-                            <button type="submit" class="btn btn-primary">確定</button>
+                            <button type="submit" class="btn btn-primary" id="btn-payment">確定</button>
                         </div>
                     </div>
                     
@@ -84,6 +84,11 @@
                 $("#input-new-address").show();
             }
         });
+
+        $("#form-input-address").submit(() => {
+            $("#btn-payment").prop('disabled', true);
+            $("#btn-payment").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+        })
     </script>
 
 </body>

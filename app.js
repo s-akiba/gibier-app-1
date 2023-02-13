@@ -24,7 +24,8 @@ const session_opt = {
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false, 
-  cookie: { maxAge: 60 * 60 * 1000 }
+  cookie: { maxAge: 12 * 60 * 60 * 1000 },
+  rolling: true
 };
 app.use(session(session_opt));
 app.use(logger('dev'));

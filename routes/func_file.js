@@ -140,7 +140,8 @@ exports.decision_prefecture = function (lng, lat) {
   }
   if (pref_num == 48) {
     console.log("判定できませんでした。");
-    reject();
+    // 判定出来なかったら東京を返す
+    resolve(13)
   } else {
     console.log("選択された地点: ", pref_name);
     resolve(pref_num);

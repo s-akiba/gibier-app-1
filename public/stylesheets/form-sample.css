@@ -368,6 +368,81 @@
 .text-input__body[data-is-valid=false]+.text-input__validator {
     background-image: var(--invalid-icon);
 }
+/* 
+小さいバージョン！
+*/
+
+.text-input__body_2 {
+    appearance: none;
+    background-color: transparent;
+    border: 1px solid var(--gray-color-primary);
+    border-radius: 0;
+    height: 3.125em;
+    line-height: 3.125;
+    overflow: hidden;
+    padding: 0 1em;
+    text-overflow: ellipsis;
+    transition: background-color 0.3s;
+    width: 54.6%;
+}
+
+.text-input__body_2:-ms-input-placeholder {
+    color: var(--gray-color-secondary);
+}
+
+.text-input__body_2::-webkit-input-placeholder {
+    color: var(--gray-color-secondary);
+}
+
+.text-input__body_2::placeholder {
+    color: var(--gray-color-secondary);
+}
+
+.text-input__body_2[data-is-valid] {
+    padding-right: 2.5em;
+}
+
+.text-input__body_2[data-is-valid=true] {
+    border-color: var(--valid-color);
+    box-shadow: inset 0 0 0 1px var(--valid-color);
+}
+
+.text-input__body_2[data-is-valid=false] {
+    border-color: var(--invalid-color);
+    box-shadow: inset 0 0 0 1px var(--invalid-color);
+}
+
+.text-input__body_2:focus {
+    border-color: var(--active-color);
+    box-shadow: inset 0 0 0 1px var(--active-color);
+    outline: none;
+}
+
+.text-input__body_2:-webkit-autofill {
+    transition-delay: 9999s;
+    transition-property: background-color;
+}
+
+.text-input__validator {
+    background-position: right 0.5em center;
+    background-repeat: no-repeat;
+    background-size: 1.5em;
+    display: inline-block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 80%;
+    z-index: -1;
+}
+
+.text-input__body_2[data-is-valid=true]+.text-input__validator {
+    background-image: var(--valid-icon);
+}
+
+.text-input__body_2[data-is-valid=false]+.text-input__validator {
+    background-image: var(--invalid-icon);
+}
 
 /**
    * セレクトボックスのコンポーネントです。

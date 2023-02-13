@@ -36,7 +36,7 @@
                         <div class="col-4 text-end">住所：</div>
                         <div class="col-8"><%= result.address %></div>
                     </div>
-                    <div class="row m-3">
+                    <!-- <div class="row m-3">
                         <div class="col-6">
                             <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
                         </div>
@@ -45,14 +45,26 @@
                                 <button type="button" class="btn btn-primary"id="button-close">依頼する</button>
                             </a>
                         </div>
+                    </div> -->
+                    <div class="row m-3" style="padding: 40px 0px;">
+                        <div class="col-6">
+                            <button onclick="history.back()" class="button" type="button">戻る</button>
+                        </div>
+                        <div class="col-6 text-center">
+                            <a href="/facility/hunter_req_input/?id=<%= result.id %>">
+                                <button type="button" class="button"id="button-close" style="background-color: #0D6EFD;">依頼する</button>
+                            </a>
+                        </div>
                     </div>
+                    <!-- <div class="form__submit">
+                        <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive">
+                        </p>
+                        <button onclick="history.back();" class="button" type="button">戻る</button>
+                        <button class="button" type="button" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" style="background-color: #0D6EFD;">確認</button>
+                    </div> -->
                 </div>
-            <footer class="footer">
-                <p>FOOTER KAKU</p>
-                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
-                    10:00～19:30</p>
-                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
-            </footer>
+
         </div><!-- /#main-in -->
     </main>
     <script type="text/javascript">

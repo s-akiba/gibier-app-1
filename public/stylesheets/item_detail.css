@@ -12,7 +12,8 @@
     border-right: solid #f39800;
     background: #f39800;
     margin-top: 3px;
-    font-size: 0.5rem;
+    /* font-size: 0.5rem; */
+    font-size: 5px;
     font-weight: 700;
     line-height: 2;
     position: relative;

@@ -8,8 +8,11 @@
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
     <link href='/stylesheets/hunter_facility_detail.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/form-sample.css' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="/stylesheets/purchaser_facility_detail.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 </head>
 
@@ -19,7 +22,7 @@
         <div id="main-in">
             <div class="box">
                 <h2><%= title %></h2>
-                <form>
+                <form class="form">
                     <div class="inputs">
                         <label class="label">処理施設名</label>
                         <p><%= result.user_name %></p>
@@ -33,17 +36,15 @@
                         <p><%= result.bio %></p>
                     </div>
                     <div class="btn-area">
-                        <button onclick="history.back()" type="button" id="button-back">戻る</button>
-                        <button onclick="location.href='/purchaser/request_to_facility?facility_id=<%= result.id %>'" type="button" id="button-create-req">依頼作成</button>
+                        <!-- bk -->
+                        <!-- <button class="button" onclick="history.back()" type="button" id="button-back">戻る</button> -->
+                        <button class="button" onclick="history.back()" type="button">戻る</button>
+                        <!-- bk -->
+                        <!-- <button class="button" onclick="location.href='/purchaser/request_to_facility?facility_id=<%= result.id %>'" type="button" id="button-create-req">依頼作成</button> -->
+                        <button class="button" onclick="location.href='/purchaser/request_to_facility?facility_id=<%= result.id %>'" type="button" style="background-color: #0D6EFD;">依頼作成</button>
                     </div>
                 </form>
             </div>
-            <footer class="footer">
-                <p>FOOTER KAKU</p>
-                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
-                    10:00～19:30</p>
-                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
-            </footer>
         </div><!-- /#main-in -->
     </main>
     <script type="text/javascript">

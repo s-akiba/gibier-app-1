@@ -215,9 +215,9 @@ router.get("/search_facilities_json", (req, res, next) => {
   if (req.query.region != 0) {
     query_data["region_id"] = req.query.region;
   }
-  // if (req.query.search_word.length != 0) {
-  //   query_data["user_name"] = {[Op.like]: '%' + req.query.search_word + '%'};
-  // }
+  if (req.query.search_word.length != 0) {
+    query_data["user_name"] = {[Op.like]: '%' + req.query.search_word + '%'};
+  }
   console.log(query_data);
   db.users.findAll({
     where: query_data
@@ -228,7 +228,6 @@ router.get("/search_facilities_json", (req, res, next) => {
   })
   .catch((err) => {
     console.log(err);
-    res.json([]);
   });
 });
 
@@ -391,7 +390,7 @@ router.get("/search_requests_from_facility_json", (req, res, next) => {
   })
   .catch((err) => {
     console.log(err);
-    res.json([]);
+    res.redirect("/hunter");
   })
 });
 

@@ -1,3 +1,4 @@
+<!-- 狩猟者ホーム -->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -7,14 +8,27 @@
     <title>タイトル</title>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <link rel="stylesheet" href="/stylesheets/screen_moves_side.css">
+    <style>
+        html, body{
+    overflow: hidden;
+}
+    </style>
 </head>
 
 <body>
     <%- include("../sidebar_hunter.ejs") %>
     <main id="main">
         <div id="main-in">
-            <div id="main-visual">
-                <h2>Image</h2>
+            <div class="wrapper">
+                <h1>welcome to HS</h1>
+                <ul class="slider">
+                    <li class="slider-item slider-item06"></li>
+                    <li class="slider-item slider-item04"></li>
+                    <li class="slider-item slider-item05"></li>
+                </ul>
+                <!--/wrapper-->
             </div>
             <!-- box1 -->
             <div class="box">
@@ -53,6 +67,9 @@
         </div><!-- /#main-in -->
     </main>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+            <!-- 横移動画像 -->
+            <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+            <script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/6-1-1/js/6-1-1.js"></script>
     <script type="text/javascript">
         (function ($) {
             $(function () {

@@ -354,6 +354,10 @@ router.post('/edit', (req, res, next) => {
   });
 });
 
+router.get("/logout", (req, res, next) => {
+  req.session.destroy();
+  res.redirect("/user/login");
+});
 
 
 module.exports = router;

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -8,91 +7,58 @@
     <title>タイトル</title>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='/stylesheets/home.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <link rel="stylesheet" href="/stylesheets/screen_moves_side.css">
+    <link rel="stylesheet" href="/stylesheets/not_scroll">
+    <style>
+        html, body{
+    overflow: hidden;
+}
+    </style>
 </head>
 
 <body>
     <%- include("../sidebar_purchaser.ejs") %>
 
-    <main id="main">
-        <div id="main-in">
-            <div id="main-visual">
-                <h2>Image</h2>
-            </div>
-            <!-- box1 -->
-            <div class="box">
-                <section class="inner">
-                    <h2>Sub Title</h2>
-                    <div class="flex">
-                        <img src="#" onError="this.onerror=null;this.src='../../img/image-not-found.png';"/>
-                        <div class="description-div">
-                            <h3>h3タイトル</h3>
-                            <p>pテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキストpテキスト</p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <!-- box2 -->
-            <div class="box2">
-                <img class="image-large" src="../../img/sample.jpg" alt="ジビエ画像">
-                <div>
-                    <h2>タイトル</h2>
-                    <p>
-                        紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文<br>
-                        紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文<br>
-                        紹介文紹介文紹介文紹介文紹介文紹介文<br>
-                        紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文<br>
-                        紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文<br>
-                        紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文<br>
-                        紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文紹介文<br>
-                    </p>
+        <main id="main">
+            <div id="main-in">
+                <div class="wrapper">
+                    <h1>welcome to HS</h1>
+                    <ul class="slider">
+                        <li class="slider-item slider-item07"></li>
+                        <li class="slider-item slider-item08"></li>
+                        <!-- <li class="slider-item slider-item09"></li> -->
+                        <!-- <li class="slider-item slider-item10"></li> -->
+                    </ul>
+                    <!--/wrapper-->
                 </div>
-            </div>
-            <!-- box3 -->
-            <!-- ジャンル -->
-            <div class="box3">
-                <section class="box3-inner">
-                    <h2>Genre</h2>
-                    <div>
-                        <table class="box3-table">
-                            <!-- trの間隔を空けたい -->
-                            <!-- tdの間隔を無くしたい 保留-->
-                            <tr>
-                                <td><a href="#"><img src="../../img/icon/猪.png" /></a><b><p>イノシシ</p></b></td><br>
-                                <td><a href="#"><img src="../../img/icon/猪.png" /></a><b><p>イノシシ</p></b></td><br>
-                                <td><a href="#"><img src="../../img/icon/猪.png" /></a><b><p>イノシシ</p></b></td><br>
-                                <td><a href="#"><img src="../../img/icon/猪.png" /></a><b><p>イノシシ</p></b></td><br>
-                                <td><a href="#"><img src="../../img/icon/猪.png" /></a><b><p>イノシシ</p></b></td><br>
-                            </tr>
-                            <tr>
-                                <td><a href="#"><img src="../../img/icon/猪.png" /></a><b><p>イノシシ</p></b></td><br>
-                            </tr>
-                        </table>
-                    </div>
-                </section>
-            </div>
-            <footer class="footer">
-                <p>FOOTER KAKU</p>
-                <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
-                    10:00～19:30</p>
-                <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
-            </footer>
-        </div><!-- /#main-in -->
-    </main>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
-    <script type="text/javascript">
-        (function ($) {
-            $(function () {
-                $('.sub-menu').on({
-                    'mouseenter': function () {
-                        $(this).addClass('is-active');
-                    },
-                    'mouseleave': function () {
-                        $(this).removeClass('is-active');
-                    }
+                <!-- <footer class="footer">
+                    <p>FOOTER KAKU</p>
+                    <p>〒000-0000 <br class="sp_block">石川県金沢市武蔵町16-10<br>TEL (076)260-6112　 FAX (076)256-0620<br>営業時間 /
+                        10:00～19:30</p>
+                    <p class="copyright sp_none">COPYRIGHT © TOKYOZOUHOU CO.</p>
+                </footer> -->
+            </div><!-- /#main-in -->
+        </main>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+        <!-- 横移動画像 -->
+        <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/6-1-1/js/6-1-1.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(function () {
+                    $('.sub-menu').on({
+                        'mouseenter': function () {
+                            $(this).addClass('is-active');
+                        },
+                        'mouseleave': function () {
+                            $(this).removeClass('is-active');
+                        }
+                    });
                 });
-            });
-        })(jQuery);
-    </script>
+            })(jQuery);
+        </script>
 
 </body>
 

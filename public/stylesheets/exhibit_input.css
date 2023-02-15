@@ -8,11 +8,11 @@
 input[type="file"] {
     display: none;
 }
-
+/* 
 #global-nav .sub-menu-nav {
     padding-left: 0;
     left: 310px;
-}
+} */
 
 #confirm-button-div {
     margin-top: 20px;

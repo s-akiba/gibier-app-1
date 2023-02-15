@@ -222,6 +222,7 @@ h3 {
 #global-nav ul {
     list-style: none;
     margin-left: 0;
+    padding: 0px;
 }
 
 #global-nav>ul>li {
@@ -242,6 +243,11 @@ h3 {
 #global-nav a:hover {
     color: #fff;
     background: #000000;
+}
+
+#global-nav .red:hover {
+    color: #fff;
+    background: #d72d2d;
 }
 
 #global-nav .sub-menu-nav a,

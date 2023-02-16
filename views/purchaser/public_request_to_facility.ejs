@@ -77,7 +77,8 @@
                     </p>
                     <div class="form__group-content">
                         <label id="datetime-label">
-                            <input type="datetime-local" name="appointed_day" id="appointed_day">
+                            <% let now_date = new Date(); %>
+                            <input type="datetime-local" name="appointed_day" id="appointed_day" min="<%= now_date.toISOString() %>">
                         </label>
                     </div>
                    
@@ -110,6 +111,7 @@
                         <h5 class="modal-title" id="staticBackdropLabel">依頼内容確認</h5>
                     </div>
                     <div class="modal-body">
+                        <p id="error-message" style="color: red;">現在より先の日付を選択してください。</p>
                         <h2>選択された害獣名</h2>
                         <p id="selected-animal"></p>
                         <h2>選択されたカテゴリー</h2>
@@ -125,7 +127,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="submit" value="依頼作成" class="btn btn-primary">
+                        <input type="submit" value="依頼作成" class="btn btn-primary" id="confirm-button" disabled>
                     </div>
                 </div>
             </div>
@@ -177,6 +179,15 @@
             var d1 = new Date(d_string);
             // alert(d1.getMonth());
             $("#selected-appointed-day").text(d1.getMonth() + 1 + "月 " + d1.getDate() + "日 " + d1.getHours() + "時" + d1.getMinutes() + "分");
+
+            let now_date = new Date(new Date().toLocaleString({ timeZone: 'Asia/Tokyo' }));
+            if (d1 <= now_date) {
+                $("#error-message").show();
+                $("#confirm-button").prop('disabled', true);
+            } else {
+                $("#error-message").hide();
+                $("#confirm-button").prop('disabled', false);
+            }
         });
 
     </script>

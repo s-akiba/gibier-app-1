@@ -125,7 +125,8 @@
                     <div class="form__group-content">
                         <div class="form__name">
                             <div class="form__text-input">
-                                <input  class="text-input__body" type="datetime-local" name="limit" id="limit-day-input" required>
+                                <% let now_date = new Date(); %>
+                                <input class="text-input__body" type="datetime-local" name="limit" id="limit-day-input"  min="<%= now_date.toISOString() %>" required>
                             </div>
                         </div>
                     </div>
@@ -148,6 +149,7 @@
                 </div>
                 <div class="modal-body">
                     <p id="error-message" style="color: red;">選択されてない項目があります。</p>
+                    <p id="error-message-2" style="color: red;">現在より先の日付を入力してください。</p>
                     <h3>選択された動物名</h3>
                     <p id="selected-animal"></p>
                     <h3>選択されたカテゴリー</h3>
@@ -252,6 +254,15 @@
                 const d1 = new Date(d_string);
                 // alert(d1.getMonth());
                 $("#selected-limit-day").text(d1.getMonth()+1 + "月 " + d1.getDate() + "日 " + d1.getHours() + "時" + d1.getMinutes() + "分");
+
+                let now_date = new Date(new Date().toLocaleString({ timeZone: 'Asia/Tokyo' }));
+                if (d1 <= now_date) {
+                    $("#error-message-2").show();
+                    $("#register-button").prop('disabled', true);
+                } else {
+                    $("#error-message-2").hide();
+                    $("#register-button").prop('disabled', false);
+                }
             });
     
         </script>

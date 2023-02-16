@@ -21,7 +21,7 @@
         <script src="/javascripts/leaflet.usermarker.js"></script>
     </head>
 
-    <body class="container">
+    <body class="container" onload="init()">
         <header>
             <h1 class="display-4">
                 <%= title %></h1>
@@ -47,8 +47,9 @@
                 </div>
                 <div class="form-group">
                     <label for="pass">PASSWORD</label>
+                    <p id="pass-error-message" style="color: red;">パスワードは半角英数8文字以上で入力してください。</p>
                     <input type="password" name="pass" id="pass" 
-                        class="form-control" value="" placeholder="パスワードを変更する場合は入力">
+                        class="form-control" value="" placeholder="パスワードを変更する場合は入力してください" pattern="^[0-9a-zA-Z]+$">
                     <input type="checkbox" onclick="myFunction()">Show Password
                 </div>
                 <div class="form-group">
@@ -63,11 +64,13 @@
                 </div>
                 <div class="form-group">
                     <label for="latitude">緯度</label>
-                    <input type="text" name="latitude" id="latitude" value="<%= form.latitude %>" class="form-control">
+                    <input type="number" step="any" id="latitude" value="<%= form.latitude %>" class="form-control">
+                    <input type="hidden" name="latitude" value="<%= form.latitude %>" id="hidden-latitude">
                 </div>
                 <div class="form-group">
                     <label for="longitude">緯度</label>
-                    <input type="text" name="longitude" id="longitude" value="<%= form.longitude %>" class="form-control">
+                    <input type="number" step="any" id="longitude" value="<%= form.longitude %>" class="form-control">
+                    <input type="hidden" name="longitude" value="<%= form.longitude %>" id="hidden-longitude">
                 </div>
                 <p>登録位置</p>
                 <div id="map"></div>
@@ -85,21 +88,44 @@
                         <button onclick="history.back()" class="btn btn-secondary" type="button">戻る</button>
                     </div>
                     <div class="col-6 text-end">
-                        <input type="submit" value="更新" class="btn btn-primary">
+                        <input type="submit" value="更新" class="btn btn-primary" id="update-button">
                     </div>
                 </div>
                 
             </form>
         </div>
         <script type="text/javascript">
-            function myFunction() {
-              var x = document.getElementById("pass");
-              if (x.type === "password") {
-                x.type = "text";
-              } else {
-                x.type = "password";
-              }
+            function init() {
+                $("#pass-error-message").hide();
+                $("#update-button").prop('disabled', false);
             }
+
+            function myFunction() {
+                var x = document.getElementById("pass");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+                
+            }
+
+            $("#pass").keyup(() => {
+                let pattern = /^[a-z\d]{8,100}$/i;
+                if ($("#pass").val() != '') {
+                    if (pattern.test($("#pass").val())) {
+                        // console.log("o");
+                        $("#pass-error-message").hide();
+                        $("#update-button").prop('disabled', false);
+                    } else {
+                        $("#pass-error-message").show();
+                        $("#update-button").prop('disabled', true);
+                    }
+                } else {
+                    $("#pass-error-message").hide();
+                    $("#update-button").prop('disabled', false);
+                }
+            })
         </script>
         <script src="/javascripts/user-edit.js"></script>
     </body>

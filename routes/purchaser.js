@@ -104,6 +104,12 @@ router.get("/items_list_json", (req, res, next) => {
       if (err) throw err;
       res.json(result.rows)
     });
+  // 指定なし
+  } else if(animal_id==0 && category_id==0 && facility == '') {
+    client.query(sql + "where not stock=0 and selling_term>=current_date", (err, result) => {
+      if (err) throw err;
+      res.json(result.rows);
+    })
   } else {
     res.json([]);
   }

@@ -27,6 +27,8 @@ function outputPos(map){
     //spanに出力
     $("#latitude").val(pos.lat);
     $("#longitude").val(pos.lng);
+    $("#hidden-latitude").val(pos.lat);
+    $("#hidden-longitude").val(pos.lng);
 };
 
   //ムーブイベントでセンタークロスを移動

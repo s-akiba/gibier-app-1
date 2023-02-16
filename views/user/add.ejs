@@ -45,6 +45,7 @@
 
                 <div class="form-group">
                     <label for="pass">PASSWORD</label>
+                    <p id="pass-error-message" style="color: red;">パスワードは半角英数8文字以上で入力してください。</p>
                     <input type="password" name="pass" id="pass" 
                     value="<%=form.pass %>" class="form-control" placeholder="8文字以上">
                     <ul class="text-danger">
@@ -64,9 +65,25 @@
                     <label for="radio-hunter">狩猟者</label><br>
                 </div>
 
-                <input type="submit" value="作成" class="btn btn-primary">
+                <input type="submit" value="作成" class="btn btn-primary" id="confirm-button">
             </form>
         </div>
+
+    <script type="text/javascript">
+        $("#pass").keyup(() => {
+                let pattern = /^[a-z\d]{8,100}$/i;
+                
+                if (pattern.test($("#pass").val())) {
+                    // console.log("o");
+                    $("#pass-error-message").hide();
+                    $("#confirm-button").prop('disabled', false);
+                } else {
+                    $("#pass-error-message").show();
+                    $("#confirm-button").prop('disabled', true);
+                }
+                
+            })
+    </script>
 
     </body>
 

@@ -13,15 +13,18 @@ module.exports = {
      * }], {});
     */
    return queryInterface.bulkInsert("wild_animal_infos", [
+    {wild_animal_name: "その他",
+      createdAt: new Date(),
+      updatedAt: new Date()},
     {wild_animal_name: "シカ",
-  createdAt: new Date(),
-updatedAt: new Date()},
+      createdAt: new Date(),
+      updatedAt: new Date()},
     {wild_animal_name: "イノシシ",
-  createdAt: new Date(),
-updatedAt: new Date()},
+      createdAt: new Date(),
+      updatedAt: new Date()},
     {wild_animal_name: "ハクビシン",
-  createdAt: new Date(),
-updatedAt: new Date()},
+      createdAt: new Date(),
+      updatedAt: new Date()},
    ])
   },
 

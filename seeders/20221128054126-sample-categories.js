@@ -13,6 +13,9 @@ module.exports = {
      * }], {});
     */
    return queryInterface.bulkInsert("categories", [
+    {category_name: "その他",
+    createdAt: new Date(),
+    updatedAt: new Date()},
     {category_name: "背ロース",
     createdAt: new Date(),
     updatedAt: new Date()},
@@ -23,9 +26,6 @@ module.exports = {
     createdAt: new Date(),
     updatedAt: new Date()},
     {category_name: "スネ",
-    createdAt: new Date(),
-    updatedAt: new Date()},
-    {category_name: "その他",
     createdAt: new Date(),
     updatedAt: new Date()},
    ])
